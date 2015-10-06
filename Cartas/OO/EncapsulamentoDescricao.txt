@@ -1,2 +1,2 @@
 Encapsulamento
-.\Cartas\OO\Encapsulamento.jpg
+./Cartas/OO/Encapsulamento.jpg

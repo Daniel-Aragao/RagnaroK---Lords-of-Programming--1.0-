@@ -1,3 +1,3 @@
 For
-
-.\Cartas\Magias\For.jpg
+O jogador pode trocar a carta de personagem equipada com essa magia por qualquer carta de personagem do deque. Se o valor da skill dessa nova carta for par, o modo é mantido. Caso contrário, o modo é alterado.
+./Cartas/Magias/For.jpg

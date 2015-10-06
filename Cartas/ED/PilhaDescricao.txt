@@ -1,2 +1,2 @@
 Pilha
-.\Cartas\ED\Pilha.jpg
+./Cartas/ED/Pilha.jpg

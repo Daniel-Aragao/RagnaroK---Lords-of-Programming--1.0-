@@ -1,2 +1,2 @@
 Assossiação
-.\Cartas\OO\Assossiação.jpg
+./Cartas/OO/Assossiação.jpg

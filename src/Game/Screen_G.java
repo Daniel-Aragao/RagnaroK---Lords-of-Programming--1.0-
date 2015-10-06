@@ -51,7 +51,8 @@ public class Screen_G extends JPanel implements Runnable {
 	}
 	
 	public void montarTabuleiro(){
-
+		//Criar classe jogador(jpanel) para receber tabuleiro(jpanel) 
+		//e remover a criação do tabuleiro daqui
 		t1 = new Tabuleiro();
 		t2 = new Tabuleiro();
 		tabuleiros = new Dimension((width * scale) * 3 / 8,
@@ -87,8 +88,8 @@ public class Screen_G extends JPanel implements Runnable {
 		this.setLayout(new GridLayout(2, 1));
 		this.setSize(Main_Frame.WIDTH*3,Main_Frame.HEIGHT*3);
 		
-		energia1 = new JLabel(("Energia = "+ t1.getEnergia()));
-		energia2 = new JLabel(("Energia = "+ t2.getEnergia()));
+//		energia1 = new JLabel(("Energia = "+ t1.getEnergia()));
+//		energia2 = new JLabel(("Energia = "+ t2.getEnergia()));
 		//add(energia1);
 		
 		add(t1);

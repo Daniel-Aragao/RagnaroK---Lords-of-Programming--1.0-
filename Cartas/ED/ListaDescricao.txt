@@ -1,2 +1,2 @@
 Lista
-.\Cartas\ED\Lista.jpg
+./Cartas/ED/Lista.jpg

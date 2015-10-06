@@ -1,2 +1,2 @@
 Polimorfismo
-.\Cartas\OO\Polimorfismo.jpg
+./Cartas/OO/Polimorfismo.jpg

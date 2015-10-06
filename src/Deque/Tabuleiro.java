@@ -17,18 +17,10 @@ public class Tabuleiro extends JPanel{
 	private Lista_de_Generics<Carta_Especial>Registro_Especiais;
 	private Importar importar = new Importar();
 	
-	private int energia;
 	
-	public int getEnergia() {
-		return energia;
-	}
-	private void setEnergia(int energia) {
-		// private para edição de setJogador
-		this.energia = energia;
-	}
+	
 	public Tabuleiro(){
-		energia = 150;
-		this.baralho = importar.importAllCards(new File(""));
+		this.baralho = importar.importAllCards(new File("./Cartas/All Descriptions URL's.txt"));
 		cemitério = new Lista_de_Generics<Carta>(30);
 		T_Personagens = new Lista_de_Generics<Carta_Criatura>(5);
 		

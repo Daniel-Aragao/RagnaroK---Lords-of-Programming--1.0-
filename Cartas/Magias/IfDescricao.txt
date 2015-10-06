@@ -1,3 +1,3 @@
 If
 O jogador poderá escolher entre os atributos de ataque e defesa qual atributo utilizar nos eventos de ataque e defesa.
-.\Cartas\Magias\If.jpg
+./Cartas/Magias/If.jpg

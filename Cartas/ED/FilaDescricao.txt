@@ -1,2 +1,2 @@
 Fila
-.\Cartas\ED\Fila.jpg
+./Cartas/ED/Fila.jpg
