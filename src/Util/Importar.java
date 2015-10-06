@@ -13,6 +13,9 @@ import javax.imageio.stream.ImageInputStream;
 
 import Deque.Carta;
 import Deque.Carta_Criatura;
+import Deque.Carta_ED;
+import Deque.Carta_Magica;
+import Deque.Carta_OO;
 import Deque.Tipo_Carta;
 
 public class Importar {
@@ -28,28 +31,66 @@ public class Importar {
 		case CRIATURA:
 			return criatura(a, f);
 		case MAGICA:
-			return magica(a, f);
 		case ED:
-			return ed(a, f);
 		case OO:
-			return oo(a, f);
+			return especial(a, f, tipo);
 		}
 		return false;
 	}
 
-	private boolean oo(Carta a, File f) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	private boolean especial(Carta a, File f, Tipo_Carta tipo) {
+		FileReader arquivo;
+		BufferedReader leituraArquivo = null;
 
-	private boolean ed(Carta a, File f) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		try {
+			arquivo = new FileReader(f);
+			leituraArquivo = new BufferedReader(arquivo);
 
-	private boolean magica(Carta a, File f) {
-		// TODO Auto-generated method stub
-		return false;
+		} catch (FileNotFoundException e) {
+			System.err.println("Arquivos não encontrados");
+			e.printStackTrace();
+			return false;
+		}
+
+		String nome = null;
+		String descrição = null;
+		String imagemUrl = null;
+		BufferedImage imagem = null;
+
+		try {
+			nome = leituraArquivo.readLine();
+			descrição = leituraArquivo.readLine();
+			imagemUrl = leituraArquivo.readLine();
+			imagem = ImageIO.read(new File(imagemUrl));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				leituraArquivo.close();
+				arquivo.close();
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
+			return false;
+		}
+
+		switch (tipo) {
+		case MAGICA:
+			a = new Carta_Magica(nome, descrição, imagem);
+			break;
+		case ED:
+			a = new Carta_ED(nome, descrição, imagem);
+			break;
+		case OO:
+			a = new Carta_OO(nome, descrição, imagem);
+		}
+		try {
+			leituraArquivo.close();
+			arquivo.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	private boolean criatura(Carta a, File f) {
@@ -176,14 +217,14 @@ public class Importar {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			leituraArquivo.close();
 			arquivo.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return cartas;
 	}
 

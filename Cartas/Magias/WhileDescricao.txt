@@ -1,5 +1,3 @@
-Acidus
-Dragão Ryca
-4
-7
-4
+While
+O ataque/defesa é multiplicado pela skill do personagem dependendo apenas do evento
+.\Cartas\Magias\While.jpg

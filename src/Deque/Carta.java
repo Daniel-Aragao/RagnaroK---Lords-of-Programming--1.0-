@@ -26,6 +26,10 @@ public class Carta {
 
 	// Descrição da Carta
 	private String descricao;
+	
+	// Tipo de Carta
+	private Tipo_Carta tipo;
+	
 	// Localização
 	
 	// Métodos
@@ -37,10 +41,10 @@ public class Carta {
 	// get/set estado
 
 	/// Chamar o método da classe Importar.importarCarta(Carta,File); para inicializar o objeto
-	public Carta(String nome, String descricao, BufferedImage imagem) {
+	public Carta(String nome, String descricao, BufferedImage imagem, Tipo_Carta tipo) {
 		this.nome = nome;
 		this.descricao = descricao;
-		
+		this.tipo = tipo;
 		this.imagem = imagem;
 	}
 
@@ -51,6 +55,10 @@ public class Carta {
 	public String getNome() {return nome;}
 
 	private void setNome(String nome) {this.nome = nome;}
+
+	public Tipo_Carta getTipo() {return tipo;}
+	public int getValor(){return tipo.getValor();}
+	
 
 	
 
