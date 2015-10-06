@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>RagnaroK - Lords of Programming (1.0)</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>Trabalho - UNICard - Lords of Programming.pdf</name>
+			<type>1</type>
+			<location>C:/Users/danda_000/Documents/Estudos, Unifor/Terceiro semestre/Estrutura de dados/Trabalho - UNICard - Lords of Programming.pdf</location>
+		</link>
+	</linkedResources>
+</projectDescription>
