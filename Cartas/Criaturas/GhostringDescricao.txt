@@ -3,3 +3,4 @@ Fofura fantasma
 13
 1
 1
+.\Cartas\Criaturas\Ghostring.png

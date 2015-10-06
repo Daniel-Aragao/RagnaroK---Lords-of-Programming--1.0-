@@ -3,3 +3,4 @@ Arquimaga fantasma
 6
 3
 6
+.\Cartas\Criaturas\Katrinn.jpg

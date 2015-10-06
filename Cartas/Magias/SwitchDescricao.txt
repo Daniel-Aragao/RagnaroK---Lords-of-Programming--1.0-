@@ -1,5 +1,3 @@
-Acidus
-Dragão Ryca
-4
-7
-4
+Switch
+O jogador pode trocar a carta de personagem equipada com essa magia pela primeira carta de personagem no deque. Se o valor da skill dessa nova carta for par, o modo é mantido. Caso contrário, o modo é alterado.
+.\Cartas\Magias\Switch.jpg

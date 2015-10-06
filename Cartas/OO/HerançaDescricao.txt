@@ -1,0 +1,2 @@
+Herança
+.\Cartas\OO\Herança.jpg
