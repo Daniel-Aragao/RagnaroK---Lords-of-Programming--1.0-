@@ -13,9 +13,8 @@ import javax.imageio.stream.ImageInputStream;
 
 import Deque.Carta;
 import Deque.Carta_Criatura;
-import Deque.Carta_ED;
+import Deque.Carta_Especial;
 import Deque.Carta_Magica;
-import Deque.Carta_OO;
 import Deque.Tipo_Carta;
 
 public class Importar {
@@ -33,12 +32,12 @@ public class Importar {
 		case MAGICA:
 		case ED:
 		case OO:
-			return especial(a, f, tipo);
+			return especial_magica(a, f, tipo);
 		}
 		return false;
 	}
 
-	private boolean especial(Carta a, File f, Tipo_Carta tipo) {
+	private boolean especial_magica(Carta a, File f, Tipo_Carta tipo) {
 		FileReader arquivo;
 		BufferedReader leituraArquivo = null;
 
@@ -79,10 +78,10 @@ public class Importar {
 			a = new Carta_Magica(nome, descrição, imagem);
 			break;
 		case ED:
-			a = new Carta_ED(nome, descrição, imagem);
+			a = new Carta_Especial(nome, descrição, imagem,tipo);
 			break;
 		case OO:
-			a = new Carta_OO(nome, descrição, imagem);
+			a = new Carta_Especial(nome, descrição, imagem,tipo);
 		}
 		try {
 			leituraArquivo.close();
@@ -161,7 +160,7 @@ public class Importar {
 
 				String urlDescricao = leituraArquivo.readLine();
 				File fileDescricao = new File(urlDescricao);
-				String tipo[] = urlDescricao.split("\\");
+				String tipo[] = urlDescricao.split("/");
 
 				if (tipo[3].equalsIgnoreCase("Criaturas")) {
 
