@@ -13,7 +13,9 @@ import javax.swing.JPanel;
 
 import Deque.Tabuleiro;
 import Input.Mouse;
+import Util.Importar;
 import Util.JImagePanel;
+import Util.Lista_de_Generics;
 
 public class Screen_G extends JPanel implements Runnable {
 	public static final int FPS = 60;
@@ -35,6 +37,7 @@ public class Screen_G extends JPanel implements Runnable {
 	private Tabuleiro t1;
 	private Tabuleiro t2;
 	
+	
 	int width = Main_Frame.WIDTH, height = Main_Frame.HEIGHT,
 			scale = Main_Frame.SCALE;
 	Dimension tabuleiros;
@@ -48,6 +51,7 @@ public class Screen_G extends JPanel implements Runnable {
 	}
 	
 	public void montarTabuleiro(){
+
 		t1 = new Tabuleiro();
 		t2 = new Tabuleiro();
 		tabuleiros = new Dimension((width * scale) * 3 / 8,

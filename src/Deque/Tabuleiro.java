@@ -1,8 +1,10 @@
 package Deque;
 import java.awt.GridLayout;
+import java.io.File;
 
 import javax.swing.JPanel;
 
+import Util.Importar;
 import Util.Lista_de_Generics;
 //All Descriptions URL's.txt
 @SuppressWarnings("serial")
@@ -13,6 +15,7 @@ public class Tabuleiro extends JPanel{
 	private Carta_Especial ED;
 	private Carta_Especial OO;
 	private Lista_de_Generics<Carta_Especial>Registro_Especiais;
+	private Importar importar = new Importar();
 	
 	private int energia;
 	
@@ -23,9 +26,9 @@ public class Tabuleiro extends JPanel{
 		// private para edição de setJogador
 		this.energia = energia;
 	}
-	public Tabuleiro(Lista_de_Generics<Carta> Baralho){
+	public Tabuleiro(){
 		energia = 150;
-		this.baralho = correcao_de_baralho(Baralho);
+		this.baralho = importar.importAllCards(new File(""));
 		cemitério = new Lista_de_Generics<Carta>(30);
 		T_Personagens = new Lista_de_Generics<Carta_Criatura>(5);
 		
