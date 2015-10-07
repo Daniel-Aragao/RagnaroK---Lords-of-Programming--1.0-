@@ -5,10 +5,12 @@ import java.util.Vector;
 public class Lista_de_Generics<T> {
 	private Vector<T> lista;
 	private int qtdElementos;
+	private int capacity;
 
 	public Lista_de_Generics(int n) {
 		lista = new Vector<T>();
 		lista.setSize(n);
+		this.capacity = n;
 	}
 
 	public int getQtdElementos() {
@@ -26,7 +28,7 @@ public class Lista_de_Generics<T> {
 	}
 
 	public boolean isFull() {
-		if (getQtdElementos() >= lista.capacity())
+		if (getQtdElementos() >= this.capacity)
 			return true;
 		return false;
 	}
@@ -70,12 +72,14 @@ public class Lista_de_Generics<T> {
 		}
 	}
 
+	public void setElemento(int n, T e){add(n, e);}
+
 	public T removerFim() throws RuntimeException {
 		if (isEmpty()) {
 			throw new RuntimeException("is Empty");
 		} else {
 			setQtdElementos(getQtdElementos() - 1);
-			return lista.get(getQtdElementos() + 1);
+			return lista.get(getQtdElementos());
 		}
 	}
 
@@ -141,9 +145,7 @@ public class Lista_de_Generics<T> {
 	}
 
 	public T getElemento(int n){return lista.get(n);}
-	public void setElemento(int n, T e){
-		lista.set(n, e);
-	}
+	
 	
 	public T getElementoRandom(){
 		Random rand = new Random();
@@ -151,17 +153,27 @@ public class Lista_de_Generics<T> {
 		return lista.get(n);
 	}
 	
-	public int length(){return lista.capacity();}
+	public int length(){return this.capacity;}
 	
 	public Lista_de_Generics<T> getList(){
 		Lista_de_Generics<T> a = new Lista_de_Generics(getQtdElementos());
 		
-		for(int i = 0; i < a.length();i++){
+		for(int i = 0; i < a.qtdElementos;i++){
 			a.add(i, lista.get(i));
 		}
 		
 		return a;
 		
+	}
+	
+	public void fill(){
+		Random rand = new Random();
+		int qtdInicial = this.qtdElementos;
+		
+		while(!isFull()){
+			int n = rand.nextInt(qtdInicial);
+			this.addFim(getElemento(n));
+		}		
 	}
 	
 }

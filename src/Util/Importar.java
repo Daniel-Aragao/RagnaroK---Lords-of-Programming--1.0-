@@ -217,7 +217,7 @@ public class Importar {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		System.out.println("QTD CARTAS IMPORTADAS: "+ cartas.getQtdElementos());
 		return cartas;
 	}
 
