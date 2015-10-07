@@ -141,6 +141,9 @@ public class Lista_de_Generics<T> {
 	}
 
 	public T getElemento(int n){return lista.get(n);}
+	public void setElemento(int n, T e){
+		lista.set(n, e);
+	}
 	
 	public T getElementoRandom(){
 		Random rand = new Random();

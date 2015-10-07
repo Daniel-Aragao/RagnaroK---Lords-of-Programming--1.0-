@@ -3,4 +3,4 @@ Lacaio de ifrit
 2
 5
 8
-.\Cartas\Criaturas\Injustice.png
+./Cartas/Criaturas/Injustice.png

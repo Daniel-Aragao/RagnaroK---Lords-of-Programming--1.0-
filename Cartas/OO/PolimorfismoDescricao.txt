@@ -1,2 +1,3 @@
 Polimorfismo
+As cartas do adversário que encontram-se no modo de ataque passam para o modo defesa, e vice-versa.
 ./Cartas/OO/Polimorfismo.jpg

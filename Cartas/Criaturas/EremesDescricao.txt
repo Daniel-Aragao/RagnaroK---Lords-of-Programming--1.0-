@@ -3,4 +3,4 @@ Algoz Fantasma
 8
 2
 5
-.\Cartas\Criaturas\Eremes.jpg
+./Cartas/Criaturas/Eremes.jpg

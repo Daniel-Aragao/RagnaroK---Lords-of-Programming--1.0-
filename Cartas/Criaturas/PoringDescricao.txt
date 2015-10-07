@@ -3,4 +3,4 @@ Master of cuteness
 5
 5
 5
-.\Cartas\Criaturas\Poring.jpg
+./Cartas/Criaturas/Poring.jpg

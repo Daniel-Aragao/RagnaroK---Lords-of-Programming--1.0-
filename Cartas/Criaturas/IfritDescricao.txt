@@ -3,4 +3,4 @@ Em busca do anel
 6
 5
 4
-.\Cartas\Criaturas\Ifrit.png
+./Cartas/Criaturas/Ifrit.png

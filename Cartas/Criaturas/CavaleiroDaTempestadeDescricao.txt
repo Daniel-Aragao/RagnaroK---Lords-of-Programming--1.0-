@@ -3,4 +3,4 @@ Cavaleiro da Tempestade
 7
 1
 7
-.\Cartas\Criaturas\CavaleiroDaTempestade.jpg
+./Cartas/Criaturas/CavaleiroDaTempestade.jpg

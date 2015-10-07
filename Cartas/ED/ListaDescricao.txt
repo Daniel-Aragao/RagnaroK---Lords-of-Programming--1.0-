@@ -1,2 +1,3 @@
 Lista
+O jogador pode retirar 3 (três) cartas quaisquer do cemitério e retorná-las ao topo do deque.
 ./Cartas/ED/Lista.jpg

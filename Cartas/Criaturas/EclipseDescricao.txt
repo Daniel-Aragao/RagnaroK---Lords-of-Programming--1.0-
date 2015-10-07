@@ -3,4 +3,4 @@ Lunático por fofura
 3
 3
 9
-.\Cartas\Criaturas\Eclipse.png
+./Cartas/Criaturas/Eclipse.png

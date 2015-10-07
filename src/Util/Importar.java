@@ -24,21 +24,21 @@ public class Importar {
 	// Consertar número de linhas a serem lidas
 	// Consertar a descrição de TODAS as Cartas
 
-	private boolean importarCarta(Carta a, File f, Tipo_Carta tipo) {
+	private Carta importarCarta(File f, Tipo_Carta tipo) {
 
 		switch (tipo) {
 		case CRIATURA:
-			return criatura(a, f);
+			return criatura(f);
 		case MAGICA:
 		case ED:
 		case OO:
-			return especial_magica(a, f, tipo);
+			return especial_magica(f, tipo);
 		}
-		return false;
+		return null;
 	}
 
-	private boolean especial_magica(Carta a, File f, Tipo_Carta tipo) {
-		FileReader arquivo;
+	private Carta especial_magica(File f, Tipo_Carta tipo) {
+		FileReader arquivo = null;
 		BufferedReader leituraArquivo = null;
 
 		try {
@@ -48,7 +48,6 @@ public class Importar {
 		} catch (FileNotFoundException e) {
 			System.err.println("Arquivos não encontrados");
 			e.printStackTrace();
-			return false;
 		}
 
 		String nome = null;
@@ -70,9 +69,9 @@ public class Importar {
 			} catch (IOException e2) {
 				e2.printStackTrace();
 			}
-			return false;
 		}
 
+		Carta a = null;
 		switch (tipo) {
 		case MAGICA:
 			a = new Carta_Magica(nome, descrição, imagem);
@@ -89,11 +88,12 @@ public class Importar {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return true;
+		return a;
 	}
 
-	private boolean criatura(Carta a, File f) {
-		FileReader arquivo;
+	private Carta_Criatura criatura(File f) {
+		
+		FileReader arquivo = null;
 		BufferedReader leituraArquivo = null;
 
 		try {
@@ -103,7 +103,7 @@ public class Importar {
 		} catch (FileNotFoundException e) {
 			System.err.println("Arquivos não encontrados");
 			e.printStackTrace();
-			return false;
+			//return false;
 		}
 		String nome = null;
 		String descrição = null;
@@ -117,6 +117,9 @@ public class Importar {
 			defesa = Integer.parseInt(leituraArquivo.readLine());
 			skill = Integer.parseInt(leituraArquivo.readLine());
 			imagemUrl = leituraArquivo.readLine();
+			//debug avançado
+			System.out.printf("%s, %s, %d, %d, %d, %s\n",nome,descrição,ataque,defesa,skill,imagemUrl);
+			//
 			imagem = ImageIO.read(new File(imagemUrl));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -127,20 +130,24 @@ public class Importar {
 			} catch (IOException e2) {
 				e2.printStackTrace();
 			}
-			return false;
+			//return false;
 		}
 
-		a = new Carta_Criatura(nome, descrição, ataque, defesa, skill, imagem);
+		Carta_Criatura a = new Carta_Criatura(nome, descrição, ataque, defesa, skill, imagem);
+		//debug avançado
+		System.out.println(a.getNome());
+		//
 		try {
 			leituraArquivo.close();
 			arquivo.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return true;
+		return a;
 	}
 
 	public Lista_de_Generics<Carta> importAllCards(File allDescriptions) {
+		
 		Lista_de_Generics<Carta> cartas = new Lista_de_Generics<Carta>(21);
 
 		FileReader arquivo = null;
@@ -160,55 +167,42 @@ public class Importar {
 
 				String urlDescricao = leituraArquivo.readLine();
 				File fileDescricao = new File(urlDescricao);
+				
 				String tipo[] = urlDescricao.split("/");
-
-				if (tipo[3].equalsIgnoreCase("Criaturas")) {
-
-					if (importarCarta(cartas.getElemento(i), fileDescricao,
-							Tipo_Carta.CRIATURA)) {
+				//debug avançado
+				System.out.println("tipo[2]: "+tipo[2]+i);
+				//
+				if (tipo[2].equalsIgnoreCase("Criaturas")) {
+					System.out.println("Criatura");
+					cartas.setElemento(i,importarCarta(fileDescricao,Tipo_Carta.CRIATURA)); 
 						System.out.println("Carta "
 								+ cartas.getElemento(i).getNome()
 								+ " Importada!");
-					} else {
-						System.out.println("Falha na importação de "
-								+ cartas.getElemento(i).getNome() + "!");
-					}
+					
 
-				} else if (tipo[3].equalsIgnoreCase("Magias")) {
-
-					if (importarCarta(cartas.getElemento(i), fileDescricao,
-							Tipo_Carta.MAGICA)) {
+				} else if (tipo[2].equalsIgnoreCase("Magias")) {
+					System.out.println("Magia");
+					cartas.setElemento(i,importarCarta(fileDescricao,Tipo_Carta.MAGICA)); 
 						System.out.println("Carta "
 								+ cartas.getElemento(i).getNome()
 								+ " Importada!");
-					} else {
-						System.out.println("Falha na importação de "
-								+ cartas.getElemento(i).getNome() + "!");
-					}
+					
 
-				} else if (tipo[3].equalsIgnoreCase("ED")) {
-
-					if (importarCarta(cartas.getElemento(i), fileDescricao,
-							Tipo_Carta.ED)) {
+				} else if (tipo[2].equalsIgnoreCase("ED")) {
+					System.out.println("ED");
+					cartas.setElemento(i,importarCarta(fileDescricao,Tipo_Carta.ED));
 						System.out.println("Carta "
 								+ cartas.getElemento(i).getNome()
 								+ " Importada!");
-					} else {
-						System.out.println("Falha na importação de "
-								+ cartas.getElemento(i).getNome() + "!");
-					}
+					
 
 				} else {
-
-					if (importarCarta(cartas.getElemento(i), fileDescricao,
-							Tipo_Carta.OO)) {
+					System.out.println("OO");
+					cartas.setElemento(i,importarCarta(fileDescricao,Tipo_Carta.OO));
 						System.out.println("Carta "
 								+ cartas.getElemento(i).getNome()
 								+ " Importada!");
-					} else {
-						System.out.println("Falha na importação de "
-								+ cartas.getElemento(i).getNome() + "!");
-					}
+					
 
 				}
 			}
