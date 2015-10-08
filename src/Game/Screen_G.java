@@ -1,9 +1,7 @@
 package Game;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
@@ -12,10 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Deque.Tabuleiro;
+import Gráficos.MainFrame;
 import Input.Mouse;
-import Util.Importar;
 import Util.JImagePanel;
-import Util.Lista_de_Generics;
 
 public class Screen_G extends JPanel implements Runnable {
 	public static final int FPS = 60;
@@ -38,8 +35,8 @@ public class Screen_G extends JPanel implements Runnable {
 	private Tabuleiro t2;
 	
 	
-	int width = Main_Frame.WIDTH, height = Main_Frame.HEIGHT,
-			scale = Main_Frame.SCALE;
+	int width = MainFrame.WIDTH, height = MainFrame.HEIGHT,
+			scale = MainFrame.SCALE;
 	Dimension tabuleiros;
 	
 	public Screen_G() {
@@ -86,7 +83,7 @@ public class Screen_G extends JPanel implements Runnable {
 		this.addMouseMotionListener(mouse);
 		//this.setLayout(new GridLayout(4, 1));
 		this.setLayout(new GridLayout(2, 1));
-		this.setSize(Main_Frame.WIDTH*3,Main_Frame.HEIGHT*3);
+		this.setSize(MainFrame.WIDTH*3,MainFrame.HEIGHT*3);
 		
 //		energia1 = new JLabel(("Energia = "+ t1.getEnergia()));
 //		energia2 = new JLabel(("Energia = "+ t2.getEnergia()));

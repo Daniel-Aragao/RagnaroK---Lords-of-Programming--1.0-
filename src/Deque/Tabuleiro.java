@@ -1,17 +1,20 @@
 package Deque;
 
 import java.awt.GridLayout;
-import java.io.File;
 
 import javax.swing.JPanel;
 
 import Util.Importar;
 import Util.Lista_de_Generics;
 
+import Game.Game;
+
 //All Descriptions URL's.txt
 
 @SuppressWarnings("serial")
 public class Tabuleiro extends JPanel {
+	
+	
 	private Lista_de_Generics<Carta> baralho;
 	private Lista_de_Generics<Carta> cemitério;
 	private Lista_de_Generics<Carta_Criatura> T_Personagens;
@@ -22,8 +25,8 @@ public class Tabuleiro extends JPanel {
 	private Carta BlankSpace;
 
 	public Tabuleiro() {
-		File f = new File("./Cartas/All Descriptions URL's.txt");
-		this.baralho = importar.importAllCards(f);
+		
+		this.baralho = importar.importAllCards(Game.FILE);;
 //		exibirBaralhoNoConsole();
 		this.baralho = autoCompletar_baralho();
 

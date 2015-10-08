@@ -9,6 +9,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import Gráficos.MainFrame;
+
 public class Screen_M extends JPanel {
 		JPanel tela;
 		JPanel menu;
@@ -22,8 +24,8 @@ public class Screen_M extends JPanel {
 			menu.add(play = new JButton("Play"));
 			menu.add(cartas = new JButton("Cartas"));
 			menu.add(sair = new JButton("Sair"));
-			Dimension d = new Dimension(Main_Frame.WIDTH * (Main_Frame.SCALE - 1), Main_Frame.HEIGHT
-					* (Main_Frame.SCALE - 1));
+			Dimension d = new Dimension(MainFrame.WIDTH * (MainFrame.SCALE - 1), MainFrame.HEIGHT
+					* (MainFrame.SCALE - 1));
 			menu.setSize(d);
 			menu.setBackground(Color.black);
 			this.add(menu, "Center");

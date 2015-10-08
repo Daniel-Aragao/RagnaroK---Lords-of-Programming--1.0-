@@ -1,7 +1,19 @@
 package Util;
 import java.util.Random;
 import java.util.Vector;
-
+/**
+ * <h1>Generic List</h1>
+ * receives a generic Object type and makes a list of it
+ * with customized methods for a deck organization, but 
+ * also have additional lists methods
+ * <p>
+ * 
+ * 
+ * @author Daniel Aragão
+ * @version 2.4
+ * @since 2015-09-14
+ * @param <T>
+ */
 public class Lista_de_Generics<T> {
 	private Vector<T> lista;
 	private int qtdElementos;

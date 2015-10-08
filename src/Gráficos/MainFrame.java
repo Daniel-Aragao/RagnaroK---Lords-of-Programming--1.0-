@@ -1,0 +1,47 @@
+package Gráficos;
+
+import java.awt.Canvas;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+
+public class MainFrame {
+	public static final int WIDTH = 256;
+	public static final int HEIGHT = 192;
+	public static final int SCALE = 4;
+	
+	
+	private JFrame frame;
+	private Canvas canvas;
+	
+	private Dimension screenDimension;
+	private int width, height;	
+	
+	public MainFrame(){
+		this.screenDimension = new Dimension(WIDTH*SCALE,HEIGHT*SCALE);
+		this.width = screenDimension.width;
+		this.height = screenDimension.height;
+		createFrame();
+	}
+
+	private void createFrame() {
+		frame = new JFrame("Ragnarok - Lords of Programming(1.0)");
+		frame.setSize(screenDimension);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+		frame.setVisible(true);
+		
+		canvas = new Canvas();
+		canvas.setPreferredSize(screenDimension);
+		canvas.setMaximumSize(screenDimension);
+		canvas.setMinimumSize(screenDimension);
+		
+		frame.add(canvas);
+		frame.pack();
+	}
+	
+	public Canvas getCanvas(){ return canvas;}
+	
+	
+}
