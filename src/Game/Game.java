@@ -4,9 +4,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 
+import Deque.Carta;
 import Deque.Jogador;
 import Gráficos.MainFrame;
 import Util.Importar;
+import Util.Lista_de_Generics;
 
 public class Game implements Runnable {
 	public static final File FILE = new File("./Cartas/All Descriptions URL's.txt");
@@ -28,8 +30,10 @@ public class Game implements Runnable {
 	Jogador jogadorB;
 
 	public Game() {
-		jogadorA = new Jogador();
-		jogadorB = new Jogador();
+		importar = new Importar();
+		Lista_de_Generics<Carta> baralho = importar.importAllCards(Game.FILE);
+		jogadorA = new Jogador(baralho);
+		jogadorB = new Jogador(baralho.copy());
 		width = MainFrame.WIDTH;
 		height = MainFrame.HEIGHT;
 	}

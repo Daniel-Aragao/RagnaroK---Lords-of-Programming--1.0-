@@ -10,7 +10,7 @@ import java.util.Vector;
  * 
  * 
  * @author Daniel Aragão
- * @version 2.4
+ * @version 2.6
  * @since 2015-09-14
  * @param <T>
  */
@@ -21,8 +21,8 @@ public class Lista_de_Generics<T> {
 
 	public Lista_de_Generics(int n) {
 		lista = new Vector<T>();
-		lista.setSize(n);
 		this.capacity = n;
+		lista.setSize(capacity);
 	}
 
 	public int getQtdElementos() {
@@ -84,7 +84,9 @@ public class Lista_de_Generics<T> {
 		}
 	}
 
-	public void setElemento(int n, T e){add(n, e);}
+	public void setElemento(int n, T e){
+		lista.set(n, e);
+	}
 
 	public T removerFim() throws RuntimeException {
 		if (isEmpty()) {
@@ -186,6 +188,17 @@ public class Lista_de_Generics<T> {
 			int n = rand.nextInt(qtdInicial);
 			this.addFim(getElemento(n));
 		}		
+	}
+	
+	private void setLista(Vector<T> lista){ this.lista = lista;}
+	
+	public Lista_de_Generics<T> copy(){
+		Lista_de_Generics<T> copy = new Lista_de_Generics<T>(capacity);
+		
+		copy.setLista((Vector<T>) lista.clone());
+		copy.qtdElementos = getQtdElementos();
+		
+		return copy;
 	}
 	
 }

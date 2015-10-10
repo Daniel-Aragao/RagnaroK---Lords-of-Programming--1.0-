@@ -24,9 +24,9 @@ public class Tabuleiro extends JPanel {
 	private Importar importar = new Importar();
 	private Carta BlankSpace;
 
-	public Tabuleiro() {
-		
-		this.baralho = importar.importAllCards(Game.FILE);;
+	public Tabuleiro(Lista_de_Generics<Carta> baralho) {
+//		importar.importAllCards(Game.FILE);;
+		this.baralho = baralho;
 //		exibirBaralhoNoConsole();
 		this.baralho = autoCompletar_baralho();
 

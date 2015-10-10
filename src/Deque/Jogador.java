@@ -9,8 +9,8 @@ public class Jogador {
 	private int energia;
 	private Tabuleiro tabuleiro;
 	
-	public Jogador(){
-		tabuleiro = new Tabuleiro();
+	public Jogador(Lista_de_Generics<Carta> baralho){
+		tabuleiro = new Tabuleiro(baralho);
 	}
 	public String getNome(){return this.nome;}
 	
