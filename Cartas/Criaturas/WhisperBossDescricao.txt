@@ -1,0 +1,6 @@
+Sussurro
+Ivulnerável
+3
+3
+9
+./Cartas/Criaturas/WhisperBoss.png

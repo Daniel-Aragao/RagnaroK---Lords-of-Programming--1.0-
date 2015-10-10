@@ -1,0 +1,6 @@
+Mimico Anciao
+Bicho-papão
+4
+7
+4
+./Cartas/Criaturas/MimicoAnciao.jpg

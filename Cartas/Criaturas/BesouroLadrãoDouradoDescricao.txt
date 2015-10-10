@@ -1,0 +1,6 @@
+Besouro Ladrão Dourado
+Barata d'ouro
+6
+3
+6
+./Cartas/Criaturas/BesouroLadrãoDourado.png
