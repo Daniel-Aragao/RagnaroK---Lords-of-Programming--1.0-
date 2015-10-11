@@ -54,7 +54,7 @@ public class Tabuleiro extends JPanel {
 		Lista_de_Generics<Carta> baralhoAux = new Lista_de_Generics<>(30);
 		int qtd = baralho.getQtdElementos();
 		for (int i = 0; i < qtd; i++) {
-			baralhoAux.addFim(baralho.removerFim());
+			baralhoAux.addFim(baralho.getElemento(i));
 		}
 			
 

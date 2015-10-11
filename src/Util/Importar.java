@@ -174,7 +174,7 @@ public class Importar {
 				//
 				if (tipo[2].equalsIgnoreCase("Criaturas")) {
 					System.out.println("Criatura");
-					cartas.setElemento(i,importarCarta(fileDescricao,Tipo_Carta.CRIATURA)); 
+					cartas.add(i,importarCarta(fileDescricao,Tipo_Carta.CRIATURA)); 
 						System.out.println("Carta "
 								+ cartas.getElemento(i).getNome()
 								+ " Importada!");
@@ -182,7 +182,7 @@ public class Importar {
 
 				} else if (tipo[2].equalsIgnoreCase("Magias")) {
 					System.out.println("Magia");
-					cartas.setElemento(i,importarCarta(fileDescricao,Tipo_Carta.MAGICA)); 
+					cartas.add(i,importarCarta(fileDescricao,Tipo_Carta.MAGICA)); 
 						System.out.println("Carta "
 								+ cartas.getElemento(i).getNome()
 								+ " Importada!");
@@ -190,7 +190,7 @@ public class Importar {
 
 				} else if (tipo[2].equalsIgnoreCase("ED")) {
 					System.out.println("ED");
-					cartas.setElemento(i,importarCarta(fileDescricao,Tipo_Carta.ED));
+					cartas.add(i,importarCarta(fileDescricao,Tipo_Carta.ED));
 						System.out.println("Carta "
 								+ cartas.getElemento(i).getNome()
 								+ " Importada!");
@@ -198,7 +198,7 @@ public class Importar {
 
 				} else {
 					System.out.println("OO");
-					cartas.setElemento(i,importarCarta(fileDescricao,Tipo_Carta.OO));
+					cartas.add(i,importarCarta(fileDescricao,Tipo_Carta.OO));
 						System.out.println("Carta "
 								+ cartas.getElemento(i).getNome()
 								+ " Importada!");

@@ -33,7 +33,7 @@ public class Game implements Runnable {
 		importar = new Importar();
 		Lista_de_Generics<Carta> baralho = importar.importAllCards(Game.FILE);
 		jogadorA = new Jogador(baralho);
-		jogadorB = new Jogador(baralho.copy());
+		jogadorB = new Jogador(baralho);
 		width = MainFrame.WIDTH;
 		height = MainFrame.HEIGHT;
 	}

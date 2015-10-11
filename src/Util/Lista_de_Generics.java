@@ -190,13 +190,14 @@ public class Lista_de_Generics<T> {
 		}		
 	}
 	
-	private void setLista(Vector<T> lista){ this.lista = lista;}
-	
 	public Lista_de_Generics<T> copy(){
-		Lista_de_Generics<T> copy = new Lista_de_Generics<T>(capacity);
+		Lista_de_Generics<T> copy  = new Lista_de_Generics<T>(capacity);
 		
-		copy.setLista((Vector<T>) lista.clone());
-		copy.qtdElementos = getQtdElementos();
+		for(int i = 0; i < qtdElementos; i++){
+			copy.addFim(getElemento(i));
+		}
+		copy.setQtdElementos(getQtdElementos());
+		
 		
 		return copy;
 	}
