@@ -1,6 +1,0 @@
-Acidus
-Dragão Ryca
-4
-7
-4
-.\Cartas\Criaturas\Acidus.png

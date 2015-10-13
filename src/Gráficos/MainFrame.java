@@ -6,9 +6,9 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 public class MainFrame {
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 600;
-	public static final int SCALE = 1;
+	public static final int WIDTH = 256;
+	public static final int HEIGHT = 192;
+	public static final int SCALE = 4;
 	//1024 x 768 (256,192,4)//800x600(800,600,1)
 	
 	private JFrame frame;

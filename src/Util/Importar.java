@@ -18,6 +18,7 @@ import Deque.Carta_Magica;
 import Deque.Tipo_Carta;
 
 public class Importar {
+	private static BufferedImage backgrounds[] = new BufferedImage[10];
 
 	// IMAGENS URL EM CADA UM DOS TXT's,
 	// Métodos específicos para cada tipo de carta,
@@ -77,10 +78,10 @@ public class Importar {
 			a = new Carta_Magica(nome, descrição, imagem);
 			break;
 		case ED:
-			a = new Carta_Especial(nome, descrição, imagem,tipo);
+			a = new Carta_Especial(nome, descrição, imagem, tipo);
 			break;
 		case OO:
-			a = new Carta_Especial(nome, descrição, imagem,tipo);
+			a = new Carta_Especial(nome, descrição, imagem, tipo);
 		}
 		try {
 			leituraArquivo.close();
@@ -92,7 +93,7 @@ public class Importar {
 	}
 
 	private Carta_Criatura criatura(File f) {
-		
+
 		FileReader arquivo = null;
 		BufferedReader leituraArquivo = null;
 
@@ -103,7 +104,7 @@ public class Importar {
 		} catch (FileNotFoundException e) {
 			System.err.println("Arquivos não encontrados");
 			e.printStackTrace();
-			//return false;
+			// return false;
 		}
 		String nome = null;
 		String descrição = null;
@@ -117,8 +118,9 @@ public class Importar {
 			defesa = Integer.parseInt(leituraArquivo.readLine());
 			skill = Integer.parseInt(leituraArquivo.readLine());
 			imagemUrl = leituraArquivo.readLine();
-			//debug avançado
-			System.out.printf("%s, %s, %d, %d, %d, %s\n",nome,descrição,ataque,defesa,skill,imagemUrl);
+			// debug avançado
+			System.out.printf("%s, %s, %d, %d, %d, %s\n", nome, descrição,
+					ataque, defesa, skill, imagemUrl);
 			//
 			imagem = ImageIO.read(new File(imagemUrl));
 		} catch (IOException e) {
@@ -130,11 +132,12 @@ public class Importar {
 			} catch (IOException e2) {
 				e2.printStackTrace();
 			}
-			//return false;
+			// return false;
 		}
 
-		Carta_Criatura a = new Carta_Criatura(nome, descrição, ataque, defesa, skill, imagem);
-		//debug avançado
+		Carta_Criatura a = new Carta_Criatura(nome, descrição, ataque, defesa,
+				skill, imagem);
+		// debug avançado
 		System.out.println(a.getNome());
 		//
 		try {
@@ -147,7 +150,7 @@ public class Importar {
 	}
 
 	public Lista_de_Generics<Carta> importAllCards(File allDescriptions) {
-		
+
 		Lista_de_Generics<Carta> cartas = new Lista_de_Generics<Carta>(21);
 
 		FileReader arquivo = null;
@@ -167,42 +170,36 @@ public class Importar {
 
 				String urlDescricao = leituraArquivo.readLine();
 				File fileDescricao = new File(urlDescricao);
-				
+
 				String tipo[] = urlDescricao.split("/");
-				//debug avançado
-				System.out.println("tipo[2]: "+tipo[2]+i);
+				// debug avançado
+				System.out.println("tipo[2]: " + tipo[2] + i);
 				//
 				if (tipo[2].equalsIgnoreCase("Criaturas")) {
 					System.out.println("Criatura");
-					cartas.add(i,importarCarta(fileDescricao,Tipo_Carta.CRIATURA)); 
-						System.out.println("Carta "
-								+ cartas.getElemento(i).getNome()
-								+ " Importada!");
-					
+					cartas.add(i,
+							importarCarta(fileDescricao, Tipo_Carta.CRIATURA));
+					System.out.println("Carta "
+							+ cartas.getElemento(i).getNome() + " Importada!");
 
 				} else if (tipo[2].equalsIgnoreCase("Magias")) {
 					System.out.println("Magia");
-					cartas.add(i,importarCarta(fileDescricao,Tipo_Carta.MAGICA)); 
-						System.out.println("Carta "
-								+ cartas.getElemento(i).getNome()
-								+ " Importada!");
-					
+					cartas.add(i,
+							importarCarta(fileDescricao, Tipo_Carta.MAGICA));
+					System.out.println("Carta "
+							+ cartas.getElemento(i).getNome() + " Importada!");
 
 				} else if (tipo[2].equalsIgnoreCase("ED")) {
 					System.out.println("ED");
-					cartas.add(i,importarCarta(fileDescricao,Tipo_Carta.ED));
-						System.out.println("Carta "
-								+ cartas.getElemento(i).getNome()
-								+ " Importada!");
-					
+					cartas.add(i, importarCarta(fileDescricao, Tipo_Carta.ED));
+					System.out.println("Carta "
+							+ cartas.getElemento(i).getNome() + " Importada!");
 
 				} else {
 					System.out.println("OO");
-					cartas.add(i,importarCarta(fileDescricao,Tipo_Carta.OO));
-						System.out.println("Carta "
-								+ cartas.getElemento(i).getNome()
-								+ " Importada!");
-					
+					cartas.add(i, importarCarta(fileDescricao, Tipo_Carta.OO));
+					System.out.println("Carta "
+							+ cartas.getElemento(i).getNome() + " Importada!");
 
 				}
 			}
@@ -217,8 +214,61 @@ public class Importar {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("QTD CARTAS IMPORTADAS: "+ cartas.getQtdElementos());
+		System.out
+				.println("QTD CARTAS IMPORTADAS: " + cartas.getQtdElementos());
 		return cartas;
 	}
 
+	public void importarBackground(File f) {
+		FileReader arquivo = null;
+		BufferedReader leituraArquivo = null;
+
+		try {
+			arquivo = new FileReader(f);
+			leituraArquivo = new BufferedReader(arquivo);
+
+		} catch (FileNotFoundException e) {
+			System.err.println("Arquivos não encontrados");
+			e.printStackTrace();
+		}
+
+		String imagemUrl = null;
+		
+		try {
+			
+			imagemUrl = leituraArquivo.readLine();
+			if (imagemUrl.equalsIgnoreCase("Backgrounds")) {
+				
+				for (int i = 0; i < backgrounds.length; i++) {
+					imagemUrl = leituraArquivo.readLine();
+					backgrounds[i] = ImageIO.read(new File(imagemUrl));
+				}
+				
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			
+			try {
+				leituraArquivo.close();
+				arquivo.close();
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
+			
+		}
+
+		try {
+			leituraArquivo.close();
+			arquivo.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static BufferedImage getBackground(BackgroundID bg){
+		return backgrounds[bg.getindex()];
+	}
+	
 }

@@ -1,0 +1,11 @@
+Backgrounds
+./Background/InicioBackground.jpg
+./Background/JogoBackground.jpg
+./Background/SelecaoDeCartasBackground.png
+./Background/RegrasBackground.jpg
+./Background/pisoCemitério.jpg
+./Background/pisoCriaturas.jpg
+./Background/pisoED.jpg
+./Background/pisoMagicas.jpg
+./Background/pisoOO.jpg
+./Background/verso.jpg

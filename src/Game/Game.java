@@ -4,17 +4,21 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 
+import state.GameState;
+import state.State;
 import Deque.Carta;
 import Deque.Jogador;
 import Gráficos.MainFrame;
+import Util.FpsVariables;
 import Util.Importar;
 import Util.Lista_de_Generics;
 
 public class Game implements Runnable {
+	//Files url's
 	public static final File FILE = new File("./Cartas/All Descriptions URL's.txt");
-	public static final int FPS = 60;
-	private static final double TARGET_TIME = 1000 / FPS;
-
+	public static final File BACKGROUND_FILE = new File("./Background/All Background URL's.txt");
+	
+	
 	private boolean gameLoop = false;
 	private Thread tGame = null;
 	
@@ -28,12 +32,13 @@ public class Game implements Runnable {
 	Importar importar;
 	Jogador jogadorA;
 	Jogador jogadorB;
-
+	
+	//States
+	private State gameState;
+	private State menuState;
+	
+	
 	public Game() {
-		importar = new Importar();
-		Lista_de_Generics<Carta> baralho = importar.importAllCards(Game.FILE);
-		jogadorA = new Jogador(baralho);
-		jogadorB = new Jogador(baralho);
 		width = MainFrame.WIDTH;
 		height = MainFrame.HEIGHT;
 	}
@@ -41,38 +46,42 @@ public class Game implements Runnable {
 	
 	public void init() {
 		mFrame = new MainFrame();
+		
+		importar = new Importar();
+		Lista_de_Generics<Carta> baralho = importar.importAllCards(Game.FILE);
+		importar.importarBackground(BACKGROUND_FILE);
+		
+		jogadorA = new Jogador(baralho);
+		jogadorB = new Jogador(baralho);
+		
+		gameState = new GameState();
+		State.setState(gameState);
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public void run() {
 		init();
+		FpsVariables fps = new FpsVariables(60);
+
 
 		while (gameLoop) {
-			long start = System.currentTimeMillis();
-			
-			update();
-			draw();
-			
-			long elapsed = System.currentTimeMillis() - start;
-			double wait = TARGET_TIME - elapsed;
-					
-			System.out.println((long)wait);
-			try {
-				tGame.sleep((long) wait); // pq ele deseja mudador de
-												// threadGame para Thread?
-				// threadGame.notifyAll();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			fps.calculateFPS_Limitation();
+
+			if (fps.FPS_Limitation()) {
+				update();
+				draw();
 			}
+			fps.FPS_printer();
+			
 		}
 
 		stop();
 	}
 
 	private void update() {
-		// TODO Auto-generated method stub
-
+		if(State.getState()!=null){
+			State.getState().update();
+		}
 	}
 
 	private void draw() {
@@ -86,6 +95,10 @@ public class Game implements Runnable {
 		//Clear Screen
 		g.clearRect(0, 0, width, height);
 		//Draw
+		
+		if(State.getState()!=null){
+			State.getState().draw(g);
+		}
 		
 		//End Drawing
 		bs.show();

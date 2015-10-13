@@ -1,3 +1,0 @@
-./Background/InicioBackground.jpg
-./Background/JogoBackground.jpg
-./Background/SelecaoDeCartasBackground.png
