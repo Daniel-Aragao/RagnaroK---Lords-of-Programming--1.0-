@@ -7,15 +7,20 @@ import java.awt.event.MouseMotionListener;
 public class Mouse implements MouseListener, MouseMotionListener{
 	private int x, y;
 	private boolean clicked = false, pressed = false;
+	
 	public Mouse(){
 		this.x = 0;
 		this.y = 0;
 	}
+	
 	public int getX(){return x;}
 	public int getY(){return y;}
 	
+	public boolean update(){return clicked;}
+	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {	this.clicked = true;}
+	
 	public boolean buttonClicked(){
 		boolean c = this.clicked;
 		this.clicked = false;

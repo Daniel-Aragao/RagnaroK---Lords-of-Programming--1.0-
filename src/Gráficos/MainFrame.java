@@ -36,6 +36,7 @@ public class MainFrame {
 		canvas.setPreferredSize(screenDimension);
 		canvas.setMaximumSize(screenDimension);
 		canvas.setMinimumSize(screenDimension);
+		canvas.setFocusable(false);
 		
 		frame.add(canvas);
 		frame.pack();
@@ -43,5 +44,6 @@ public class MainFrame {
 	
 	public Canvas getCanvas(){ return canvas;}
 	
+	public JFrame getFrame(){ return this.frame;}
 	
 }

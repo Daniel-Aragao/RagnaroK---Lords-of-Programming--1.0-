@@ -4,10 +4,13 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 
-import state.*;
+import state.GameState;
+import state.MenuState;
+import state.State;
 import Deque.Carta;
 import Deque.Jogador;
 import Gráficos.MainFrame;
+import Input.Mouse;
 import Util.FpsVariables;
 import Util.Importar;
 import Util.Lista_de_Generics;
@@ -36,16 +39,20 @@ public class Game implements Runnable {
 	private State gameState;
 	private State menuState;
 	
+	//Input
+	private Mouse mouse;
 	
 	public Game() {
 		width = MainFrame.WIDTH;
 		height = MainFrame.HEIGHT;
+		
+		mouse = new Mouse();
 	}
 	
 	
 	public void init() {
 		mFrame = new MainFrame();
-		
+		mFrame.getFrame().addMouseListener(mouse);
 		importar = new Importar();
 		Lista_de_Generics<Carta> baralho = importar.importAllCards(Game.FILE);
 		importar.importarBackground(BACKGROUND_FILE);
@@ -79,6 +86,8 @@ public class Game implements Runnable {
 	}
 
 	private void update() {
+		
+		
 		if(State.getState()!=null){
 			State.getState().update();
 		}
