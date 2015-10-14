@@ -17,9 +17,8 @@ public class Carta_Criatura extends Carta {
 	// Estado da Carta quanto a ATQ-true ou DEF-false
 		private boolean estado;
 		
-	public Carta_Criatura(String nome,String descricao, int ataque, int defesa, int skill,
-			BufferedImage imagem) {
-		super(nome, descricao, imagem, Tipo_Carta.CRIATURA);
+	public Carta_Criatura(int ataque, int defesa, int skill,CartaParameters cp) {
+		super(cp);
 		// TODO Auto-generated constructor stub
 		this.ataque = ataque;
 		this.defesa = defesa;

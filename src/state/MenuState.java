@@ -1,4 +1,4 @@
-package Game;
+package state;
 import Util.BackgroundID;
 import Util.Importar;
 
@@ -8,8 +8,6 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
-import state.State;
 
 public class MenuState extends State{
 	String imagemUrl = null;

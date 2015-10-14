@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 
 import Deque.Carta;
+import Deque.CartaParameters;
 import Deque.Carta_Criatura;
 import Deque.Carta_Especial;
 import Deque.Carta_Magica;
@@ -71,17 +72,20 @@ public class Importar {
 				e2.printStackTrace();
 			}
 		}
-
+		CartaParameters cp;
 		Carta a = null;
 		switch (tipo) {
 		case MAGICA:
-			a = new Carta_Magica(nome, descrição, imagem);
+			cp = new CartaParameters(Tipo_Carta.MAGICA);
+			a = new Carta_Magica(cp);
 			break;
 		case ED:
-			a = new Carta_Especial(nome, descrição, imagem, tipo);
+			cp = new CartaParameters(Tipo_Carta.ED);
+			a = new Carta_Especial(cp);
 			break;
 		case OO:
-			a = new Carta_Especial(nome, descrição, imagem, tipo);
+			cp = new CartaParameters(Tipo_Carta.OO);
+			a = new Carta_Especial(cp);
 		}
 		try {
 			leituraArquivo.close();
@@ -134,9 +138,8 @@ public class Importar {
 			}
 			// return false;
 		}
-
-		Carta_Criatura a = new Carta_Criatura(nome, descrição, ataque, defesa,
-				skill, imagem);
+		CartaParameters cp = new CartaParameters(Tipo_Carta.CRIATURA);
+		Carta_Criatura a = new Carta_Criatura(ataque, defesa, skill, cp);
 		// debug avançado
 		System.out.println(a.getNome());
 		//
@@ -233,29 +236,29 @@ public class Importar {
 		}
 
 		String imagemUrl = null;
-		
+
 		try {
-			
+
 			imagemUrl = leituraArquivo.readLine();
 			if (imagemUrl.equalsIgnoreCase("Backgrounds")) {
-				
+
 				for (int i = 0; i < backgrounds.length; i++) {
 					imagemUrl = leituraArquivo.readLine();
 					backgrounds[i] = ImageIO.read(new File(imagemUrl));
 				}
-				
+
 			}
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
-			
+
 			try {
 				leituraArquivo.close();
 				arquivo.close();
 			} catch (IOException e2) {
 				e2.printStackTrace();
 			}
-			
+
 		}
 
 		try {
@@ -267,8 +270,8 @@ public class Importar {
 
 	}
 
-	public static BufferedImage getBackground(BackgroundID bg){
+	public static BufferedImage getBackground(BackgroundID bg) {
 		return backgrounds[bg.getindex()];
 	}
-	
+
 }

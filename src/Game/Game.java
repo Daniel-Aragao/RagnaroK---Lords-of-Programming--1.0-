@@ -4,8 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 
-import state.GameState;
-import state.State;
+import state.*;
 import Deque.Carta;
 import Deque.Jogador;
 import Gráficos.MainFrame;
@@ -55,6 +54,7 @@ public class Game implements Runnable {
 		jogadorB = new Jogador(baralho);
 		
 		gameState = new GameState();
+		menuState = new MenuState();
 		State.setState(gameState);
 	}
 
