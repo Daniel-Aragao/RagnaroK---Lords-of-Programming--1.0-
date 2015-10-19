@@ -1,5 +1,6 @@
 package Deque;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import Util.Lista_de_Generics;
@@ -10,7 +11,7 @@ import entity.Entity;
 public class Jogador extends Entity {
 	public static final Position UP_LABEL = new Position(100, 20);
 	public static final Position DOWN_LABEL = new Position(100, 740);
-	public static final int ESPACAMENTO = 24;
+	public static final int ESPACAMENTO = 80;
 
 	private String nome;
 	private String energiaString;
@@ -77,14 +78,16 @@ public class Jogador extends Entity {
 	public void draw(Graphics g) {
 		tabuleiro.draw(g);
 		
-		Position energiaStringPosition = new Position(position.x + nome.length()+ ESPACAMENTO,position.y);
+		Position energiaStringPosition = new Position(position.x + nome.length()+ Jogador.ESPACAMENTO,position.y);
 		
-		Position vezStringPosition = new Position(energiaStringPosition.x + energiaString.length() + ESPACAMENTO,position.y);
+		Position vezStringPosition = new Position(energiaStringPosition.x + energiaString.length() + Jogador.ESPACAMENTO,position.y);
 		
 		// draw "Nome: energia Jogando/Aguardando (a vez)
+		g.setColor(Color.pink);
 		g.drawString(nome, (int) position.x, (int) position.y);
 		g.drawString(energiaString, (int) energiaStringPosition.x, (int) position.y);
 		g.drawString(vezString, (int)vezStringPosition.x , (int) position.y);
+		
 
 
 	}

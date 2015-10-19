@@ -12,7 +12,6 @@ public abstract class Entity {
 	public Entity(int width, int height){
 		this.width = width;
 		this.height = height;
-		this.position = new Position();
 	}
 	
 	public abstract void update();

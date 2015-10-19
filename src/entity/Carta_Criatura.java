@@ -52,4 +52,9 @@ public class Carta_Criatura extends Carta {
 			magica.draw(g);
 		}
 	}
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
 }

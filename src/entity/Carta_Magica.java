@@ -7,6 +7,12 @@ public class Carta_Magica extends Carta {
 	public Carta_Magica(CartaParameters cp) {
 		super(cp);
 	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

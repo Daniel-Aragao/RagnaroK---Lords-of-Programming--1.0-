@@ -3,7 +3,6 @@ package Util;
 public class Position {
 	public float x,y;
 	
-	
 	public Position(){
 		
 	}

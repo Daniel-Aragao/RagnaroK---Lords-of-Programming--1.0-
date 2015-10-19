@@ -8,7 +8,7 @@ import java.io.FileReader;
 
 import Util.Importar;
 
-public class Carta extends Entity {
+public abstract class Carta extends Entity {
 	// 30 cartas = 10 personagem + 10 mágicas + 5 ED + 5 OO
 	// soma dos atributos (ataque,defesa,skill) é 15
 
@@ -53,8 +53,7 @@ public class Carta extends Entity {
 		this.descricao = cp.descricao;
 		this.tipo = cp.tipo;
 		this.imagem = cp.imagem;
-		this.position.x = cp.x;
-		this.position.y = cp.y;
+		this.position = cp.position;
 	}
 
 	public String getDescricao() {
@@ -78,15 +77,11 @@ public class Carta extends Entity {
 	}
 
 	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-
-	}
+	public abstract void update();
 
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(imagem, (int)position.x, (int)position.y, width, height, null);
-
 	}
 
 }
