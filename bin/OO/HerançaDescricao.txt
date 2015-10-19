@@ -1,0 +1,3 @@
+Herança
+A próxima carta de personagens retirada do deque terá como valores de ataque, defesa e skill os maiores valores das cartas de personagens presentes nos dois tabuleiros. A soma dos atributos, neste caso, pode ultrapassar 15 (quinze).
+./Cartas/OO/Herança.jpg

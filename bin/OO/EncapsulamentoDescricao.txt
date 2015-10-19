@@ -1,0 +1,3 @@
+Encapsulamento
+O jogador pode visualizar as próximas 5 (cinco) cartas do deque adversário e enviar uma para o cemitério.
+./Cartas/OO/Encapsulamento.jpg

@@ -1,0 +1,6 @@
+Zumbi
+Bravo guerreiro morto
+8
+2
+5
+./Cartas/Criaturas/Zumbi.bmp

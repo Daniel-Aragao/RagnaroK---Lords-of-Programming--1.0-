@@ -1,0 +1,3 @@
+Fila
+O jogador retira as três 3 (três) primeiras cartas (mais antigas) do cemitério e as retorna ao final do deque.
+./Cartas/ED/Fila.jpg

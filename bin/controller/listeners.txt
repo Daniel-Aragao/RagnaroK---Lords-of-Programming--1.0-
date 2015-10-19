@@ -1,0 +1,7 @@
+ouvir cada carta
+
+ouvir o isEmpty() do baralho
+
+ouvir os botões de passar a vez, salvar nome,
+pausar o jogo, os menus do jogo, clique no
+puxar carta, etc(em aberto).

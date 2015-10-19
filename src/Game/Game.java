@@ -4,10 +4,10 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 
+import entity.Carta;
 import state.GameState;
 import state.MenuState;
 import state.State;
-import Deque.Carta;
 import Deque.Jogador;
 import Gráficos.MainFrame;
 import Input.Mouse;
@@ -31,9 +31,7 @@ public class Game implements Runnable {
 	
 	private int width, height;
 	
-	Importar importar;
-	Jogador jogadorA;
-	Jogador jogadorB;
+	
 	
 	//States
 	private State gameState;
@@ -53,13 +51,7 @@ public class Game implements Runnable {
 	public void init() {
 		mFrame = new MainFrame();
 		mFrame.getFrame().addMouseListener(mouse);
-		importar = new Importar();
-		Lista_de_Generics<Carta> baralho = importar.importAllCards(Game.FILE);
-		importar.importarBackground(BACKGROUND_FILE);
-		
-		jogadorA = new Jogador(baralho);
-		jogadorB = new Jogador(baralho);
-		
+				
 		gameState = new GameState();
 		menuState = new MenuState();
 		State.setState(gameState);
@@ -86,7 +78,6 @@ public class Game implements Runnable {
 	}
 
 	private void update() {
-		
 		
 		if(State.getState()!=null){
 			State.getState().update();

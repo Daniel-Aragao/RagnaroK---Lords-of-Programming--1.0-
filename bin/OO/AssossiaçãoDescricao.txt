@@ -1,0 +1,3 @@
+Assossiação
+Todas as cartas em modo de defesa e ataque se unem para atacar o adversário ou defender o jogador.
+./Cartas/OO/Assossiação.jpg

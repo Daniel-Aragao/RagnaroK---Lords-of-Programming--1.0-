@@ -1,0 +1,3 @@
+Pilha
+O jogador retira as 3 (três) cartas últimas cartas (mais recentes) do cemitério e as retorna ao topo do deque.
+./Cartas/ED/Pilha.jpg

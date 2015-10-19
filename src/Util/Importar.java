@@ -11,12 +11,12 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 
-import Deque.Carta;
-import Deque.CartaParameters;
-import Deque.Carta_Criatura;
-import Deque.Carta_Especial;
-import Deque.Carta_Magica;
-import Deque.Tipo_Carta;
+import entity.Carta;
+import entity.CartaParameters;
+import entity.Carta_Criatura;
+import entity.Carta_Especial;
+import entity.Carta_Magica;
+import entity.Tipo_Carta;
 
 public class Importar {
 	private static BufferedImage backgrounds[] = new BufferedImage[10];
@@ -26,7 +26,7 @@ public class Importar {
 	// Consertar número de linhas a serem lidas
 	// Consertar a descrição de TODAS as Cartas
 
-	private Carta importarCarta(File f, Tipo_Carta tipo) {
+	public Carta importarCarta(File f, Tipo_Carta tipo) {
 
 		switch (tipo) {
 		case CRIATURA:
@@ -39,7 +39,7 @@ public class Importar {
 		return null;
 	}
 
-	private Carta especial_magica(File f, Tipo_Carta tipo) {
+	public Carta especial_magica(File f, Tipo_Carta tipo) {
 		FileReader arquivo = null;
 		BufferedReader leituraArquivo = null;
 
@@ -74,6 +74,7 @@ public class Importar {
 		}
 		CartaParameters cp;
 		Carta a = null;
+		
 		switch (tipo) {
 		case MAGICA:
 			cp = new CartaParameters(Tipo_Carta.MAGICA);
@@ -222,6 +223,8 @@ public class Importar {
 		return cartas;
 	}
 
+	
+	
 	public void importarBackground(File f) {
 		FileReader arquivo = null;
 		BufferedReader leituraArquivo = null;
