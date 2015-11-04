@@ -26,7 +26,7 @@ public class Importar {
 	// Consertar número de linhas a serem lidas
 	// Consertar a descrição de TODAS as Cartas
 
-	public Carta importarCarta(File f, Tipo_Carta tipo) {
+	public static Carta importarCarta(File f, Tipo_Carta tipo) {
 
 		switch (tipo) {
 		case CRIATURA:
@@ -39,7 +39,7 @@ public class Importar {
 		return null;
 	}
 
-	public Carta especial_magica(File f, Tipo_Carta tipo) {
+	public static Carta especial_magica(File f, Tipo_Carta tipo) {
 		FileReader arquivo = null;
 		BufferedReader leituraArquivo = null;
 
@@ -97,7 +97,7 @@ public class Importar {
 		return a;
 	}
 
-	private Carta_Criatura criatura(File f) {
+	private static Carta_Criatura criatura(File f) {
 
 		FileReader arquivo = null;
 		BufferedReader leituraArquivo = null;
@@ -153,7 +153,7 @@ public class Importar {
 		return a;
 	}
 
-	public Lista_de_Generics<Carta> importAllCards(File allDescriptions) {
+	public static Lista_de_Generics<Carta> importAllCards(File allDescriptions) {
 
 		Lista_de_Generics<Carta> cartas = new Lista_de_Generics<Carta>(21);
 
@@ -225,7 +225,7 @@ public class Importar {
 
 	
 	
-	public void importarBackground(File f) {
+	public static void importarBackground(File f) {
 		FileReader arquivo = null;
 		BufferedReader leituraArquivo = null;
 
@@ -248,6 +248,7 @@ public class Importar {
 				for (int i = 0; i < backgrounds.length; i++) {
 					imagemUrl = leituraArquivo.readLine();
 					backgrounds[i] = ImageIO.read(new File(imagemUrl));
+					System.out.println(imagemUrl);
 				}
 
 			}

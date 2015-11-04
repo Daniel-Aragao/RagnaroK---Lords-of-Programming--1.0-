@@ -1,33 +1,32 @@
 package entity;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileReader;
+import tabuleiro.Jogador;
+import Input.Mouse;
+import Util.Position;
+import listeners.CartaClickedListener;
 
-import Util.Importar;
-
+@SuppressWarnings("serial")
 public abstract class Carta extends Entity {
 	// 30 cartas = 10 personagem + 10 mágicas + 5 ED + 5 OO
 	// soma dos atributos (ataque,defesa,skill) é 15
 
 	public static final int DEFAULT_CARTA_WIDTH = 100,
 							DEFAULT_CARTA_HEIGHT = 130;
+	
+	
+	
+	
 	// Imagem da Carta
-	protected BufferedImage imagem;
+	
 	protected String nome;
+	
+	//Listeners
+	protected CartaClickedListener cartaClickedListener;
 	
 	//private int x,y;
 	//protected int width, height;
 
-	public BufferedImage getImagem() {
-		return imagem;
-	}
-
-	public void setImagem(BufferedImage imagem) {
-		this.imagem = imagem;
-	}
+	
 
 	// Descrição da Carta
 	private String descricao;
@@ -54,7 +53,10 @@ public abstract class Carta extends Entity {
 		this.tipo = cp.tipo;
 		this.imagem = cp.imagem;
 		this.position = cp.position;
+		this.addMouseListener(new Mouse(this));
+				
 	}
+
 
 	public String getDescricao() {
 		return descricao;
@@ -64,7 +66,7 @@ public abstract class Carta extends Entity {
 		return nome;
 	}
 
-	private void setNome(String nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
@@ -79,9 +81,14 @@ public abstract class Carta extends Entity {
 	@Override
 	public abstract void update();
 
-	@Override
-	public void draw(Graphics g) {
-		g.drawImage(imagem, (int)position.x, (int)position.y, width, height, null);
-	}
 
+	public void addCartaClickedListener(CartaClickedListener listener){
+		this.cartaClickedListener = listener;
+	}
+	
+	public CartaClickedListener getCartaClickedListener(){
+		return this.cartaClickedListener;
+	}
+	
+	
 }

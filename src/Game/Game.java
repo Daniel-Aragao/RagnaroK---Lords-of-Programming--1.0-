@@ -8,7 +8,7 @@ import entity.Carta;
 import state.GameState;
 import state.MenuState;
 import state.State;
-import Deque.Jogador;
+import tabuleiro.Jogador;
 import Gráficos.MainFrame;
 import Input.Mouse;
 import Util.FpsVariables;
@@ -37,22 +37,17 @@ public class Game implements Runnable {
 	private State gameState;
 	private State menuState;
 	
-	//Input
-	private Mouse mouse;
 	
 	public Game() {
 		width = MainFrame.WIDTH;
 		height = MainFrame.HEIGHT;
-		
-		mouse = new Mouse();
 	}
 	
 	
 	public void init() {
 		mFrame = new MainFrame();
-		mFrame.getFrame().addMouseListener(mouse);
-				
-		gameState = new GameState();
+						
+		gameState = new GameState(mFrame.getFrame().getGraphics());
 		menuState = new MenuState();
 		State.setState(gameState);
 	}
@@ -85,9 +80,9 @@ public class Game implements Runnable {
 	}
 
 	private void draw() {
-		bs = mFrame.getCanvas().getBufferStrategy();
+		bs = mFrame.getFrame().getBufferStrategy();
 		if(bs == null){
-			mFrame.getCanvas().createBufferStrategy(3);
+			mFrame.getFrame().createBufferStrategy(3);
 			return;
 		}
 		
@@ -124,5 +119,6 @@ public class Game implements Runnable {
 			e.printStackTrace();
 		}
 	}
-
+	
+	
 }

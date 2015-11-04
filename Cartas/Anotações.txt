@@ -1,2 +1,0 @@
-Talvez seja necessário adicionar o método de 
-buscar o objeto dentro da lista e retornar o index.

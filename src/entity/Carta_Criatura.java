@@ -1,7 +1,10 @@
 package entity;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
+
+import state.inGameStates.CreatureAtaqueState;
+import state.inGameStates.CreatureDefesaState;
+import state.inGameStates.CreatureState;
 
 public class Carta_Criatura extends Carta {
 	// Pontos da Carta
@@ -9,14 +12,15 @@ public class Carta_Criatura extends Carta {
 		private int defesa;
 		private int skill;
 		private int valor_do_modo;
-		private boolean modo; //true-ataque false-defesa
 		private boolean tab_state; //true-on deck false-on tab
+		
+		////////// TAB/Deque State
 		
 	// Carta Mágica Associada
 		private Carta_Magica magica ;
 		
 	// Estado da Carta quanto a ATQ-true ou DEF-false
-		private boolean estado;
+		private CreatureState creatureState;
 		
 	public Carta_Criatura(int ataque, int defesa, int skill,CartaParameters cp) {
 		super(cp);
@@ -25,16 +29,35 @@ public class Carta_Criatura extends Carta {
 		this.defesa = defesa;
 		this.skill = skill;
 		this.magica = null;
-		this.modo = true;
-		this.tab_state = true;
+		this.tab_state = false;
 	}
-	public boolean getModo(){return modo;}
-	private void ChangeModo(){ modo = !modo;}
+	public CreatureState getState(){
+		return creatureState;
+	}
+	public void ChangeState(){
+		if(creatureState != null ){
+			
+			if(creatureState instanceof CreatureAtaqueState){
+				creatureState = new CreatureDefesaState();
+			}else{
+				creatureState = new CreatureAtaqueState();
+			}
+		}
+	}
+	
+	public void setState(CreatureState creatureState){
+		this.creatureState = creatureState;
+	}
+	
 	public boolean gettab_state(){ return tab_state;}
 	public void changeTab_state(){ tab_state = !tab_state;}
 	
 	public int getAtaque() {
-		return ataque;
+		int atq = 0;
+		
+		//atq = this.magica.getEfeito();
+		
+		return atq;
 	}
 
 	public int getDefesa() {
@@ -45,13 +68,6 @@ public class Carta_Criatura extends Carta {
 		return skill;
 	}
 	
-	@Override
-	public void draw(Graphics g) {
-		g.drawImage(imagem, (int)position.x, (int)position.y, width, height, null);
-		if(magica != null){
-			magica.draw(g);
-		}
-	}
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub

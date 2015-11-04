@@ -1,50 +1,65 @@
 package Input;
 
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class Mouse implements MouseListener, MouseMotionListener{
+import entity.Carta;
+import listeners.CartaClickedListener;
+
+public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionListener, MouseAdapter*/{
 	private int x, y;
 	private boolean clicked = false, pressed = false;
+	private Carta carta;
 	
-	public Mouse(){
+	public Mouse(Carta c){
 		this.x = 0;
 		this.y = 0;
+		System.out.println("Construtor");
+		this.carta = c;
 	}
 	
 	public int getX(){return x;}
 	public int getY(){return y;}
 	
-	public boolean update(){return clicked;}
+	public boolean update(){System.out.println("Update"); return clicked;}
 	
 	@Override
-	public void mouseClicked(MouseEvent arg0) {	this.clicked = true;}
+	public void mouseClicked(MouseEvent me) {	
+		System.out.println(me.getX()+ ", "+ me.getY());
+		carta.getCartaClickedListener().CardClicked(carta);
+		this.clicked = true;
+	}
 	
 	public boolean buttonClicked(){
+		System.out.println("click");
 		boolean c = this.clicked;
 		this.clicked = false;
 		return c;
 	}
 	
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		
+	public void mouseEntered(MouseEvent me) {
+		carta.getCartaClickedListener().CardHoover(carta, true);
 		
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {this.pressed = true;}
+	public void mouseExited(MouseEvent me) {
+		carta.getCartaClickedListener().CardHoover(carta, false);
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent me) {
+		System.out.println(me.getX()+ ", "+ me.getY());
+		this.pressed = true;
+	}
 	
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		
+//		cartaClickedListener.CardClicked(carta);
 		this.pressed = false;
 		this.clicked = false;
 	}
@@ -57,6 +72,7 @@ public class Mouse implements MouseListener, MouseMotionListener{
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		System.out.println(this.x+" "+ this.y);
 		this.x = e.getX();
 		this.y = e.getY();
 		

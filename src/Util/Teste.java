@@ -1,6 +1,6 @@
 package Util;
 
-import Deque.Tabuleiro;
+import tabuleiro.Tabuleiro;
 
 public class Teste {
 

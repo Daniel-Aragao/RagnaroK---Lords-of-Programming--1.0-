@@ -1,4 +1,5 @@
 package Util;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
 /**
@@ -14,7 +15,7 @@ import java.util.Vector;
  * @since 2015-09-14
  * @param <T>
  */
-public class Lista_de_Generics<T> {
+public class Lista_de_Generics<T> implements Iterable{
 	private Vector<T> lista;
 	private int qtdElementos;
 	private int capacity;
@@ -200,6 +201,12 @@ public class Lista_de_Generics<T> {
 		
 		
 		return copy;
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		
+		return this.lista.iterator();
 	}
 	
 }

@@ -12,7 +12,7 @@ public class MainFrame {
 	//1024 x 768 (256,192,4)//800x600(800,600,1)
 	
 	private JFrame frame;
-	private Canvas canvas;
+	//private Canvas canvas;
 	
 	private Dimension screenDimension;
 	private int width, height;	
@@ -26,23 +26,25 @@ public class MainFrame {
 
 	private void createFrame() {
 		frame = new JFrame("Ragnarok - Lords of Programming(1.0)");
-		frame.setSize(screenDimension);
+		frame.setPreferredSize(screenDimension);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
+		//frame.setUndecorated(true);
 		frame.setVisible(true);
+		frame.setFocusable(false);
 		
-		canvas = new Canvas();
-		canvas.setPreferredSize(screenDimension);
-		canvas.setMaximumSize(screenDimension);
-		canvas.setMinimumSize(screenDimension);
-		canvas.setFocusable(false);
+//		canvas = new Canvas();
+//		canvas.setPreferredSize(screenDimension);
+//		canvas.setMaximumSize(screenDimension);
+//		canvas.setMinimumSize(screenDimension);
+		//canvas.setFocusable(false);
 		
-		frame.add(canvas);
+//		frame.add(canvas);
 		frame.pack();
 	}
 	
-	public Canvas getCanvas(){ return canvas;}
+	//public Canvas getCanvas(){ return this.canvas;}
 	
 	public JFrame getFrame(){ return this.frame;}
 	

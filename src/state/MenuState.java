@@ -26,12 +26,10 @@ public class MenuState extends State{
 
 	@Override
 	public void draw(Graphics g) {
-		g.drawImage(Importar.getBackground(BackgroundID.InicioBackground), 0, 0, null);
+		
 		
 	}
-	
-	
-	
+
 }
 
 

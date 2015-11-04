@@ -1,0 +1,8 @@
+Talvez seja necessário adicionar o método de 
+buscar o objeto dentro da lista e retornar o index.
+
+setUndecorated(true);
+
+tabuleiro agora é único, cada jogador fica em seu lado, ao mudar de vez, apenas mudará a frame que se abrirá.
+
+LEMBRAR DE VOLTAR A FAZER O PASSO A PASSO, QUAL O PRÓXIMO PASSO VISÍVEL?

@@ -2,53 +2,37 @@ package state;
 
 import java.awt.Graphics;
 
-import entity.Carta;
-import Deque.Jogador;
-import Game.Game;
-import Util.BackgroundID;
-import Util.Importar;
-import Util.Lista_de_Generics;
+import tabuleiro.Tabuleiro;
 
-public class GameState extends State {
+public class GameState extends State{
 
-	Importar importar;
-	Jogador jogadorA;
-	Jogador jogadorB;
 	int Round;
-	Lista_de_Generics<Carta> baralho;
-
-	public GameState() {
-		importar = new Importar();
-		baralho = importar.importAllCards(Game.FILE);
-		importar.importarBackground(Game.BACKGROUND_FILE);
-
+	Tabuleiro tabuleiro; 
+	Graphics g;
+	
+	public GameState(Graphics g) {
+		this.g = g;
+		tabuleiro = new Tabuleiro();
 		Round = 0;
-		
-		criarJogadores();
-		jogadorA.setVez(true);
-		jogadorB.setVez(false);
+
+
+	
 	}
 
-	private void criarJogadores() {
-		//exibir JPanel
-		jogadorA = new Jogador(baralho);
-		//exibir JPanel
-		jogadorB = new Jogador(baralho);
-
-	}
+	
 
 	@Override
 	public void update() {
-
+		tabuleiro.update();
 	}
+
+
 
 	@Override
 	public void draw(Graphics g) {
-		// g.drawImage(image, x, y, imageObserver);
-		g.drawImage(Importar.getBackground(BackgroundID.JogoBackground), 0, 0,
-				null);
-		jogadorA.draw(g);
-		jogadorB.draw(g);
+		tabuleiro.draw(g);
+		
 	}
+
 
 }
