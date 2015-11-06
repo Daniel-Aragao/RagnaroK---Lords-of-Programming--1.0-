@@ -26,6 +26,10 @@ public class Game implements Runnable {
 	
 	MainFrame mFrame;
 	
+	public MainFrame getmFrame() {
+		return mFrame;
+	}
+
 	private BufferStrategy bs;
 	private Graphics g;
 	
@@ -46,8 +50,8 @@ public class Game implements Runnable {
 	
 	public void init() {
 		mFrame = new MainFrame();
-						
-		gameState = new GameState(mFrame.getFrame().getGraphics());
+		mFrame.getFrame().addMouseListener(new Mouse());
+		gameState = new GameState(this,mFrame.getFrame().getGraphics());
 		menuState = new MenuState();
 		State.setState(gameState);
 	}
@@ -63,7 +67,7 @@ public class Game implements Runnable {
 
 			if (fps.FPS_Limitation()) {
 				update();
-				draw();
+				//draw();
 			}
 			fps.FPS_printer();
 			

@@ -1,12 +1,17 @@
 package tabuleiro;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Game.Game;
+import Gráficos.MainFrame;
+import Input.Mouse;
 import Util.BackgroundID;
 import Util.Importar;
 import Util.Lista_de_Generics;
@@ -34,13 +39,17 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 		baralho = Importar.importAllCards(Game.FILE);
 		Importar.importarBackground(Game.BACKGROUND_FILE);
 		background = Importar.getBackground(BackgroundID.JogoBackground);
+		this.setPreferredSize(new Dimension(MainFrame.WIDTH, MainFrame.HEIGHT));
+		this.setVisible(true);
+		
 		
 
 		jogadorA = new Jogador(this, baralho, PlayerPosition.UP_REFERENCE);
 		jogadorB = new Jogador(this, baralho, PlayerPosition.DOWN_REFERENCE);
-		
-		
-		
+//		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		this.add(jogadorA.getJogadorInfo(), BorderLayout.NORTH);
+		this.add(new JLabel("aaaaaaaaqqqqqqqqqqqquuuuuuuuuuuuuuiiiiiiiiiiiii"), BorderLayout.NORTH);
+		this.addMouseListener(new Mouse());
 	}
 	
 	public void draw(Graphics g){

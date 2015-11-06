@@ -28,7 +28,7 @@ public class MainFrame {
 		frame = new JFrame("Ragnarok - Lords of Programming(1.0)");
 		frame.setPreferredSize(screenDimension);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
+		//frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		//frame.setUndecorated(true);
 		frame.setVisible(true);

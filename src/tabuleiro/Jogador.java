@@ -2,6 +2,9 @@ package tabuleiro;
 
 import java.awt.Graphics;
 
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import Util.Lista_de_Generics;
 import Util.Position;
 import entity.Carta;
@@ -23,6 +26,8 @@ public class Jogador implements UpdaterEntity{
 	private int energia;
 	private boolean vez;
 	PlayerPosition playerPosition;
+	
+	private JLabel jogadorInfo;
 	
 	private Position position;
 	
@@ -46,15 +51,27 @@ public class Jogador implements UpdaterEntity{
 	
 	public Jogador(Tabuleiro tabuleiro, Lista_de_Generics<Carta> baralho, PlayerPosition playerposition) {
 		this.setTabuleiro(tabuleiro);
-		nome = "Nome: Daniel";
-		energiaString = "Energia: "+energia;
-		vezString = "Jogando!";
+		
+		do{
+			nome = JOptionPane.showInputDialog("Nome Player "+(playerposition.getValor()+1)+": ");
+			if(nome == null || nome.equals("")){
+				JOptionPane.showMessageDialog(tabuleiro, "Nome inválido");
+			}
+		}while(nome == null || nome.equals(""));
+		
 		this.playerPosition = playerposition;
 		if(this.playerPosition == PlayerPosition.UP_REFERENCE){
+			this.vez = false;
 			this.setPosition(Jogador.UP_REFERENCE);
 		}else{
+			this.vez = true;
 			this.setPosition(Jogador.DOWN_REFERENCE);
 		}
+		
+		///////////////LABEL/////////////////
+		/////////////////////////////////////
+		this.setJogadorInfo(nome, energia, vez);
+		
 		///////////////CARTAS////////////////
 		/////////////////////////////////////
 		
@@ -74,6 +91,29 @@ public class Jogador implements UpdaterEntity{
 		/////////////////////////////////////
 
 	}
+	
+	public void setJogadorInfo(String name, int energia, boolean vez){
+		if(jogadorInfo == null){
+			if(vez){
+				this.jogadorInfo = new JLabel("Nome: "+this.nome+" Energia: "+energia+" Vez: Jogando!");
+			}else{
+				System.out.printf("\n\n\n\n\n\n\n5\n\n\n\n\n\n\n\n\n\n\n\n\n");
+				this.jogadorInfo = new JLabel("Nome: "+this.nome+" Energia: "+energia+" Vez: Aguardando");
+			}
+		}else{
+			if(vez){
+				this.jogadorInfo.setText("Nome: "+this.nome+" Energia: "+energia+" Vez: Jogando!");
+			}else{
+				this.jogadorInfo.setText("Nome: "+this.nome+" Energia: "+energia+" Vez: Aguardando");
+			}
+		}
+	}
+	public JLabel getJogadorInfo(){
+		return this.jogadorInfo;
+	}
+	public void setJogadorVezLabel(boolean vez){
+		this.setJogadorInfo(nome, energia, vez);
+	}
 
 	public void setVez(boolean vez) {
 		this.vez = vez;
@@ -83,6 +123,7 @@ public class Jogador implements UpdaterEntity{
 		}else{
 			this.vezString = "Aguardando.";
 		}
+		setJogadorVezLabel(vez);
 	}
 
 	public boolean getVez() {return this.vez;}
@@ -120,6 +161,7 @@ public class Jogador implements UpdaterEntity{
 	}
 	
 	public void draw(Graphics g){
+		
 		drawField(g);
 	}
 	public void drawCemiterio(Graphics g){

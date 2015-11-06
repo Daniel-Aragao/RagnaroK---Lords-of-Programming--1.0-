@@ -19,6 +19,11 @@ public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionLi
 		System.out.println("Construtor");
 		this.carta = c;
 	}
+	public Mouse(){
+		this.x = 0;
+		this.y = 0;
+		System.out.println("Construtor");
+	}
 	
 	public int getX(){return x;}
 	public int getY(){return y;}
@@ -28,7 +33,10 @@ public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionLi
 	@Override
 	public void mouseClicked(MouseEvent me) {	
 		System.out.println(me.getX()+ ", "+ me.getY());
+		
+		if(carta!=null)
 		carta.getCartaClickedListener().CardClicked(carta);
+		
 		this.clicked = true;
 	}
 	
@@ -41,12 +49,14 @@ public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionLi
 	
 	@Override
 	public void mouseEntered(MouseEvent me) {
+		if(carta!=null)
 		carta.getCartaClickedListener().CardHoover(carta, true);
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent me) {
+		if(carta!=null)
 		carta.getCartaClickedListener().CardHoover(carta, false);
 		
 	}

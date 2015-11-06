@@ -1,8 +1,11 @@
 package state;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 
 import tabuleiro.Tabuleiro;
+import Game.Game;
+import Input.Mouse;
 
 public class GameState extends State{
 
@@ -10,11 +13,10 @@ public class GameState extends State{
 	Tabuleiro tabuleiro; 
 	Graphics g;
 	
-	public GameState(Graphics g) {
-		this.g = g;
+	public GameState(Game game, Graphics g) {
 		tabuleiro = new Tabuleiro();
 		Round = 0;
-
+		game.getmFrame().getFrame().add(tabuleiro, BorderLayout.CENTER);
 
 	
 	}
