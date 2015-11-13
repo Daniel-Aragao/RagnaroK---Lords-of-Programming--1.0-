@@ -39,17 +39,20 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 		baralho = Importar.importAllCards(Game.FILE);
 		Importar.importarBackground(Game.BACKGROUND_FILE);
 		background = Importar.getBackground(BackgroundID.JogoBackground);
-		this.setPreferredSize(new Dimension(MainFrame.WIDTH, MainFrame.HEIGHT));
+		this.setBackground(Color.black);
+		this.setPreferredSize(new Dimension(MainFrame.WIDTH*MainFrame.SCALE, MainFrame.WIDTH*MainFrame.SCALE));
+		//System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		//System.out.println(MainFrame.WIDTH+" "+MainFrame.WIDTH);
 		this.setVisible(true);
 		
-		
+
+		add(new JLabel("aaaaaaaaqqqqqqqqqqqquuuuuuuuuuuuuuiiiiiiiiiiiii"), BorderLayout.CENTER);
 
 		jogadorA = new Jogador(this, baralho, PlayerPosition.UP_REFERENCE);
 		jogadorB = new Jogador(this, baralho, PlayerPosition.DOWN_REFERENCE);
-//		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 		this.add(jogadorA.getJogadorInfo(), BorderLayout.NORTH);
 		this.add(new JLabel("aaaaaaaaqqqqqqqqqqqquuuuuuuuuuuuuuiiiiiiiiiiiii"), BorderLayout.NORTH);
-		this.addMouseListener(new Mouse());
+		//this.addMouseListener(new Mouse());
 	}
 	
 	public void draw(Graphics g){

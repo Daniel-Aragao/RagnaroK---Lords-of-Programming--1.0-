@@ -24,9 +24,9 @@ public class Game implements Runnable {
 	private boolean gameLoop = false;
 	private Thread tGame = null;
 	
-	MainFrame mFrame;
+	private MainFrame mFrame;
 	
-	public MainFrame getmFrame() {
+	public MainFrame getFrame() {
 		return mFrame;
 	}
 
@@ -50,7 +50,7 @@ public class Game implements Runnable {
 	
 	public void init() {
 		mFrame = new MainFrame();
-		mFrame.getFrame().addMouseListener(new Mouse());
+		//mFrame.getFrame().addMouseListener(new Mouse());
 		gameState = new GameState(this,mFrame.getFrame().getGraphics());
 		menuState = new MenuState();
 		State.setState(gameState);
@@ -67,7 +67,7 @@ public class Game implements Runnable {
 
 			if (fps.FPS_Limitation()) {
 				update();
-				//draw();
+				draw();
 			}
 			fps.FPS_printer();
 			

@@ -3,6 +3,9 @@ package state;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 import tabuleiro.Tabuleiro;
 import Game.Game;
 import Input.Mouse;
@@ -12,11 +15,15 @@ public class GameState extends State{
 	int Round;
 	Tabuleiro tabuleiro; 
 	Graphics g;
+	JFrame mFrame;
 	
 	public GameState(Game game, Graphics g) {
 		tabuleiro = new Tabuleiro();
 		Round = 0;
-		game.getmFrame().getFrame().add(tabuleiro, BorderLayout.CENTER);
+		mFrame = game.getFrame().getFrame();
+		
+		mFrame.addMouseListener(new Mouse());
+		mFrame.add(tabuleiro, BorderLayout.CENTER);
 
 	
 	}

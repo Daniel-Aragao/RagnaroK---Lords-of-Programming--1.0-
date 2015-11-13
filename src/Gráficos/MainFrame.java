@@ -14,7 +14,7 @@ public class MainFrame {
 	private JFrame frame;
 	//private Canvas canvas;
 	
-	private Dimension screenDimension;
+	public Dimension screenDimension;
 	private int width, height;	
 	
 	public MainFrame(){

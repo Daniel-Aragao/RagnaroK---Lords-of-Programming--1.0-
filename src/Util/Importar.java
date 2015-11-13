@@ -78,14 +78,23 @@ public class Importar {
 		switch (tipo) {
 		case MAGICA:
 			cp = new CartaParameters(Tipo_Carta.MAGICA);
+			cp.descricao = descrição;
+			cp.nome = nome;
+			cp.imagem = imagem;
 			a = new Carta_Magica(cp);
 			break;
 		case ED:
 			cp = new CartaParameters(Tipo_Carta.ED);
+			cp.descricao = descrição;
+			cp.nome = nome;
+			cp.imagem = imagem;
 			a = new Carta_Especial(cp);
 			break;
 		case OO:
 			cp = new CartaParameters(Tipo_Carta.OO);
+			cp.descricao = descrição;
+			cp.nome = nome;
+			cp.imagem = imagem;
 			a = new Carta_Especial(cp);
 		}
 		try {
@@ -140,6 +149,9 @@ public class Importar {
 			// return false;
 		}
 		CartaParameters cp = new CartaParameters(Tipo_Carta.CRIATURA);
+		cp.nome = nome;
+		cp.descricao = descrição;
+		cp.imagem = imagem;
 		Carta_Criatura a = new Carta_Criatura(ataque, defesa, skill, cp);
 		// debug avançado
 		System.out.println(a.getNome());
@@ -206,6 +218,7 @@ public class Importar {
 							+ cartas.getElemento(i).getNome() + " Importada!");
 
 				}
+				System.out.println();
 			}
 
 		} catch (Exception e) {
@@ -220,6 +233,7 @@ public class Importar {
 		}
 		System.out
 				.println("QTD CARTAS IMPORTADAS: " + cartas.getQtdElementos());
+		System.out.println();
 		return cartas;
 	}
 
