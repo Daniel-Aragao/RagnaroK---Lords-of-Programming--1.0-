@@ -16,23 +16,28 @@ public class GameState extends State{
 	Tabuleiro tabuleiro; 
 	Graphics g;
 	JFrame mFrame;
+	Game game;
 	
-	public GameState(Game game, Graphics g) {
-		tabuleiro = new Tabuleiro();
+	public GameState(Game game) {
+		this.game = game;
 		Round = 0;
 		mFrame = game.getFrame().getFrame();
+		mFrame.add(new JLabel("11111111111111111111111111111111111111111"), BorderLayout.SOUTH);
 		
 		mFrame.addMouseListener(new Mouse());
-		mFrame.add(tabuleiro, BorderLayout.CENTER);
+		
+		tabuleiro = new Tabuleiro();
+//		mFrame.add(tabuleiro, BorderLayout.CENTER);
 
 	
+		System.out.println("reach game state constructor last line");
 	}
 
 	
 
 	@Override
 	public void update() {
-		tabuleiro.update();
+		//tabuleiro.update();
 	}
 
 
@@ -40,6 +45,14 @@ public class GameState extends State{
 	@Override
 	public void draw(Graphics g) {
 		tabuleiro.draw(g);
+		
+	}
+
+
+
+	@Override
+	public void repaintComponents() {
+		tabuleiro.repaint();
 		
 	}
 

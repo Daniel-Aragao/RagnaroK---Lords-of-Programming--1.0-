@@ -1,51 +1,54 @@
 package Gráficos;
 
-import java.awt.Canvas;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class MainFrame {
+	///////////////////////////////////  DIMENSION  //////////////////////////////////////////
 	public static final int WIDTH = 256;
 	public static final int HEIGHT = 192;
 	public static final int SCALE = 4;
+	public static final Dimension MainDimension = 
+			new Dimension(MainFrame.WIDTH*MainFrame.SCALE, MainFrame.WIDTH*MainFrame.SCALE); 
 	//1024 x 768 (256,192,4)//800x600(800,600,1)
+	////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	private JFrame frame;
-	//private Canvas canvas;
 	
-	public Dimension screenDimension;
-	private int width, height;	
+	private Dimension screenDimension;
 	
 	public MainFrame(){
-		this.screenDimension = new Dimension(WIDTH*SCALE,HEIGHT*SCALE);
-		this.width = screenDimension.width;
-		this.height = screenDimension.height;
+		this.screenDimension = MainDimension;
 		createFrame();
 	}
 
 	private void createFrame() {
 		frame = new JFrame("Ragnarok - Lords of Programming(1.0)");
+		frame.setName("Principal");
 		frame.setPreferredSize(screenDimension);
+		frame.setSize(screenDimension);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		//frame.setUndecorated(true);
-		frame.setVisible(true);
 		frame.setFocusable(false);
 		
-//		canvas = new Canvas();
-//		canvas.setPreferredSize(screenDimension);
-//		canvas.setMaximumSize(screenDimension);
-//		canvas.setMinimumSize(screenDimension);
-		//canvas.setFocusable(false);
 		
-//		frame.add(canvas);
+		frame.setBackground(Color.black);
 		frame.pack();
+		frame.setVisible(true);
+		
+		frame.add(new JLabel("000000000000000000000000000000000000000000000"));
 	}
 	
-	//public Canvas getCanvas(){ return this.canvas;}
+//	public Canvas getCanvas(){ return this.canvas;}
 	
 	public JFrame getFrame(){ return this.frame;}
+	
 	
 }

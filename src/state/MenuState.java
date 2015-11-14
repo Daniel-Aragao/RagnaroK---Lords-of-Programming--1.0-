@@ -30,6 +30,12 @@ public class MenuState extends State{
 		
 	}
 
+	@Override
+	public void repaintComponents() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 
 

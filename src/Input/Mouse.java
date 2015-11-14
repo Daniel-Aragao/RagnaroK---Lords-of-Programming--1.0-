@@ -16,13 +16,13 @@ public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionLi
 	public Mouse(Carta c){
 		this.x = 0;
 		this.y = 0;
-		System.out.println("Construtor");
+		System.out.println("Mouse Constructor");
 		this.carta = c;
 	}
 	public Mouse(){
 		this.x = 0;
 		this.y = 0;
-		System.out.println("Construtor");
+		System.out.println("Mouse Constructor");
 	}
 	
 	public int getX(){return x;}

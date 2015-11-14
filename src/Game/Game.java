@@ -1,8 +1,11 @@
 package Game;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.File;
+
+import javax.swing.JLabel;
 
 import entity.Carta;
 import state.GameState;
@@ -50,8 +53,8 @@ public class Game implements Runnable {
 	
 	public void init() {
 		mFrame = new MainFrame();
-		//mFrame.getFrame().addMouseListener(new Mouse());
-		gameState = new GameState(this,mFrame.getFrame().getGraphics());
+		mFrame.getFrame().add(new JLabel("22222222222222222222222222222222222222222222222"), BorderLayout.NORTH);
+		gameState = new GameState(this);
 		menuState = new MenuState();
 		State.setState(gameState);
 	}
@@ -67,7 +70,8 @@ public class Game implements Runnable {
 
 			if (fps.FPS_Limitation()) {
 				update();
-				draw();
+				//draw();
+				//repaint();
 			}
 			fps.FPS_printer();
 			
@@ -75,6 +79,13 @@ public class Game implements Runnable {
 
 		stop();
 	}
+
+	private void repaint() {
+		if(State.getState()!=null){
+			State.getState().repaintComponents();
+		}
+	}
+
 
 	private void update() {
 		
@@ -89,10 +100,9 @@ public class Game implements Runnable {
 			mFrame.getFrame().createBufferStrategy(3);
 			return;
 		}
-		
 		g = bs.getDrawGraphics();
 		//Clear Screen
-		g.clearRect(0, 0, width, height);
+		//g.clearRect(0, 0, width, height);
 		//Draw
 		
 		if(State.getState()!=null){
@@ -101,7 +111,8 @@ public class Game implements Runnable {
 		
 		//End Drawing
 		bs.show();
-		g.dispose();		
+		g.dispose();
+		
 	}
 	
 	public void start() {

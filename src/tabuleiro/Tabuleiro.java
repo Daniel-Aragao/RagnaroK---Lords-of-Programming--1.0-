@@ -2,10 +2,12 @@ package tabuleiro;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -36,23 +38,24 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 	private Lista_de_Generics<Carta> baralho;
 	
 	public Tabuleiro() {
+		////////////////////IMPORTAR/////////////////////////////////////
 		baralho = Importar.importAllCards(Game.FILE);
 		Importar.importarBackground(Game.BACKGROUND_FILE);
 		background = Importar.getBackground(BackgroundID.JogoBackground);
-		this.setBackground(Color.black);
-		this.setPreferredSize(new Dimension(MainFrame.WIDTH*MainFrame.SCALE, MainFrame.WIDTH*MainFrame.SCALE));
-		//System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-		//System.out.println(MainFrame.WIDTH+" "+MainFrame.WIDTH);
-		this.setVisible(true);
+		/////////////////////////////////////////////////////////////////
 		
-
-		add(new JLabel("aaaaaaaaqqqqqqqqqqqquuuuuuuuuuuuuuiiiiiiiiiiiii"), BorderLayout.CENTER);
+//		this.setBackground(Color.black);
+		this.setPreferredSize(MainFrame.MainDimension);
+		this.setMinimumSize(MainFrame.MainDimension);
+		this.setMaximumSize(MainFrame.MainDimension);
 
 		jogadorA = new Jogador(this, baralho, PlayerPosition.UP_REFERENCE);
 		jogadorB = new Jogador(this, baralho, PlayerPosition.DOWN_REFERENCE);
-		this.add(jogadorA.getJogadorInfo(), BorderLayout.NORTH);
-		this.add(new JLabel("aaaaaaaaqqqqqqqqqqqquuuuuuuuuuuuuuiiiiiiiiiiiii"), BorderLayout.NORTH);
-		//this.addMouseListener(new Mouse());
+//		this.add(jogadorA.getJogadorInfo(), BorderLayout.NORTH);
+//		this.add(new JLabel("33333333333333333333333333333333333333333333333"), BorderLayout.NORTH);
+//		this.addMouseListener(new Mouse());
+		
+		this.setVisible(true);
 	}
 	
 	public void draw(Graphics g){
@@ -75,6 +78,13 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 		g.setColor(Color.black);
 		////////////////////////////////////////////////////////
 	}
+	public void repaint(){
+		for(Component i: this.getComponents()){
+			//System.out.println(i.toString());
+			i.validate();
+			i.repaint();
+		}
+	}
 
 //	public boolean repetida(Carta_Especial c) {
 //		for (int i = 0; i < Registro_Especiais.getQtdElementos(); i++) {
@@ -91,7 +101,8 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 	
 
 	public void update() {
-		
+		jogadorA.update();
+		jogadorB.update();
 		
 	}
 	

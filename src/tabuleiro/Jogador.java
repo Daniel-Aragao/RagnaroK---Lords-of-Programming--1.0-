@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import Util.Lista_de_Generics;
 import Util.Position;
@@ -53,11 +54,16 @@ public class Jogador implements UpdaterEntity{
 		this.setTabuleiro(tabuleiro);
 		
 		do{
-			nome = JOptionPane.showInputDialog("Nome Player "+(playerposition.getValor()+1)+": ");
-			if(nome == null || nome.equals("")){
-				JOptionPane.showMessageDialog(tabuleiro, "Nome inválido");
+			nome = JOptionPane.showInputDialog("Nome Player "+(playerposition.getValor())+": ");
+			System.out.println(nome);
+			if(nome == null || nome.equals("") || nome.startsWith(" ")){
+				if(nome == null){
+					nome = "Player "+playerposition.getValor();
+				}else{
+					JOptionPane.showMessageDialog(tabuleiro, "Nome inválido");
+				}	
 			}
-		}while(nome == null || nome.equals(""));
+		}while(nome == null || nome.equals("") || nome.startsWith(" "));
 		
 		this.playerPosition = playerposition;
 		if(this.playerPosition == PlayerPosition.UP_REFERENCE){

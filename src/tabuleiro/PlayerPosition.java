@@ -1,8 +1,8 @@
 package tabuleiro;
 
 public enum PlayerPosition {
-	UP_REFERENCE(0),
-	DOWN_REFERENCE(1);
+	UP_REFERENCE(1),
+	DOWN_REFERENCE(2);
 	
 	private final int valor;
 	
