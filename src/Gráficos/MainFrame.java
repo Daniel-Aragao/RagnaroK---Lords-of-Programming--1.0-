@@ -33,7 +33,7 @@ public class MainFrame {
 		frame.setPreferredSize(screenDimension);
 		frame.setSize(screenDimension);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.setLocationRelativeTo(null);
+		frame.setLocationRelativeTo(frame.getRootPane());
 		frame.setResizable(false);
 		//frame.setUndecorated(true);
 		frame.setFocusable(false);
@@ -43,7 +43,7 @@ public class MainFrame {
 		frame.pack();
 		frame.setVisible(true);
 		
-		frame.add(new JLabel("000000000000000000000000000000000000000000000"));
+		//frame.add(new JLabel("000000000000000000000000000000000000000000000"));
 	}
 	
 //	public Canvas getCanvas(){ return this.canvas;}

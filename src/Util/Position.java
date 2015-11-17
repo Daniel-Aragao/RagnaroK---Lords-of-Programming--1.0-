@@ -6,9 +6,9 @@ public class Position {
 	public Position(){
 		
 	}
-	public Position(float f, float y2){
-		this.x = f;
-		this.y = y2;
+	public Position(float x, float y){
+		this.x = x;
+		this.y = y;
 	}
 	
 }

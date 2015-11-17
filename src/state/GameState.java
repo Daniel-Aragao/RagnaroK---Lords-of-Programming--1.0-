@@ -1,6 +1,7 @@
 package state;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Graphics;
 
 import javax.swing.JFrame;
@@ -22,12 +23,12 @@ public class GameState extends State{
 		this.game = game;
 		Round = 0;
 		mFrame = game.getFrame().getFrame();
-		mFrame.add(new JLabel("11111111111111111111111111111111111111111"), BorderLayout.SOUTH);
+//		mFrame.add(new JLabel("11111111111111111111111111111111111111111"), BorderLayout.SOUTH);
 		
 		mFrame.addMouseListener(new Mouse());
 		
 		tabuleiro = new Tabuleiro();
-//		mFrame.add(tabuleiro, BorderLayout.CENTER);
+		mFrame.add(tabuleiro, BorderLayout.NORTH);
 
 	
 		System.out.println("reach game state constructor last line");
@@ -52,8 +53,12 @@ public class GameState extends State{
 
 	@Override
 	public void repaintComponents() {
-		tabuleiro.repaint();
-		
+//		tabuleiro.repaint();
+		for(Component i: mFrame.getComponents()){
+//			System.out.println(i.toString());
+			i.validate();
+			i.repaint();
+		}
 	}
 
 

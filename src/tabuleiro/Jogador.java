@@ -15,8 +15,8 @@ import entity.Carta_Magica;
 
 @SuppressWarnings("serial")
 public class Jogador implements UpdaterEntity{
-	public static final Position UP_LABEL = new Position(100, 20);
-	public static final Position DOWN_LABEL = new Position(100, 740);
+	public static final Position UP_LABEL = new Position(100, 40);
+	public static final Position DOWN_LABEL = new Position(100, 720);
 	public static final Position UP_REFERENCE = new Position(0,68+17);
 	public static final Position DOWN_REFERENCE = new Position(0,400+17);
 	public static final int ESPACAMENTO = 80;
@@ -50,33 +50,18 @@ public class Jogador implements UpdaterEntity{
 
 	private Tabuleiro tabuleiro;
 	
-	public Jogador(Tabuleiro tabuleiro, Lista_de_Generics<Carta> baralho, PlayerPosition playerposition) {
+	public Jogador(Tabuleiro tabuleiro, Lista_de_Generics<Carta> baralho, PlayerPosition playerPosition) {
 		this.setTabuleiro(tabuleiro);
 		
-		do{
-			nome = JOptionPane.showInputDialog("Nome Player "+(playerposition.getValor())+": ");
-			System.out.println(nome);
-			if(nome == null || nome.equals("") || nome.startsWith(" ")){
-				if(nome == null){
-					nome = "Player "+playerposition.getValor();
-				}else{
-					JOptionPane.showMessageDialog(tabuleiro, "Nome inválido");
-				}	
-			}
-		}while(nome == null || nome.equals("") || nome.startsWith(" "));
+		//panel.setBackground(new Color(213, 134, 145, 123)); transluscent color
 		
-		this.playerPosition = playerposition;
-		if(this.playerPosition == PlayerPosition.UP_REFERENCE){
-			this.vez = false;
-			this.setPosition(Jogador.UP_REFERENCE);
-		}else{
-			this.vez = true;
-			this.setPosition(Jogador.DOWN_REFERENCE);
-		}
+		this.playerPosition = playerPosition;
+		popUpPlayerInfoCaller();
 		
 		///////////////LABEL/////////////////
 		/////////////////////////////////////
 		this.setJogadorInfo(nome, energia, vez);
+		
 		
 		///////////////CARTAS////////////////
 		/////////////////////////////////////
@@ -98,14 +83,41 @@ public class Jogador implements UpdaterEntity{
 
 	}
 	
+	public void popUpPlayerInfoCaller(){
+		do{
+			nome = JOptionPane.showInputDialog("Nome Player "+(this.playerPosition.getValor())+": ");
+			System.out.println(nome);
+			if(nome == null || nome.equals("") || nome.startsWith(" ")){
+				if(nome == null){
+					nome = "Player "+this.playerPosition.getValor();
+				}else{
+					JOptionPane.showMessageDialog(tabuleiro, "Nome inválido");
+				}	
+			}
+		}while(nome == null || nome.equals("") || nome.startsWith(" "));
+		
+		if(this.playerPosition == PlayerPosition.UP_REFERENCE){
+			this.vez = false;
+			this.setPosition(Jogador.UP_REFERENCE);
+		}else{
+			this.vez = true;
+			this.setPosition(Jogador.DOWN_REFERENCE);
+		}
+	}
+	
 	public void setJogadorInfo(String name, int energia, boolean vez){
 		if(jogadorInfo == null){
 			if(vez){
 				this.jogadorInfo = new JLabel("Nome: "+this.nome+" Energia: "+energia+" Vez: Jogando!");
 			}else{
-				System.out.printf("\n\n\n\n\n\n\n5\n\n\n\n\n\n\n\n\n\n\n\n\n");
 				this.jogadorInfo = new JLabel("Nome: "+this.nome+" Energia: "+energia+" Vez: Aguardando");
 			}
+			Position[]aux = new Position[2];
+			aux[0]=UP_LABEL;
+			aux[1]=DOWN_LABEL;
+			jogadorInfo.setBounds((int)aux[this.playerPosition.getValor()-1].x, (int)aux[this.playerPosition.getValor()-1].y,100,20);
+			
+			tabuleiro.add(jogadorInfo);
 		}else{
 			if(vez){
 				this.jogadorInfo.setText("Nome: "+this.nome+" Energia: "+energia+" Vez: Jogando!");
@@ -114,6 +126,7 @@ public class Jogador implements UpdaterEntity{
 			}
 		}
 	}
+
 	public JLabel getJogadorInfo(){
 		return this.jogadorInfo;
 	}
@@ -168,7 +181,7 @@ public class Jogador implements UpdaterEntity{
 	
 	public void draw(Graphics g){
 		
-		drawField(g);
+		//drawField(g);
 	}
 	public void drawCemiterio(Graphics g){
 		if(!cemiterio.isEmpty()){

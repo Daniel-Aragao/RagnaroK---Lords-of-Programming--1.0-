@@ -5,7 +5,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -44,10 +46,10 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 		background = Importar.getBackground(BackgroundID.JogoBackground);
 		/////////////////////////////////////////////////////////////////
 		
-//		this.setBackground(Color.black);
 		this.setPreferredSize(MainFrame.MainDimension);
 		this.setMinimumSize(MainFrame.MainDimension);
 		this.setMaximumSize(MainFrame.MainDimension);
+		this.setLayout(null);
 
 		jogadorA = new Jogador(this, baralho, PlayerPosition.UP_REFERENCE);
 		jogadorB = new Jogador(this, baralho, PlayerPosition.DOWN_REFERENCE);
@@ -55,15 +57,16 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 //		this.add(new JLabel("33333333333333333333333333333333333333333333333"), BorderLayout.NORTH);
 //		this.addMouseListener(new Mouse());
 		
+		
 		this.setVisible(true);
 	}
-	
-	public void draw(Graphics g){
-		this.getComponentGraphics(g);
-		g.drawImage(background, 0, 0, null);
-		jogadorA.draw(g);
-		jogadorB.draw(g);
-		
+	@Override
+	public void paintComponent(final Graphics g){
+		super.paintComponent(g);
+		 Graphics gr = g.create();  
+		 gr.drawImage(background,0,0,null);
+		 
+//		g.drawImage(background, 0, 0, null);
 		///////////////////////LINE MAKER///////////////////////
 		g.setColor(Color.pink);
 		
@@ -77,10 +80,23 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 		
 		g.setColor(Color.black);
 		////////////////////////////////////////////////////////
+		gr.dispose();
+//		g.dispose();
+	}
+	
+	public void draw(Graphics g){
+//		this.getComponentGraphics(g);
+		
+		//g.drawImage(background, 0, 0, null);
+		jogadorA.draw(g);
+		jogadorB.draw(g);
+		
+		
+		
 	}
 	public void repaint(){
 		for(Component i: this.getComponents()){
-			//System.out.println(i.toString());
+			//System.out.println(i.toString());			
 			i.validate();
 			i.repaint();
 		}

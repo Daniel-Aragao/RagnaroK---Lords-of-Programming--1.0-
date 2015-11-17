@@ -53,7 +53,7 @@ public class Game implements Runnable {
 	
 	public void init() {
 		mFrame = new MainFrame();
-		mFrame.getFrame().add(new JLabel("22222222222222222222222222222222222222222222222"), BorderLayout.NORTH);
+//		mFrame.getFrame().add(new JLabel("22222222222222222222222222222222222222222222222"), BorderLayout.NORTH);
 		gameState = new GameState(this);
 		menuState = new MenuState();
 		State.setState(gameState);
@@ -70,8 +70,8 @@ public class Game implements Runnable {
 
 			if (fps.FPS_Limitation()) {
 				update();
-				//draw();
-				//repaint();
+				draw();
+				repaint();
 			}
 			fps.FPS_printer();
 			
