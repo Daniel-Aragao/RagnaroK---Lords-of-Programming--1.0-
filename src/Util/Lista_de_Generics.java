@@ -2,6 +2,8 @@ package Util;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
+
+import entity.Carta_Criatura;
 /**
  * <h1>Generic List</h1>
  * receives a generic Object type and makes a list of it
@@ -132,6 +134,26 @@ public class Lista_de_Generics<T> implements Iterable{
 
 	}
 
+	public T remover(T e) throws RuntimeException {
+		if (isEmpty()) {
+			throw new RuntimeException("is Empty");
+		} else {
+			
+			T aux = lista.get(0);
+			for (int i = 1; i < getQtdElementos(); i++) {
+				if(aux == e){
+					return aux;
+				}
+				aux = lista.get(i);
+			}
+			setQtdElementos(getQtdElementos() - 1);
+			
+			return aux;
+			
+		}
+
+	}
+	
 	public void embaralhar() throws RuntimeException {
 		if (isEmpty()) {
 			throw new RuntimeException("is Empty");
@@ -208,6 +230,16 @@ public class Lista_de_Generics<T> implements Iterable{
 		
 		return this.lista.iterator();
 	}
+
+	public int getIndex(T c) {
+		if (isEmpty()) {
+			throw new RuntimeException("is Empty");
+		} else {
+			return lista.indexOf(c);
+			
+		}
+	}
+
 	
 }
 

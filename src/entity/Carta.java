@@ -15,7 +15,7 @@ public abstract class Carta extends Entity {
 	public static final int DEFAULT_CARTA_WIDTH = 100,
 							DEFAULT_CARTA_HEIGHT = 130;
 	
-	public int fantasy_CARTA_WIDTH = DEFAULT_CARTA_WIDTH,fantasy_CARTA_HEIGHT=DEFAULT_CARTA_HEIGHT;
+	public int fantasy_CARTA_WIDTH = DEFAULT_CARTA_WIDTH,fantasy_CARTA_HEIGHT = DEFAULT_CARTA_HEIGHT;
 	
 	
 	// Imagem da Carta
@@ -49,7 +49,7 @@ public abstract class Carta extends Entity {
 	// / Chamar o método da classe Importar.importarCarta(Carta,File); para
 	// inicializar o objeto
 	public Carta(CartaParameters cp) {
-		super(DEFAULT_CARTA_WIDTH,DEFAULT_CARTA_HEIGHT);
+		super(DEFAULT_CARTA_WIDTH, DEFAULT_CARTA_HEIGHT);
 		this.nome = cp.nome;
 		this.descricao = cp.descricao;
 		this.tipo = cp.tipo;

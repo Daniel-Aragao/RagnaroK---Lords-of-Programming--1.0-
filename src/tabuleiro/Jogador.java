@@ -21,9 +21,10 @@ public class Jogador implements UpdaterEntity{
 	public static final Position UP_REFERENCE = new Position(0,68+17);
 	public static final Position DOWN_REFERENCE = new Position(0,400+17);
 	public static final int ESPACAMENTO = 80;
+	
+	public static final int ENERGIA_INICIAL = 150;
 
 	private String nome;
-	private String energiaString;
 	private String vezString;
 	private int energia;
 	private boolean vez;
@@ -55,7 +56,16 @@ public class Jogador implements UpdaterEntity{
 		
 		//panel.setBackground(new Color(213, 134, 145, 123)); transluscent color
 		
+		this.energia = Jogador.ENERGIA_INICIAL;
+		
 		this.playerPosition = playerPosition;
+		
+		if(playerPosition.getValor()==1){
+			position = Jogador.UP_REFERENCE;
+		}else{
+			position = Jogador.DOWN_REFERENCE;
+		}
+		
 		popUpPlayerInfoCaller();
 		
 		///////////////LABEL/////////////////
@@ -81,33 +91,32 @@ public class Jogador implements UpdaterEntity{
 		/////////////////////////////////////
 		/////////////////////////////////////
 		if(this.playerPosition.getValor() ==1){
-			baralho.getElemento(0).setBounds(50, 20,Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
-			baralho.getElemento(0).addCartaClickedListener(new CartaClickedListener(){
-
-				@Override
-				public void CardClicked(Carta c) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void CardHoover(Carta c, boolean b) {
-					if(b){
-						baralho.getElemento(0).setSize(Carta.DEFAULT_CARTA_WIDTH+10, Carta.DEFAULT_CARTA_HEIGHT+10);
-						baralho.getElemento(0).fantasy_CARTA_WIDTH+=10;
-						baralho.getElemento(0).fantasy_CARTA_HEIGHT+=10;
-					}else{
-						baralho.getElemento(0).setSize(Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
-						baralho.getElemento(0).fantasy_CARTA_WIDTH-=10;
-						baralho.getElemento(0).fantasy_CARTA_HEIGHT-=10;
-						
-					}
-				}
-				
-			});
-			tabuleiro.add(baralho.getElemento(0));
+//			baralho.getElemento(0).setBounds((int)Jogador.UP_REFERENCE.x, (int)Jogador.UP_REFERENCE.y,Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
+//			baralho.getElemento(0).addCartaClickedListener(cartaClickedHandler());
+//			tabuleiro.add(baralho.getElemento(0));
+			addCriaturaNoCampo((Carta_Criatura) baralho.getElemento(0));
 		}
 
+	}
+	
+	
+
+	public void addCriaturaNoCampo(Carta_Criatura c){
+		Carta_Criatura aux = (Carta_Criatura)baralho.remover(c);
+		
+		aux.setBounds((Jogador.ESPACAMENTO*(field.getIndex(c)+1))+Jogador.ESPACAMENTO, 
+				(int) this.position.y, 
+				Carta.DEFAULT_CARTA_WIDTH, 
+				Carta.DEFAULT_CARTA_HEIGHT);
+		
+		aux.addCartaClickedListener(cartaClickedHandler());
+		
+		field.addFim(aux);
+		tabuleiro.add(aux);
+	}
+	public Carta_Criatura removeCriaturaDoCampo(Carta_Criatura c){
+		tabuleiro.remove(c);
+		return field.remover(c);
 	}
 	
 	public void popUpPlayerInfoCaller(){
@@ -122,6 +131,7 @@ public class Jogador implements UpdaterEntity{
 				}	
 			}
 		}while(nome == null || nome.equals("") || nome.startsWith(" "));
+		
 		
 		if(this.playerPosition == PlayerPosition.UP_REFERENCE){
 			this.vez = false;
@@ -142,7 +152,7 @@ public class Jogador implements UpdaterEntity{
 			Position[]aux = new Position[2];
 			aux[0]=UP_LABEL;
 			aux[1]=DOWN_LABEL;
-			jogadorInfo.setBounds((int)aux[this.playerPosition.getValor()-1].x, (int)aux[this.playerPosition.getValor()-1].y,100,20);
+			jogadorInfo.setBounds((int)aux[this.playerPosition.getValor()-1].x, (int)aux[this.playerPosition.getValor()-1].y,500,20);
 			
 			tabuleiro.add(jogadorInfo);
 		}else{
@@ -188,7 +198,6 @@ public class Jogador implements UpdaterEntity{
 
 	public void setEnergia(int energia) {
 		this.energia = energia;
-		energiaString = "Energia: " + energia;
 	}
 
 
@@ -315,5 +324,34 @@ public class Jogador implements UpdaterEntity{
 
 	public void setTabuleiro(Tabuleiro tabuleiro) {
 		this.tabuleiro = tabuleiro;
+	}
+	
+	private CartaClickedListener cartaClickedHandler() {
+		CartaClickedListener handler = new CartaClickedListener(){
+
+			@Override
+			public void CardClicked(Carta c) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void CardHoover(Carta c, boolean b) {
+				int acr = 10;
+				if(b){
+					baralho.getElemento(0).setSize(Carta.DEFAULT_CARTA_WIDTH+acr, Carta.DEFAULT_CARTA_HEIGHT+acr);
+					baralho.getElemento(0).fantasy_CARTA_WIDTH+=acr;
+					baralho.getElemento(0).fantasy_CARTA_HEIGHT+=acr;
+				}else{
+					baralho.getElemento(0).setSize(Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
+					baralho.getElemento(0).fantasy_CARTA_WIDTH-=acr;
+					baralho.getElemento(0).fantasy_CARTA_HEIGHT-=acr;
+					
+				}
+			}
+			
+		};
+		
+		return handler;
 	}
 }
