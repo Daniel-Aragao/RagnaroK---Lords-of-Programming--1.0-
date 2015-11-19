@@ -6,6 +6,7 @@ import state.inGameStates.CreatureAtaqueState;
 import state.inGameStates.CreatureDefesaState;
 import state.inGameStates.CreatureState;
 
+@SuppressWarnings("serial")
 public class Carta_Criatura extends Carta {
 	// Pontos da Carta
 		private int ataque;
@@ -70,6 +71,11 @@ public class Carta_Criatura extends Carta {
 	
 	@Override
 	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void draw() {
 		// TODO Auto-generated method stub
 		
 	}

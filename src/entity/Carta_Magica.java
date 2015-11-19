@@ -13,6 +13,12 @@ public class Carta_Magica extends Carta {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void draw() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

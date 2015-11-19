@@ -2,10 +2,11 @@ package tabuleiro;
 
 import java.awt.Graphics;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
+import listeners.CartaClickedListener;
 import Util.Lista_de_Generics;
 import Util.Position;
 import entity.Carta;
@@ -37,7 +38,6 @@ public class Jogador implements UpdaterEntity{
 	private Lista_de_Generics<Carta> baralho;
 	private Lista_de_Generics<Carta> cemiterio;
 	private Lista_de_Generics<Carta_Criatura> field;
-	
 	private Carta_Especial ED;
 	private Carta_Especial OO;
 	
@@ -80,6 +80,33 @@ public class Jogador implements UpdaterEntity{
 		
 		/////////////////////////////////////
 		/////////////////////////////////////
+		if(this.playerPosition.getValor() ==1){
+			baralho.getElemento(0).setBounds(50, 20,Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
+			baralho.getElemento(0).addCartaClickedListener(new CartaClickedListener(){
+
+				@Override
+				public void CardClicked(Carta c) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void CardHoover(Carta c, boolean b) {
+					if(b){
+						baralho.getElemento(0).setSize(Carta.DEFAULT_CARTA_WIDTH+10, Carta.DEFAULT_CARTA_HEIGHT+10);
+						baralho.getElemento(0).fantasy_CARTA_WIDTH+=10;
+						baralho.getElemento(0).fantasy_CARTA_HEIGHT+=10;
+					}else{
+						baralho.getElemento(0).setSize(Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
+						baralho.getElemento(0).fantasy_CARTA_WIDTH-=10;
+						baralho.getElemento(0).fantasy_CARTA_HEIGHT-=10;
+						
+					}
+				}
+				
+			});
+			tabuleiro.add(baralho.getElemento(0));
+		}
 
 	}
 	

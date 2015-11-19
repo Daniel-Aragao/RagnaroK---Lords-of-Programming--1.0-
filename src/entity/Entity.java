@@ -53,4 +53,16 @@ public abstract class Entity  extends JPanel implements UpdaterEntity{
 	public void setPosition(Position position) {
 		this.position = position;
 	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics gr = g.create();
+	
+		gr.drawImage(this.imagem, 0, 0, null);
+		
+		
+		gr.dispose();
+		
+	}
 }

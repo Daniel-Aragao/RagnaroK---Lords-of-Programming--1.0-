@@ -1,5 +1,7 @@
 package entity;
 
+import java.awt.Graphics;
+
 import tabuleiro.Jogador;
 import Input.Mouse;
 import Util.Position;
@@ -13,7 +15,7 @@ public abstract class Carta extends Entity {
 	public static final int DEFAULT_CARTA_WIDTH = 100,
 							DEFAULT_CARTA_HEIGHT = 130;
 	
-	
+	public int fantasy_CARTA_WIDTH = DEFAULT_CARTA_WIDTH,fantasy_CARTA_HEIGHT=DEFAULT_CARTA_HEIGHT;
 	
 	
 	// Imagem da Carta
@@ -77,11 +79,27 @@ public abstract class Carta extends Entity {
 	public int getValor() {
 		return tipo.getValor();
 	}
+	
 
 	@Override
 	public abstract void update();
 
-
+	public void draw(){
+		
+		
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics gr = g.create();
+	
+		gr.drawImage(this.imagem, 0, 0,this.fantasy_CARTA_WIDTH,this.fantasy_CARTA_HEIGHT, null);
+		
+		
+		gr.dispose();
+		
+	}
 	public void addCartaClickedListener(CartaClickedListener listener){
 		this.cartaClickedListener = listener;
 	}

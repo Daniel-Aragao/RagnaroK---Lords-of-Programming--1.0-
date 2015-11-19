@@ -70,7 +70,8 @@ public class Game implements Runnable {
 
 			if (fps.FPS_Limitation()) {
 				update();
-				draw();
+				//AQUI
+				//draw();
 				repaint();
 			}
 			fps.FPS_printer();
@@ -110,7 +111,7 @@ public class Game implements Runnable {
 		}
 		
 		//End Drawing
-		bs.show();
+//		bs.show();
 		g.dispose();
 		
 	}

@@ -37,10 +37,10 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 	
 	private BufferedImage background;
 	
-	private Lista_de_Generics<Carta> baralho;
 	
 	public Tabuleiro() {
 		////////////////////IMPORTAR/////////////////////////////////////
+		Lista_de_Generics<Carta> baralho;
 		baralho = Importar.importAllCards(Game.FILE);
 		Importar.importarBackground(Game.BACKGROUND_FILE);
 		background = Importar.getBackground(BackgroundID.JogoBackground);
@@ -60,6 +60,7 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 		
 		this.setVisible(true);
 	}
+	
 	@Override
 	public void paintComponent(final Graphics g){
 		super.paintComponent(g);
@@ -88,19 +89,14 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 //		this.getComponentGraphics(g);
 		
 		//g.drawImage(background, 0, 0, null);
-		jogadorA.draw(g);
-		jogadorB.draw(g);
+		//jogadorA.draw(g);
+		//jogadorB.draw(g);
 		
-		
+		//g.drawRect(30, 30, 30, 30);
 		
 	}
-	public void repaint(){
-		for(Component i: this.getComponents()){
-			//System.out.println(i.toString());			
-			i.validate();
-			i.repaint();
-		}
-	}
+	
+	
 
 //	public boolean repetida(Carta_Especial c) {
 //		for (int i = 0; i < Registro_Especiais.getQtdElementos(); i++) {

@@ -159,7 +159,7 @@ public class Lista_de_Generics<T> implements Iterable{
 		}
 	}
 
-	public T getElemento(int n){return lista.get(n);}
+	public T getElemento(int n){return lista.elementAt(n);}
 	
 	
 	public T getElementoRandom(){
@@ -187,7 +187,7 @@ public class Lista_de_Generics<T> implements Iterable{
 		
 		while(!isFull()){
 			int n = rand.nextInt(qtdInicial);
-			this.addFim(getElemento(n));
+			this.addFim(lista.get(n));
 		}		
 	}
 	
@@ -195,7 +195,7 @@ public class Lista_de_Generics<T> implements Iterable{
 		Lista_de_Generics<T> copy  = new Lista_de_Generics<T>(capacity);
 		
 		for(int i = 0; i < qtdElementos; i++){
-			copy.addFim(getElemento(i));
+			copy.addFim(lista.get(i));
 		}
 		copy.setQtdElementos(getQtdElementos());
 		
