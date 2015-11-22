@@ -19,10 +19,7 @@ import Util.Importar;
 import Util.Lista_de_Generics;
 
 public class Game implements Runnable {
-	//Files url's
-	public static final File FILE = new File("./Cartas/All Descriptions URL's.txt");
-	public static final File BACKGROUND_FILE = new File("./Background/All Background URL's.txt");
-	
+	public static final Mouse CARD_MOUSE = new Mouse();
 	
 	private boolean gameLoop = false;
 	private Thread tGame = null;
@@ -74,7 +71,8 @@ public class Game implements Runnable {
 				//draw();
 				repaint();
 			}
-			fps.FPS_printer();
+			fps.title_printer(mFrame.getFrame());
+			
 			
 		}
 

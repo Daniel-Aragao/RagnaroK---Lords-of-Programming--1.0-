@@ -5,20 +5,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import Gráficos.SideFrames.handPanels.HandEastPanel;
 import entity.Carta;
 import listeners.CartaClickedListener;
 
 public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionListener, MouseAdapter*/{
 	private int x, y;
 	private boolean clicked = false, pressed = false;
-	private Carta carta;
 	
-	public Mouse(Carta c){
-		this.x = 0;
-		this.y = 0;
-		System.out.println("Mouse Constructor");
-		this.carta = c;
-	}
+	
 	public Mouse(){
 		this.x = 0;
 		this.y = 0;
@@ -32,10 +27,13 @@ public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionLi
 	
 	@Override
 	public void mouseClicked(MouseEvent me) {	
-		System.out.println(me.getX()+ ", "+ me.getY());
+//		System.out.println(me.getX()+ ", "+ me.getY());
 		
-		if(carta!=null)
-		carta.getCartaClickedListener().CardClicked(carta);
+		if(me.getSource() instanceof Carta){
+			Carta aux = (Carta)me.getSource(); 
+			if(aux.getCartaClickedListener() != null)
+			aux.getCartaClickedListener().CardClicked(aux);
+		}
 		
 		this.clicked = true;
 	}
@@ -49,29 +47,38 @@ public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionLi
 	
 	@Override
 	public void mouseEntered(MouseEvent me) {
-		if(carta!=null)
-		carta.getCartaClickedListener().CardHoover(carta, true);
-		
+		if(me.getSource() instanceof Carta){
+			Carta aux = (Carta)me.getSource(); 
+			if(aux.getCartaClickedListener() != null)
+			aux.getCartaClickedListener().CardHoover(aux, true);
+			
+			
+		}
 	}
 
 	@Override
 	public void mouseExited(MouseEvent me) {
-		if(carta!=null)
-		carta.getCartaClickedListener().CardHoover(carta, false);
-		
+		if(me.getSource() instanceof Carta){
+			Carta aux = (Carta)me.getSource(); 
+			if(aux.getCartaClickedListener() != null)
+			aux.getCartaClickedListener().CardHoover(aux, false);
+			
+			
+			
+		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent me) {
-		System.out.println(me.getX()+ ", "+ me.getY());
+//		System.out.println(me.getX()+ ", "+ me.getY());
 		this.pressed = true;
 	}
 	
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-//		cartaClickedListener.CardClicked(carta);
-		this.pressed = false;
-		this.clicked = false;
+//		carta.getCartaClickedListener().CardClicked(carta);
+//		this.pressed = false;
+//		this.clicked = false;
 	}
 
 	@Override

@@ -1,21 +1,13 @@
 package tabuleiro;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Game.Game;
+import listeners.CommandListener;
 import Gráficos.MainFrame;
-import Input.Mouse;
 import Util.BackgroundID;
 import Util.Importar;
 import Util.Lista_de_Generics;
@@ -26,6 +18,8 @@ import entity.Carta;
 
 @SuppressWarnings("serial")
 public class Tabuleiro extends JPanel implements UpdaterEntity{
+	public static final BufferedImage BACKGROUND = Importar.getBackground(BackgroundID.JogoBackground);
+	
 	
 	public static final Position UP_TAB = new Position(0,52),
 								DOWN_TAB = new Position(0,388);
@@ -35,15 +29,11 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 	private Jogador jogadorA;
 	private Jogador jogadorB;
 	
-	private BufferedImage background;
-	
 	
 	public Tabuleiro() {
-		////////////////////IMPORTAR/////////////////////////////////////
+		////////////////////IMPORTAR CARTAS//////////////////////////////
 		Lista_de_Generics<Carta> baralho;
-		baralho = Importar.importAllCards(Game.FILE);
-		Importar.importarBackground(Game.BACKGROUND_FILE);
-		background = Importar.getBackground(BackgroundID.JogoBackground);
+		baralho = Importar.importAllCards(Importar.FILE);
 		/////////////////////////////////////////////////////////////////
 		
 		this.setPreferredSize(MainFrame.MainDimension);
@@ -57,15 +47,44 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 //		this.add(new JLabel("33333333333333333333333333333333333333333333333"), BorderLayout.NORTH);
 //		this.addMouseListener(new Mouse());
 		
+		CommandListener cl = commandCreator();
+		jogadorA.setCommandListener(cl);
+		jogadorB.setCommandListener(cl);
 		
 		this.setVisible(true);
+	}
+	
+	public CommandListener commandCreator(){
+		CommandListener aux = new CommandListener(){
+
+			@Override
+			public void passarVez(Jogador jogador) {
+				if(jogador == jogadorA){
+					jogadorA.setVez(false);
+					jogadorB.setVez(true);
+				}else{
+					jogadorA.setVez(true);
+					jogadorB.setVez(false);
+				}
+				
+			}
+
+			@Override
+			public void atacar(Jogador jogador) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
+		return aux;
 	}
 	
 	@Override
 	public void paintComponent(final Graphics g){
 		super.paintComponent(g);
 		 Graphics gr = g.create();  
-		 gr.drawImage(background,0,0,null);
+		 gr.drawImage(BACKGROUND,0,0,MainFrame.WIDTH*MainFrame.SCALE
+				 ,MainFrame.HEIGHT*MainFrame.SCALE,null);
 		 
 //		g.drawImage(background, 0, 0, null);
 		///////////////////////LINE MAKER///////////////////////
@@ -117,17 +136,23 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 		jogadorB.update();
 		
 	}
-	
 
-//	public int calcAtaque() {
-//		int atq = 0;
-//		
-//		for(int i = 0 ; i < field.getQtdElementos(); i ++){
-//			atq += field.getElemento(i).getAtaque();
-//		}
-//		
-//		return atq ;
-//	}
+	public void repaintComponents() {
+		jogadorA.repaintComponents();
+		jogadorB.repaintComponents();
+		
+	}
+
+	public void trocaVez(Jogador jogador) {
+		if(jogador == jogadorA){
+			jogadorB.setVez(true);
+		}else{
+			jogadorA.setVez(true);
+		}
+		
+	}
+
+	
 	
 	
 	

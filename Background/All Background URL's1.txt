@@ -1,0 +1,14 @@
+Backgrounds
+12
+./Background/Principais/InicioBackground.jpg
+./Background/Principais/JogoBackground.jpg
+./Background/Principais/mao.png
+./Background/Principais/RegrasBackground.jpg
+./Background/Principais/pisoCemitério.jpg
+./Background/Principais/pisoCriaturas.jpg
+./Background/Principais/pisoED.jpg
+./Background/Principais/pisoMagicas.jpg
+./Background/Principais/pisoOO.jpg
+./Background/Principais/verso.jpg
+./Background/Principais/baralho.jpg
+./Background/card.gif

@@ -1,0 +1,13 @@
+Backgrounds
+11
+./Background/Secundários/InicioBackground.jpg
+./Background/Secundários/JogoBackground.jpg
+./Background/Secundários/mao.png
+./Background/Secundários/RegrasBackground.jpg
+./Background/Secundários/pisoCemitério.jpg
+./Background/Secundários/pisoCriaturas.jpg
+./Background/Secundários/pisoED.jpg
+./Background/Secundários/pisoMagicas.jpg
+./Background/Secundários/pisoOO.jpg
+./Background/Secundários/verso.jpg
+./Background/Secundários/baralho.jpg

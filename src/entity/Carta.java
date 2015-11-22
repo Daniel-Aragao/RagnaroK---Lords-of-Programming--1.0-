@@ -25,37 +25,22 @@ public abstract class Carta extends Entity {
 	//Listeners
 	protected CartaClickedListener cartaClickedListener;
 	
-	//private int x,y;
-	//protected int width, height;
-
-	
-
 	// Descrição da Carta
 	private String descricao;
 
 	// Tipo de Carta
 	private Tipo_Carta tipo;
 
-	// Localização
-
-	// Métodos
-	// get imagem
-	// get descrição
-	// get pontos
-	// get tipo
-	// get/set localização
-	// get/set estado
-
-	// / Chamar o método da classe Importar.importarCarta(Carta,File); para
-	// inicializar o objeto
+	protected CartaParameters cp;
+	
 	public Carta(CartaParameters cp) {
 		super(DEFAULT_CARTA_WIDTH, DEFAULT_CARTA_HEIGHT);
+		this.cp = cp;
 		this.nome = cp.nome;
 		this.descricao = cp.descricao;
-		this.tipo = cp.tipo;
+		this.tipo = cp.getTipo();
 		this.imagem = cp.imagem;
-		this.position = cp.position;
-		this.addMouseListener(new Mouse(this));
+		this.addMouseListener(cp.getMouse());
 				
 	}
 
@@ -107,6 +92,15 @@ public abstract class Carta extends Entity {
 	public CartaClickedListener getCartaClickedListener(){
 		return this.cartaClickedListener;
 	}
+
+
+	public void stateAction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public abstract Carta copy();
 	
 	
 }

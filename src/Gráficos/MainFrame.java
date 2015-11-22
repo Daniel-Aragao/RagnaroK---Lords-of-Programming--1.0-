@@ -4,9 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import Util.BackgroundID;
+import Util.Importar;
 
 public class MainFrame {
 	///////////////////////////////////  DIMENSION  //////////////////////////////////////////
@@ -38,6 +44,8 @@ public class MainFrame {
 		//frame.setUndecorated(true);
 		frame.setFocusable(false);
 		
+		BufferedImage icon = Importar.getBackground(BackgroundID.icone);
+		frame.setIconImage(icon);
 		
 		frame.setBackground(Color.black);
 		frame.pack();

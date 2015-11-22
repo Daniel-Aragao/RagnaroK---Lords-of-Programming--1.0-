@@ -1,51 +1,73 @@
 package Gráficos.SideFrames;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
+import Util.BackgroundID;
+import Util.Importar;
 import tabuleiro.Jogador;
-import Gráficos.SideFrames.Panels.ScrollingCardPanel;
+import Gráficos.MainFrame;
+import Gráficos.SideFrames.handPanels.HandPanel;
+import Gráficos.SideFrames.handPanels.ScrollingCardPanel;
 
-public class HandFrame {
+public class HandFrame extends JFrame{
 	public static final int WIDTH = 600;
 	public static final int HEIGHT = 400;
 	public static final int SCALE = 1;
 	
-	JFrame frame;
+	
 	Jogador jogador;
 	
-	ScrollingCardPanel cardPanel;
+	public static final Dimension DEFAULT_HAND_DIMENSION = 
+			new Dimension(HandFrame.WIDTH*HandFrame.SCALE, HandFrame.HEIGHT*HandFrame.SCALE); 
+	
+	private HandPanel handPanel;
 	
 	public HandFrame(Jogador jogador){
 		this.jogador = jogador;
+		handPanel = new HandPanel(jogador);
 		createFrame();
+		
 	}
 
+	
+
 	private void createFrame() {
-		frame = new JFrame("Mão");
-		frame.setPreferredSize(new Dimension(HandFrame.WIDTH, HandFrame.HEIGHT));
-		frame.setLocationRelativeTo(jogador.getTabuleiro());
-		frame.setResizable(false);
-		frame.setVisible(false);
-		frame.setFocusable(false);
+		this.setTitle("Mão "+jogador.getNome());
+		this.setPreferredSize(HandFrame.DEFAULT_HAND_DIMENSION);
+		this.setLocationRelativeTo(jogador.getTabuleiro().getParent());
+		this.setResizable(false);
+		this.setVisible(false);
+		this.setFocusable(false);
+		
+		BufferedImage icon = Importar.getBackground(BackgroundID.icone);
+		this.setIconImage(icon);
 		
 		
-		frame.add(cardPanel.getScrollPanel());
+		this.add(handPanel);
 		
-		
+		this.pack();
 	}
 	public JFrame getFrame(){
-		return this.frame;
+		return this;
+	}
+	public HandPanel getMainPanel(){
+		return this.handPanel;
 	}
 	
 	public void update(){
 		
 	}
 	
-	public void draw(Graphics g){
-		this.cardPanel.draw(g);
-	}
+	
+	
 	
 }

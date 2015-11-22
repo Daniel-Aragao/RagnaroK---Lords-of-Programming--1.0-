@@ -25,7 +25,7 @@ public class GameState extends State{
 		mFrame = game.getFrame().getFrame();
 //		mFrame.add(new JLabel("11111111111111111111111111111111111111111"), BorderLayout.SOUTH);
 		
-		mFrame.addMouseListener(new Mouse());
+		//mFrame.addMouseListener(new Mouse());
 		
 		tabuleiro = new Tabuleiro();
 		mFrame.add(tabuleiro, BorderLayout.NORTH);
@@ -54,10 +54,10 @@ public class GameState extends State{
 	@Override
 	public void repaintComponents() {
 		for(Component i: mFrame.getComponents()){
-//			System.out.println(i.toString());
-			i.validate();
+			i.revalidate();
 			i.repaint();
 		}
+		tabuleiro.repaintComponents();
 	}
 
 

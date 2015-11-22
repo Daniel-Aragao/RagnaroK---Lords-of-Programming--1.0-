@@ -19,6 +19,12 @@ public class Carta_Especial extends Carta {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Carta copy() {
+		Carta_Especial aux = new Carta_Especial(cp);
+		return aux;
+	}
 	
 	
 

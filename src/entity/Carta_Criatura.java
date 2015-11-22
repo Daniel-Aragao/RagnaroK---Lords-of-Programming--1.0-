@@ -2,9 +2,10 @@ package entity;
 
 import java.awt.Graphics;
 
-import state.inGameStates.CreatureAtaqueState;
-import state.inGameStates.CreatureDefesaState;
-import state.inGameStates.CreatureState;
+import entity.cartas_de_topo.Campo;
+import state.inGameStates.AtaqueState;
+import state.inGameStates.DefesaState;
+import state.inGameStates.TurnoState;
 
 @SuppressWarnings("serial")
 public class Carta_Criatura extends Carta {
@@ -21,7 +22,7 @@ public class Carta_Criatura extends Carta {
 		private Carta_Magica magica ;
 		
 	// Estado da Carta quanto a ATQ-true ou DEF-false
-		private CreatureState creatureState;
+		private TurnoState creatureState;
 		
 	public Carta_Criatura(int ataque, int defesa, int skill,CartaParameters cp) {
 		super(cp);
@@ -29,24 +30,24 @@ public class Carta_Criatura extends Carta {
 		this.ataque = ataque;
 		this.defesa = defesa;
 		this.skill = skill;
-		this.magica = null;
+		this.setMagica(null);
 		this.tab_state = false;
 	}
-	public CreatureState getState(){
+	public TurnoState getState(){
 		return creatureState;
 	}
 	public void ChangeState(){
-		if(creatureState != null ){
-			
-			if(creatureState instanceof CreatureAtaqueState){
-				creatureState = new CreatureDefesaState();
-			}else{
-				creatureState = new CreatureAtaqueState();
-			}
-		}
+//		if(creatureState != null ){
+//			
+//			if(creatureState instanceof AtaqueState){
+//				creatureState = new DefesaState();
+//			}else{
+//				creatureState = new AtaqueState();
+//			}
+//		}
 	}
 	
-	public void setState(CreatureState creatureState){
+	public void setState(TurnoState creatureState){
 		this.creatureState = creatureState;
 	}
 	
@@ -78,5 +79,21 @@ public class Carta_Criatura extends Carta {
 	public void draw() {
 		// TODO Auto-generated method stub
 		
+	}
+	public Carta_Magica getMagica() {
+		return magica;
+	}
+	
+	public void setMagica(Carta_Magica magica) {
+		if(magica == null){
+			this.magica = Campo.getNewCarta_PisoMagica();
+		}else{
+			this.magica = magica;			
+		}
+	}
+	@Override
+	public Carta copy() {
+		Carta_Criatura aux = new Carta_Criatura(ataque, defesa, skill, cp);
+		return aux;
 	}
 }

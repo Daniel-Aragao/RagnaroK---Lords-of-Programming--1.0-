@@ -17,7 +17,7 @@ import entity.Carta_Criatura;
  * @since 2015-09-14
  * @param <T>
  */
-public class Lista_de_Generics<T> implements Iterable{
+public class Lista_de_Generics<T> implements Iterable<T>{
 	private Vector<T> lista;
 	private int qtdElementos;
 	private int capacity;
@@ -69,9 +69,17 @@ public class Lista_de_Generics<T> implements Iterable{
 		}
 	}
 
+	public boolean contains(T o){
+		return lista.contains(o);
+	}
+	
 	public void add(int i, T e) throws RuntimeException {
 		if (isFull()) {
-			throw new RuntimeException();
+			remover(i);
+			for (int p = getQtdElementos(); p > i; p--) {
+				lista.set(p, lista.get(p - 1));
+			}
+			lista.set(i, e);
 		} else {
 			if (i <= 0) {
 				addInicio(e);
@@ -139,12 +147,14 @@ public class Lista_de_Generics<T> implements Iterable{
 			throw new RuntimeException("is Empty");
 		} else {
 			
-			T aux = lista.get(0);
-			for (int i = 1; i < getQtdElementos(); i++) {
+			T aux = null;
+			for (int i = 0; i < getQtdElementos(); i++) {
+				aux = lista.get(i);
 				if(aux == e){
+					lista.remove(i);
+					setQtdElementos(getQtdElementos() - 1);
 					return aux;
 				}
-				aux = lista.get(i);
 			}
 			setQtdElementos(getQtdElementos() - 1);
 			
@@ -184,6 +194,7 @@ public class Lista_de_Generics<T> implements Iterable{
 	public T getElemento(int n){return lista.elementAt(n);}
 	
 	
+	
 	public T getElementoRandom(){
 		Random rand = new Random();
 		int n = rand.nextInt(getQtdElementos());
@@ -193,7 +204,7 @@ public class Lista_de_Generics<T> implements Iterable{
 	public int length(){return this.capacity;}
 	
 	public Lista_de_Generics<T> getList(){
-		Lista_de_Generics<T> a = new Lista_de_Generics(getQtdElementos());
+		Lista_de_Generics<T> a = new Lista_de_Generics<T>(getQtdElementos());
 		
 		for(int i = 0; i < a.qtdElementos;i++){
 			a.add(i, lista.get(i));
@@ -239,6 +250,8 @@ public class Lista_de_Generics<T> implements Iterable{
 			
 		}
 	}
+
+	
 
 	
 }

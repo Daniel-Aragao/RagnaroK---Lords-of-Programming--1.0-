@@ -1,18 +1,31 @@
 package tabuleiro;
 
-import java.awt.Graphics;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import listeners.CartaClickedListener;
+import listeners.CommandListener;
+import state.inGameStates.AtaqueState;
+import state.inGameStates.DefesaState;
+import state.inGameStates.TurnoState;
+import Gráficos.SideFrames.HandFrame;
+import Util.BackgroundID;
+import Util.Importar;
 import Util.Lista_de_Generics;
 import Util.Position;
 import entity.Carta;
+import entity.CartaParameters;
 import entity.Carta_Criatura;
 import entity.Carta_Especial;
 import entity.Carta_Magica;
+import entity.Tipo_Carta;
+import entity.cartas_de_topo.Baralho;
+import entity.cartas_de_topo.Campo;
+import entity.cartas_de_topo.Cemiterio;
 
 @SuppressWarnings("serial")
 public class Jogador implements UpdaterEntity{
@@ -20,7 +33,7 @@ public class Jogador implements UpdaterEntity{
 	public static final Position DOWN_LABEL = new Position(100, 720);
 	public static final Position UP_REFERENCE = new Position(0,68+17);
 	public static final Position DOWN_REFERENCE = new Position(0,400+17);
-	public static final int ESPACAMENTO = 80;
+	public static final int ESPACAMENTO = 46;
 	
 	public static final int ENERGIA_INICIAL = 150;
 
@@ -29,16 +42,27 @@ public class Jogador implements UpdaterEntity{
 	private int energia;
 	private boolean vez;
 	PlayerPosition playerPosition;
+	SemiTransparentPanel semiTransparentPanel;
+	private TurnoState turnoState;
+	private AtaqueState ataqueState;
+	private DefesaState defesaState;
 	
+	private Position interfacePosition;
 	private JLabel jogadorInfo;
+	private JButton handButton;
+	private HandFrame hand;
 	
+	public HandFrame getHand() {
+		return hand;
+	}
+
 	private Position position;
 	
 	///////////////CARTAS////////////////
 	
-	private Lista_de_Generics<Carta> baralho;
-	private Lista_de_Generics<Carta> cemiterio;
-	private Lista_de_Generics<Carta_Criatura> field;
+	private Baralho baralho;
+	private Cemiterio cemiterio;
+	private Campo campo;
 	private Carta_Especial ED;
 	private Carta_Especial OO;
 	
@@ -50,98 +74,109 @@ public class Jogador implements UpdaterEntity{
 	// tamanho do tabuleiro = 1024 x 380
 
 	private Tabuleiro tabuleiro;
+	private CommandListener commandListener;
+	
 	
 	public Jogador(Tabuleiro tabuleiro, Lista_de_Generics<Carta> baralho, PlayerPosition playerPosition) {
 		this.setTabuleiro(tabuleiro);
 		
 		//panel.setBackground(new Color(213, 134, 145, 123)); transluscent color
 		
+		
 		this.energia = Jogador.ENERGIA_INICIAL;
 		
 		this.playerPosition = playerPosition;
-		
-		if(playerPosition.getValor()==1){
-			position = Jogador.UP_REFERENCE;
-		}else{
-			position = Jogador.DOWN_REFERENCE;
-		}
-		
+
+		//POP UP 
 		popUpPlayerInfoCaller();
 		
-		///////////////LABEL/////////////////
-		/////////////////////////////////////
-		this.setJogadorInfo(nome, energia, vez);
+		if(playerPosition == PlayerPosition.UP_REFERENCE){
+			position = Jogador.UP_REFERENCE;
+			this.interfacePosition = Jogador.UP_LABEL;
+			vez = true;
+		}else{
+			position = Jogador.DOWN_REFERENCE;
+			this.interfacePosition = Jogador.DOWN_LABEL;
+			vez = false;
+		}
+		semiTransparentPanel = new SemiTransparentPanel(this.position);
+		
+		hand = new HandFrame(this);
+		
+		
+		this.setVez(vez);
+		
+		createButton();
 		
 		
 		///////////////CARTAS////////////////
 		/////////////////////////////////////
+		cartasCreator(baralho);		
 		
-		this.baralho = baralho;
-		this.baralho = autoCompletar_baralho();
+		//if(playerPosition == PlayerPosition.UP_REFERENCE){
+			Carta_Criatura aux2 = (Carta_Criatura) this.baralho.getElemento(5);
+			aux2.setMagica((Carta_Magica) this.baralho.getElemento(10));
+			campo.addCriaturaNoCampo(aux2,this.position,tabuleiro);
+			
+			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
+			aux2.setMagica((Carta_Magica) this.baralho.getElemento(11));
+			campo.addCriaturaNoCampo(aux2,this.position,tabuleiro);
+			
+			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
+			campo.addCriaturaNoCampo(aux2,this.position,tabuleiro);
+			
+			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
+			//campo.addCriaturaNoCampo(aux2,this.position,tabuleiro);
+			
+			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
+			campo.addCriaturaNoCampo(aux2,this.position,tabuleiro);
+		//}
 		
-		cemiterio = new Lista_de_Generics<Carta>(30);
-
-		field = new Lista_de_Generics<Carta_Criatura>(5);
-
-		//topoBaralho = new TopoBaralho(baralho);
-		//Registro_Especiais = new Lista_de_Generics<Carta_Especial>(7);
-		
-		field.addFim((Carta_Criatura) baralho.getElemento(0));	
-		
-		/////////////////////////////////////
-		/////////////////////////////////////
-		if(this.playerPosition.getValor() ==1){
-//			baralho.getElemento(0).setBounds((int)Jogador.UP_REFERENCE.x, (int)Jogador.UP_REFERENCE.y,Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
-//			baralho.getElemento(0).addCartaClickedListener(cartaClickedHandler());
-//			tabuleiro.add(baralho.getElemento(0));
-			addCriaturaNoCampo((Carta_Criatura) baralho.getElemento(0));
-		}
-
+		this.baralho.embaralhar();
 	}
 	
 	
 
-	public void addCriaturaNoCampo(Carta_Criatura c){
-		Carta_Criatura aux = (Carta_Criatura)baralho.remover(c);
-		
-		aux.setBounds((Jogador.ESPACAMENTO*(field.getIndex(c)+1))+Jogador.ESPACAMENTO, 
-				(int) this.position.y, 
-				Carta.DEFAULT_CARTA_WIDTH, 
-				Carta.DEFAULT_CARTA_HEIGHT);
-		
-		aux.addCartaClickedListener(cartaClickedHandler());
-		
-		field.addFim(aux);
-		tabuleiro.add(aux);
-	}
-	public Carta_Criatura removeCriaturaDoCampo(Carta_Criatura c){
-		tabuleiro.remove(c);
-		return field.remover(c);
-	}
 	
-	public void popUpPlayerInfoCaller(){
-		do{
-			nome = JOptionPane.showInputDialog("Nome Player "+(this.playerPosition.getValor())+": ");
-			System.out.println(nome);
-			if(nome == null || nome.equals("") || nome.startsWith(" ")){
-				if(nome == null){
-					nome = "Player "+this.playerPosition.getValor();
-				}else{
-					JOptionPane.showMessageDialog(tabuleiro, "Nome inválido");
-				}	
+
+
+	private void createButton() {
+		handButton = new JButton("Mão");
+		
+		handButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				hand.getFrame().setVisible(getVez());
 			}
-		}while(nome == null || nome.equals("") || nome.startsWith(" "));
+		});
 		
+		handButton.setBounds(0, (int)this.interfacePosition.y, 60, 25);
 		
-		if(this.playerPosition == PlayerPosition.UP_REFERENCE){
-			this.vez = false;
-			this.setPosition(Jogador.UP_REFERENCE);
-		}else{
-			this.vez = true;
-			this.setPosition(Jogador.DOWN_REFERENCE);
-		}
+		tabuleiro.add(handButton);
+		
 	}
-	
+
+
+
+	private void cartasCreator(Lista_de_Generics<Carta> baralho) {
+		//baralho
+		CartaParameters cp = new CartaParameters(Tipo_Carta.BARALHO);
+		cp.imagem = Importar.getBackground(BackgroundID.baralho);
+		cp.descricao = "Topo do Baralho";
+		cp.nome = "Baralho";
+		this.baralho = new Baralho(baralho,cp);
+		
+		//cemiterio
+		cemiterio = new Cemiterio();
+		
+		//campo
+		campo = new Campo(this.baralho,cemiterio, this);
+		
+	}
+
+
+
 	public void setJogadorInfo(String name, int energia, boolean vez){
 		if(jogadorInfo == null){
 			if(vez){
@@ -149,10 +184,8 @@ public class Jogador implements UpdaterEntity{
 			}else{
 				this.jogadorInfo = new JLabel("Nome: "+this.nome+" Energia: "+energia+" Vez: Aguardando");
 			}
-			Position[]aux = new Position[2];
-			aux[0]=UP_LABEL;
-			aux[1]=DOWN_LABEL;
-			jogadorInfo.setBounds((int)aux[this.playerPosition.getValor()-1].x, (int)aux[this.playerPosition.getValor()-1].y,500,20);
+			
+			jogadorInfo.setBounds((int)this.interfacePosition.x, (int)this.interfacePosition.y,500,20);
 			
 			tabuleiro.add(jogadorInfo);
 		}else{
@@ -167,20 +200,20 @@ public class Jogador implements UpdaterEntity{
 	public JLabel getJogadorInfo(){
 		return this.jogadorInfo;
 	}
-	public void setJogadorVezLabel(boolean vez){
+	
+	public void setVez(boolean vez){
+		this.vez = vez;
+		//tabuleiro.trocaVez(this);
 		this.setJogadorInfo(nome, energia, vez);
+		if(vez){
+			turnoState = ataqueState = new AtaqueState(this, hand);
+			tabuleiro.remove(semiTransparentPanel);
+		}else{
+			turnoState = defesaState = new DefesaState(this, hand);
+			tabuleiro.add(semiTransparentPanel);
+		}
 	}
 
-	public void setVez(boolean vez) {
-		this.vez = vez;
-		if(vez) {
-			this.vezString = "Jogando!";
-			
-		}else{
-			this.vezString = "Aguardando.";
-		}
-		setJogadorVezLabel(vez);
-	}
 
 	public boolean getVez() {return this.vez;}
 
@@ -200,115 +233,14 @@ public class Jogador implements UpdaterEntity{
 		this.energia = energia;
 	}
 
-
-//	public int calcAtaque(){
-//		int atq = 0;
-//		
-//		atq = this.tabuleiro.calcAtaque();
-//		
-//		
-//		return atq;
-//	}
-	
 	
 	public void update() {
-		//this.tabuleiro.update();
+
 	}
 	
-	public void draw(Graphics g){
-		
-		//drawField(g);
-	}
-	public void drawCemiterio(Graphics g){
-		if(!cemiterio.isEmpty()){
-			cemiterio.getElemento(cemiterio.getQtdElementos()).draw(g);
-			cemiterio.getElemento(cemiterio.getQtdElementos()).draw(g);
-		}
-	}
-	public void drawField(Graphics g){
-		
-		if(!field.isEmpty()){
-			for(int i = field.length()-1; i > 0; i--){
-				Carta_Criatura aux = field.getElemento(i);
-				if(aux != null){
-					aux.draw(g);
-				}
-			}
-		}
-	}
 	
-	public Lista_de_Generics<Carta> autoCompletar_baralho() {
-		
-		Lista_de_Generics<Carta> baralhoAux = new Lista_de_Generics<>(30);
-		int qtd = baralho.getQtdElementos();
-		for (int i = 0; i < qtd; i++) {
-			baralhoAux.addFim(baralho.getElemento(i));
-		}
-			
-
-		Lista_de_Generics<Carta_Magica> magicas = new Lista_de_Generics<Carta_Magica>(10);
-		Lista_de_Generics<Carta_Especial> eds = new Lista_de_Generics<Carta_Especial>(5);
-		Lista_de_Generics<Carta_Especial> oos = new Lista_de_Generics<Carta_Especial>(5);
-		
-		qtd = baralhoAux.getQtdElementos();
-		for (int i = 0; i < qtd; i++) {
-			if (baralhoAux.getElemento(i) != null) {
-				
-				switch (baralhoAux.getElemento(i).getTipo()) {
-				case MAGICA:
-					magicas.addFim((Carta_Magica) baralhoAux.remover(i));
-					i--;
-					break;
-				case ED:
-					eds.addFim((Carta_Especial) baralhoAux.remover(i));
-					i--;
-					break;
-				case OO:
-					oos.addFim((Carta_Especial) baralhoAux.remover(i));
-					i--;
-					break;
-				default:
-				}
-			}
-		}
-		
-		magicas.embaralhar();
-		magicas.fill();
-		for (int i = 0; i < magicas.length(); i++) {
-			System.out.println(baralhoAux.getQtdElementos());
-			baralhoAux.addFim(magicas.removerInicio());
-		}
-		System.out.println();
-		eds.embaralhar();
-		eds.fill();
-		for (int i = 0; i < eds.length(); i++) {
-			System.out.println(baralhoAux.getQtdElementos());
-			baralhoAux.addFim(eds.removerInicio());
-		}
-		System.out.println();
-		oos.embaralhar();
-		oos.fill();
-		for (int i = 0; i < oos.length(); i++) {
-			System.out.println(baralhoAux.getQtdElementos());
-			baralhoAux.addFim(oos.removerInicio());
-		}
-		System.out.println();
-		System.out.println(baralhoAux.getQtdElementos());
-		baralhoAux.embaralhar();
-		return baralhoAux;
-	}
-
-	public void exibirBaralhoNoConsole(/*Lista_de_Generics<Carta> a*/) {
-		Lista_de_Generics<Carta> a = baralho;
-		for (int i = 0; i < a.getQtdElementos(); i++) {
-			System.out.println("i:" + i);
-			if(a.getElemento(i) != null){
-				System.out.println("Carta: " + a.getElemento(i).getNome());
-			}else{
-				System.out.println("Carta: " + a.getElemento(i));
-			}
-		}
-	}
+	
+	
 
 	public Position getPosition() {
 		return position;
@@ -326,32 +258,59 @@ public class Jogador implements UpdaterEntity{
 		this.tabuleiro = tabuleiro;
 	}
 	
-	private CartaClickedListener cartaClickedHandler() {
-		CartaClickedListener handler = new CartaClickedListener(){
-
-			@Override
-			public void CardClicked(Carta c) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void CardHoover(Carta c, boolean b) {
-				int acr = 10;
-				if(b){
-					baralho.getElemento(0).setSize(Carta.DEFAULT_CARTA_WIDTH+acr, Carta.DEFAULT_CARTA_HEIGHT+acr);
-					baralho.getElemento(0).fantasy_CARTA_WIDTH+=acr;
-					baralho.getElemento(0).fantasy_CARTA_HEIGHT+=acr;
+	public void popUpPlayerInfoCaller(){
+		do{
+			nome = JOptionPane.showInputDialog("Nome Player "+(this.playerPosition.getValor())+": ");
+			if(nome == null || nome.equals("") || nome.startsWith(" ")){
+				if(nome == null){
+					nome = "Player "+this.playerPosition.getValor();
 				}else{
-					baralho.getElemento(0).setSize(Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
-					baralho.getElemento(0).fantasy_CARTA_WIDTH-=acr;
-					baralho.getElemento(0).fantasy_CARTA_HEIGHT-=acr;
-					
-				}
+					JOptionPane.showMessageDialog(tabuleiro, "Nome inválido");
+				}	
 			}
-			
-		};
+		}while(nome == null || nome.equals("") || nome.startsWith(" "));
 		
-		return handler;
+		
+		if(this.playerPosition == PlayerPosition.UP_REFERENCE){
+			this.vez = false;
+			this.setPosition(Jogador.UP_REFERENCE);
+		}else{
+			this.vez = true;
+			this.setPosition(Jogador.DOWN_REFERENCE);
+		}
 	}
+
+
+
+
+
+
+	public void repaintComponents() {
+		for(Component i : hand.getComponents()){
+			//i.validate();
+			i.revalidate();
+			i.repaint();
+		}
+		
+	}
+
+
+
+
+
+
+	public CommandListener getCommandListener() {
+		return commandListener;
+	}
+
+
+
+
+
+
+	public void setCommandListener(CommandListener commandListener) {
+		this.commandListener = commandListener;
+	}
+	
+	
 }
