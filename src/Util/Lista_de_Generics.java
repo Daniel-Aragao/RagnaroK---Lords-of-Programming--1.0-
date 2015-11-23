@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
 
-import entity.Carta_Criatura;
+import entity.Carta;
 /**
  * <h1>Generic List</h1>
  * receives a generic Object type and makes a list of it
@@ -214,13 +214,24 @@ public class Lista_de_Generics<T> implements Iterable<T>{
 		
 	}
 	
+//	public void fill(){
+//		Random rand = new Random();
+//		int qtdInicial = this.qtdElementos;
+//		
+//		while(!isFull()){
+//			int n = rand.nextInt(qtdInicial);
+//			this.addFim(lista.get(n));
+//		}		
+//	}
 	public void fill(){
 		Random rand = new Random();
 		int qtdInicial = this.qtdElementos;
 		
 		while(!isFull()){
 			int n = rand.nextInt(qtdInicial);
-			this.addFim(lista.get(n));
+			Carta c = (Carta) lista.get(n);
+			c = c.copy();
+			this.addFim((T) c);
 		}		
 	}
 	

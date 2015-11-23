@@ -7,11 +7,7 @@ public class Carta_Piso extends Carta {
 		
 	}
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public Carta copy() {

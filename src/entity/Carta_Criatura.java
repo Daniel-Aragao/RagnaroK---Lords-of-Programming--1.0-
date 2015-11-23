@@ -1,14 +1,11 @@
 package entity;
 
-import java.awt.Graphics;
-
-import entity.cartas_de_topo.Campo;
-import state.inGameStates.AtaqueState;
-import state.inGameStates.DefesaState;
+import listeners.SelectedListener;
 import state.inGameStates.TurnoState;
+import entity.cartas_de_topo.Campo;
 
 @SuppressWarnings("serial")
-public class Carta_Criatura extends Carta {
+public class Carta_Criatura extends Carta implements SelectedListener{
 	// Pontos da Carta
 		private int ataque;
 		private int defesa;
@@ -55,7 +52,7 @@ public class Carta_Criatura extends Carta {
 	public void changeTab_state(){ tab_state = !tab_state;}
 	
 	public int getAtaque() {
-		int atq = 0;
+		int atq = this.ataque;
 		
 		//atq = this.magica.getEfeito();
 		
@@ -70,11 +67,7 @@ public class Carta_Criatura extends Carta {
 		return skill;
 	}
 	
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	@Override
 	public void draw() {
 		// TODO Auto-generated method stub
@@ -95,5 +88,10 @@ public class Carta_Criatura extends Carta {
 	public Carta copy() {
 		Carta_Criatura aux = new Carta_Criatura(ataque, defesa, skill, cp);
 		return aux;
+	}
+	@Override
+	public void select() {
+		// TODO Auto-generated method stub
+		
 	}
 }

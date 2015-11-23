@@ -52,7 +52,8 @@ public class HandFrame extends JFrame{
 		this.setIconImage(icon);
 		
 		
-		this.add(handPanel);
+		//this.add(handPanel);
+		this.setContentPane(handPanel);
 		
 		this.pack();
 	}

@@ -13,11 +13,12 @@ import Util.Importar;
 import Util.Lista_de_Generics;
 import Util.Position;
 import entity.Carta;
+import entity.Entity;
 
 //All Descriptions URL's.txt
 
 @SuppressWarnings("serial")
-public class Tabuleiro extends JPanel implements UpdaterEntity{
+public class Tabuleiro extends JPanel {
 	public static final BufferedImage BACKGROUND = Importar.getBackground(BackgroundID.JogoBackground);
 	
 	
@@ -69,9 +70,17 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 				
 			}
 
+
 			@Override
-			public void atacar(Jogador jogador) {
-				// TODO Auto-generated method stub
+			public void atacar(Jogador jogador, Entity alvo) {
+				if(jogador == jogadorA){
+					System.out.println("Jogador A Ataca: "+ alvo.getNome());
+					jogadorB.defesa(jogadorA.ataque(), alvo, jogadorB);
+					
+				}else{
+					System.out.println("Jogador B Ataca: "+ alvo.getNome());
+					jogadorA.defesa(jogadorB.ataque(), alvo, jogadorA);
+				}
 				
 			}
 			
@@ -83,6 +92,7 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 	public void paintComponent(final Graphics g){
 		super.paintComponent(g);
 		 Graphics gr = g.create();  
+		 
 		 gr.drawImage(BACKGROUND,0,0,MainFrame.WIDTH*MainFrame.SCALE
 				 ,MainFrame.HEIGHT*MainFrame.SCALE,null);
 		 
@@ -129,13 +139,6 @@ public class Tabuleiro extends JPanel implements UpdaterEntity{
 	
 
 	
-	
-
-	public void update() {
-		jogadorA.update();
-		jogadorB.update();
-		
-	}
 
 	public void repaintComponents() {
 		jogadorA.repaintComponents();

@@ -1,6 +1,6 @@
 Cavaleiro da Tempestade
-Ô Sofrência
+Demônio do natal
 7
-1
-7
+3
+5
 ./Cartas/Criaturas/CavaleiroDaTempestade.jpg

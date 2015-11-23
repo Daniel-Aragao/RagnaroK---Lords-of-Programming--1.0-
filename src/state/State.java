@@ -2,9 +2,7 @@ package state;
 
 import java.awt.Graphics;
 
-import tabuleiro.UpdaterEntity;
-
-public abstract class State implements UpdaterEntity{
+public abstract class State {
 	private static State currentState = null;
 	
 	public static void setState(State state){

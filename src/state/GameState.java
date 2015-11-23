@@ -1,15 +1,12 @@
 package state;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Graphics;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import tabuleiro.Tabuleiro;
 import Game.Game;
-import Input.Mouse;
 
 public class GameState extends State{
 
@@ -28,7 +25,7 @@ public class GameState extends State{
 		//mFrame.addMouseListener(new Mouse());
 		
 		tabuleiro = new Tabuleiro();
-		mFrame.add(tabuleiro, BorderLayout.NORTH);
+		mFrame.setContentPane(tabuleiro);
 
 	
 		System.out.println("reach game state constructor last line");

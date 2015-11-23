@@ -5,8 +5,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import Gráficos.SideFrames.handPanels.HandCommandPanel;
 import Gráficos.SideFrames.handPanels.HandEastPanel;
 import entity.Carta;
+import entity.Entity;
 import listeners.CartaClickedListener;
 
 public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionListener, MouseAdapter*/{
@@ -29,10 +31,18 @@ public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionLi
 	public void mouseClicked(MouseEvent me) {	
 //		System.out.println(me.getX()+ ", "+ me.getY());
 		
-		if(me.getSource() instanceof Carta){
-			Carta aux = (Carta)me.getSource(); 
-			if(aux.getCartaClickedListener() != null)
-			aux.getCartaClickedListener().CardClicked(aux);
+		
+		if(me.getSource() instanceof Entity){
+			Entity entidade = (Entity)me.getSource();
+			HandCommandPanel.selected = entidade;
+			
+			if(entidade instanceof Carta){
+				Carta carta = (Carta)entidade; 
+				
+				if(carta.getCartaClickedListener() != null)
+				carta.getCartaClickedListener().CardClicked(carta);
+			}
+			
 		}
 		
 		this.clicked = true;
@@ -47,6 +57,7 @@ public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionLi
 	
 	@Override
 	public void mouseEntered(MouseEvent me) {
+		
 		if(me.getSource() instanceof Carta){
 			Carta aux = (Carta)me.getSource(); 
 			if(aux.getCartaClickedListener() != null)

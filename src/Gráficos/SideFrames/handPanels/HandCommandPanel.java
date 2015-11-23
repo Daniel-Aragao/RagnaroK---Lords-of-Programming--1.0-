@@ -8,14 +8,17 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import entity.Entity;
 import listeners.CommandListener;
 import tabuleiro.Jogador;
 import Gráficos.SideFrames.HandFrame;
 
 public class HandCommandPanel {
+	public static Entity selected;
 	private JPanel panel;
 	 
 	private JButton passarVez;
@@ -48,7 +51,10 @@ public class HandCommandPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				jogador.getCommandListener().passarVez(jogador);
+				if(JOptionPane.showConfirmDialog(jogador, "Tem certeza que deseja passar a vez?")==0){
+					selected = null;
+					jogador.getCommandListener().passarVez(jogador);
+				}
 				
 			}
 		});
@@ -57,7 +63,9 @@ public class HandCommandPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				jogador.getCommandListener().atacar(jogador);
+				Entity selec = selected;
+				if(selec != null && selec.getSide() != jogador.getSide())
+				jogador.getCommandListener().atacar(jogador,selec);
 				
 			}
 		});

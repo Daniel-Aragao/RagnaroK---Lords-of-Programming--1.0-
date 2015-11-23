@@ -1,6 +1,6 @@
 Sussurro
-Ivulnerável
+Espírito maltrapilho
 3
-3
-9
+7
+5
 ./Cartas/Criaturas/WhisperBoss.png

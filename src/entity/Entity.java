@@ -6,11 +6,10 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import tabuleiro.UpdaterEntity;
 import Util.Position;
 
 @SuppressWarnings("serial")
-public abstract class Entity  extends JPanel implements UpdaterEntity{
+public abstract class Entity  extends JPanel {
 	
 	protected Position position;
 
@@ -18,7 +17,19 @@ public abstract class Entity  extends JPanel implements UpdaterEntity{
 
 	protected BufferedImage imagem;
 	
+	protected String nome;
 	
+	protected char side;
+	
+	
+	public char getSide() {
+		return side;
+	}
+
+	public void setSide(char side) {
+		this.side = side;
+	}
+
 	public Entity(int width, int height){
 		this.width = width;
 		this.height = height;
@@ -35,14 +46,6 @@ public abstract class Entity  extends JPanel implements UpdaterEntity{
 
 	public void setImagem(BufferedImage imagem) {
 		this.imagem = imagem;
-		
-	}
-	
-	public abstract void update();
-	
-	public void draw(Graphics g){
-		this.getComponentGraphics(g);
-		g.drawImage(imagem, (int)position.x, (int)position.y, null);
 		
 	}
 	
@@ -64,5 +67,9 @@ public abstract class Entity  extends JPanel implements UpdaterEntity{
 		
 		gr.dispose();
 		
+	}
+
+	public String getNome() {
+		return nome;
 	}
 }

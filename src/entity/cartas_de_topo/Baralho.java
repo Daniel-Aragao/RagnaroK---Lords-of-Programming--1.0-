@@ -1,14 +1,10 @@
 package entity.cartas_de_topo;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-
 import state.inGameStates.TurnoState;
-import listeners.CartaClickedListener;
+import tabuleiro.Jogador;
 import Util.Lista_de_Generics;
 import entity.Carta;
 import entity.CartaParameters;
-import entity.Carta_Criatura;
 import entity.Carta_Especial;
 import entity.Carta_Magica;
 
@@ -17,9 +13,12 @@ public class Baralho extends Carta{
 	public final static int TAMANHO_DO_BARALHO = 30;
 
 	private Lista_de_Generics<Carta> lista;
+	private Jogador jogador;
 	
-	public Baralho(Lista_de_Generics<Carta> lista, CartaParameters cp) {
+	public Baralho(Lista_de_Generics<Carta> lista, CartaParameters cp, Jogador jogador) {
 		super(cp);
+		this.jogador = jogador;
+		this.side = jogador.getSide();
 		
 		this.width += 10;		
 		
@@ -38,7 +37,9 @@ public class Baralho extends Carta{
 		Lista_de_Generics<Carta> baralhoAux = new Lista_de_Generics<>(Baralho.TAMANHO_DO_BARALHO);
 		int qtd = lista.getQtdElementos();
 		for (int i = 0; i < qtd; i++) {
-			baralhoAux.addFim(lista.getElemento(i).copy());
+			Carta j = lista.getElemento(i).copy();
+			baralhoAux.addFim(j);
+			j.setSide(jogador.getSide());
 		}
 			
 
@@ -69,19 +70,26 @@ public class Baralho extends Carta{
 		}
 		magicas.fill();
 		for (int i = 0; i < magicas.length(); i++) {
-			baralhoAux.addFim(magicas.removerInicio());
+			Carta_Magica magica= magicas.removerInicio();
+			magica.setSide(this.side);
+			baralhoAux.addFim(magica);
 		}
 		eds.fill();
 		for (int i = 0; i < eds.length(); i++) {
-			baralhoAux.addFim(eds.removerInicio());
+			Carta_Especial ed = eds.removerInicio();
+			ed.setSide(this.side);
+			baralhoAux.addFim(ed);
 		}
 		oos.fill();
 		for (int i = 0; i < oos.length(); i++) {
-			baralhoAux.addFim(oos.removerInicio());
+			Carta_Especial oo = oos.removerInicio();
+			oo.setSide(this.side);
+			baralhoAux.addFim(oo);
 		}
 		return baralhoAux;
 	}
 
+		
 	public void embaralhar() {
 		lista.embaralhar();
 		
@@ -102,19 +110,10 @@ public class Baralho extends Carta{
 		return lista.remover(c);		
 	}
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
 	
-	
-		
-
-
 	@Override
 	public Carta copy() {
-		Baralho b = new Baralho(lista, cp);
+		Baralho b = new Baralho(lista, cp, jogador);
 		b.lista = this.lista;
 		
 		return b;

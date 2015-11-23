@@ -1,6 +1,7 @@
 package Gráficos.SideFrames.handPanels;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 
@@ -9,12 +10,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
+import Gráficos.SideFrames.HandFrame;
 import entity.Carta;
 
 @SuppressWarnings("serial")
 public class ScrollingCardPanel{
 	JPanel panel;
 	JScrollPane scrollPanel;
+	
 	
 	public ScrollingCardPanel(){
 		panel = new JPanel();
@@ -23,6 +26,9 @@ public class ScrollingCardPanel{
 		scrollPanel.setBackground(new Color(0,0,0,0));
 		
 		panel.setBackground(new Color(0,0,0,45));
+		
+		
+		panel.setPreferredSize(new Dimension(HandFrame.WIDTH/2 -30,HandFrame.HEIGHT));
 		
 		panel.setLayout(new FlowLayout());
 		
@@ -45,6 +51,12 @@ public class ScrollingCardPanel{
 	
 	public void addCard(Carta c){
 		panel.add(c);
+		int length = panel.getComponents().length;
+		if (length > 4){
+			Dimension aux = panel.getPreferredSize();
+			aux.height = aux.height + ( ( (int) ( length + 1 - 4) / 2 ) * (Carta.DEFAULT_CARTA_HEIGHT));
+			panel.setPreferredSize(aux);
+		}
 	}
 	public Carta removeCard(Carta c){
 		panel.remove(c);		

@@ -20,7 +20,6 @@ public abstract class Carta extends Entity {
 	
 	// Imagem da Carta
 	
-	protected String nome;
 	
 	//Listeners
 	protected CartaClickedListener cartaClickedListener;
@@ -49,9 +48,7 @@ public abstract class Carta extends Entity {
 		return descricao;
 	}
 
-	public String getNome() {
-		return nome;
-	}
+	
 
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -65,9 +62,6 @@ public abstract class Carta extends Entity {
 		return tipo.getValor();
 	}
 	
-
-	@Override
-	public abstract void update();
 
 	public void draw(){
 		

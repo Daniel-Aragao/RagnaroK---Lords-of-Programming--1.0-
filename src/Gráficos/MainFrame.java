@@ -47,6 +47,7 @@ public class MainFrame {
 		BufferedImage icon = Importar.getBackground(BackgroundID.icone);
 		frame.setIconImage(icon);
 		
+		
 		frame.setBackground(Color.black);
 		frame.pack();
 		frame.setVisible(true);
