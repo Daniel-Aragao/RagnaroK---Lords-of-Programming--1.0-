@@ -33,9 +33,12 @@ public class HandEastPanel {
 		
 		Dimension discrptDim = panel.getPreferredSize();
 		discrptDim.height = HandFrame.HEIGHT/3;
+		discrptDim.width = HandFrame.WIDTH/2 -3;
 		
 		descriptionPanel.getScrollPanel().setPreferredSize(discrptDim);
+		descriptionPanel.getPanel().setPreferredSize(discrptDim);
 		commandsPanel.getPanel().setPreferredSize(discrptDim);
+		
 		
 		panel.add(descriptionPanel.getScrollPanel(), BorderLayout.CENTER);
 		

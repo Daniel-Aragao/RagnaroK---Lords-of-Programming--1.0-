@@ -1,8 +1,5 @@
 package state.inGameStates;
 
-import handlers.AtackClickedHandler;
-import handlers.ClickedHandler;
-import handlers.ClickedBaralhoHandler;
 import tabuleiro.Jogador;
 import Gráficos.SideFrames.HandFrame;
 
@@ -13,8 +10,9 @@ public class AtaqueState extends TurnoState{
 		
 		hand.getFrame().setVisible(true);
 		
-		TurnoState.CLICKED_HANDLER = new AtackClickedHandler(jogador);
-		TurnoState.BARALHO_HANDLER = new ClickedBaralhoHandler(jogador);
+		
+//		TurnoState.BARALHO_HANDLER = new ClickedBaralhoHandler(jogador);
+//		TurnoState.CEMITERIO_HANDLER = new ClickedCemiterioHandler(jogador);
 	}
 
 	@Override

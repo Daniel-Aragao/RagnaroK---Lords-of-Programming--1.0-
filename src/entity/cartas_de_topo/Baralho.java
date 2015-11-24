@@ -1,6 +1,6 @@
 package entity.cartas_de_topo;
 
-import state.inGameStates.TurnoState;
+import handlers.ClickedHandler;
 import tabuleiro.Jogador;
 import Util.Lista_de_Generics;
 import entity.Carta;
@@ -8,6 +8,7 @@ import entity.CartaParameters;
 import entity.Carta_Especial;
 import entity.Carta_Magica;
 
+@SuppressWarnings("serial")
 public class Baralho extends Carta{
 	
 	public final static int TAMANHO_DO_BARALHO = 30;
@@ -22,7 +23,7 @@ public class Baralho extends Carta{
 		
 		this.width += 10;		
 		
-		this.addCartaClickedListener(TurnoState.BARALHO_HANDLER);
+		this.addCartaClickedListener(new ClickedHandler(this.jogador));
 		setBaralho(lista);
 	}
 
@@ -50,8 +51,8 @@ public class Baralho extends Carta{
 		qtd = baralhoAux.getQtdElementos();
 		for (int i = 0; i < qtd; i++) {
 			if (baralhoAux.getElemento(i) != null) {
-				
-				switch (baralhoAux.getElemento(i).getTipo()) {
+				Carta elemento = baralhoAux.getElemento(i);
+				switch (elemento.getTipo()) {
 				case MAGICA:
 					magicas.addFim((Carta_Magica) baralhoAux.remover(i));
 					i--;

@@ -1,12 +1,9 @@
 package state.inGameStates;
 
-import handlers.ClickedHandler;
-import handlers.ClickedBaralhoHandler;
+import handlers.ClickedCemiterioHandler;
 import tabuleiro.Jogador;
 
 public abstract class TurnoState {
-	public static ClickedHandler CLICKED_HANDLER;
-	public static ClickedBaralhoHandler BARALHO_HANDLER;
 	
 	private TurnoState currentState;
 

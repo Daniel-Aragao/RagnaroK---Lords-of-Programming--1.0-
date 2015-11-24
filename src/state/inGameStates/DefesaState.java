@@ -1,8 +1,7 @@
 package state.inGameStates;
 
-import handlers.DefenseClickedHandler;
-import Gráficos.SideFrames.HandFrame;
 import tabuleiro.Jogador;
+import Gráficos.SideFrames.HandFrame;
 
 public class DefesaState extends TurnoState{
 
@@ -11,8 +10,8 @@ public class DefesaState extends TurnoState{
 		
 		hand.getFrame().setVisible(false);
 		
-		TurnoState.CLICKED_HANDLER = new DefenseClickedHandler(jogador);
-		TurnoState.BARALHO_HANDLER = null;
+		
+//		TurnoState.BARALHO_HANDLER = null;
 	}
 
 	@Override

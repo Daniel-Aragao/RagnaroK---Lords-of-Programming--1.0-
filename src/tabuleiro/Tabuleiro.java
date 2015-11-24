@@ -98,15 +98,15 @@ public class Tabuleiro extends JPanel {
 		 
 //		g.drawImage(background, 0, 0, null);
 		///////////////////////LINE MAKER///////////////////////
-		g.setColor(Color.pink);
+		g.setColor(new Color(218, 160, 26));
 		
 		//FIRST LINE
-		g.fillRect( (int) Jogador.UP_REFERENCE.x, (int) Jogador.UP_REFERENCE.y-20, 1024, 4);
+		g.fillRect( 0, (int) Jogador.UP_REFERENCE.y-20, 1024, 4);
 		//SECOND (BROKEN) LINE
-		g.fillRect( (int) Jogador.DOWN_REFERENCE.x, (int) Jogador.DOWN_REFERENCE.y-20, 353, 4);
+		g.fillRect( 0, (int) Jogador.DOWN_REFERENCE.y-20, 353, 4);
 		g.fillRect( (int) 700, (int) Jogador.DOWN_REFERENCE.y-20, 355, 4);
 		//THIRD LINE
-		g.fillRect( (int) Jogador.DOWN_REFERENCE.x, (int) Jogador.DOWN_REFERENCE.y+300, 1024, 4);
+		g.fillRect( 0, (int) Jogador.DOWN_REFERENCE.y+300, 1024, 4);
 		
 		g.setColor(Color.black);
 		////////////////////////////////////////////////////////

@@ -18,16 +18,12 @@ public abstract class Carta extends Entity {
 	public int fantasy_CARTA_WIDTH = DEFAULT_CARTA_WIDTH,fantasy_CARTA_HEIGHT = DEFAULT_CARTA_HEIGHT;
 	
 	
-	// Imagem da Carta
-	
-	
 	//Listeners
 	protected CartaClickedListener cartaClickedListener;
+	//
 	
-	// Descrição da Carta
 	private String descricao;
 
-	// Tipo de Carta
 	private Tipo_Carta tipo;
 
 	protected CartaParameters cp;

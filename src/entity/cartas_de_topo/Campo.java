@@ -1,10 +1,8 @@
 package entity.cartas_de_topo;
 
+import listeners.MagicaAdicionadaListener;
+import handlers.ClickedHandler;
 import handlers.PisoClickedHandler;
-
-import java.awt.Rectangle;
-
-import state.inGameStates.TurnoState;
 import tabuleiro.Jogador;
 import tabuleiro.Tabuleiro;
 import Util.BackgroundID;
@@ -22,29 +20,75 @@ public class Campo{
 
 	private Lista_de_Generics<Carta_Criatura> lista;
 	private int length;
+	
 	private Baralho baralho;
 	private Cemiterio cemiterio;
 	private Jogador jogador;
+	private OO oo;
+	private ED ed;	
 	
+	private ClickedHandler campoClickedHandler;
 	
-	public Campo(Baralho baralho, Cemiterio cemiterio, Jogador jogador) {
+	public Campo(Baralho baralho, Cemiterio cemiterio, OO oo, ED ed,Jogador jogador) {
 		lista = new Lista_de_Generics<Carta_Criatura>(5);
+		
 		this.baralho = baralho;
 		this.cemiterio = cemiterio;
 		this.jogador = jogador;
+		this.ed = ed;
+		this.oo = oo;
+		
+		campoClickedHandler = new ClickedHandler(jogador);
+		
 		length = 0;
 		PisoCreator();
-		Putbaralho(); 
+		PutBaralho(); 
+		PutCemiterio();
+		PutOO();
+		PutED();
 	}
 	
-	private void Putbaralho() {
-		int x = (Carta.DEFAULT_CARTA_WIDTH+Jogador.ESPACAMENTO)*6;
+	private void PutED() {
+		int x = (int)jogador.getPosition().x;;
+		
+		int y = (int) this.jogador.getPosition().y;
+		
+		this.ed.setBounds(x, y, Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
+		
+		this.jogador.getTabuleiro().add(this.ed);
+		
+	}
+
+	private void PutOO() {
+		int x = (int)jogador.getPosition().x;
+		
+		int y = (int) this.jogador.getPosition().y + Carta.DEFAULT_CARTA_HEIGHT + Jogador.ESPACAMENTO - 10;
+		
+		this.oo.setBounds(x, y, Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
+		
+		this.jogador.getTabuleiro().add(this.oo);
+		
+	}
+
+	private void PutBaralho() {
+		int x = (int) ((Carta.DEFAULT_CARTA_WIDTH + Jogador.ESPACAMENTO)*6 + jogador.getPosition().x);
 		
 		int y = (int) this.jogador.getPosition().y;
 		
 		this.baralho.setBounds(x, y, Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
 		
 		this.jogador.getTabuleiro().add(this.baralho);
+		
+	}
+	
+	private void PutCemiterio(){
+		int x = (int) ((Carta.DEFAULT_CARTA_WIDTH + Jogador.ESPACAMENTO)*6 + jogador.getPosition().x);
+		
+		int y = (int) this.jogador.getPosition().y + Carta.DEFAULT_CARTA_HEIGHT + Jogador.ESPACAMENTO - 10;
+		
+		this.cemiterio.setBounds(x, y, Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
+		
+		this.jogador.getTabuleiro().add(this.cemiterio);		
 		
 	}
 
@@ -54,15 +98,14 @@ public class Campo{
 			
 			lista.addFim(aux);
 			
-		
-			
-			aux.setBounds((Carta.DEFAULT_CARTA_WIDTH+Jogador.ESPACAMENTO)*(lista.getIndex(aux)+1), 
+			aux.setBounds((int) ((Carta.DEFAULT_CARTA_WIDTH+Jogador.ESPACAMENTO)*(lista.getIndex(aux)+1)
+					+ this.jogador.getPosition().x), 
 					(int) this.jogador.getPosition().y, 
 					Carta.DEFAULT_CARTA_WIDTH, 
 					Carta.DEFAULT_CARTA_HEIGHT);
 			
 			
-			addMagicaNoCampo(aux,aux.getMagica(),this.jogador.getPosition(),this.jogador.getTabuleiro());
+			addMagicaNoCampo(aux,aux.getMagica());
 			
 			this.jogador.getTabuleiro().add(aux);
 		}		
@@ -94,7 +137,10 @@ public class Campo{
 		return magica;
 	}
 	
-	public void addPiso(Carta c){
+	public void addCarta(Carta c){
+		if(c instanceof Carta_Criatura){
+			addCriaturaNoCampo((Carta_Criatura) c);
+		}
 		
 	}
 	
@@ -116,34 +162,48 @@ public class Campo{
 		return -1;
 	}
 	
-	public void addCriaturaNoCampo(Carta_Criatura c,Position addPosition, Tabuleiro tabuleiro){
+	public void addCriaturaNoCampo(Carta_Criatura c){
+		Tabuleiro tabuleiro = jogador.getTabuleiro();
+		Position addPosition = jogador.getPosition();
 		
 		if(!isFull()){
 			
 			Carta_Criatura aux;
 			aux = (Carta_Criatura)this.baralho.remover(c);
 			int safeposition = safePosition();
-			removeCriaturaDoCampo(lista.getElemento(safeposition),tabuleiro);
+			removeCriaturaDoCampo(lista.getElemento(safeposition));
 			
 			
 			lista.add(safeposition,aux);
 		
 			
-			aux.setBounds((Carta.DEFAULT_CARTA_WIDTH+Jogador.ESPACAMENTO)*(lista.getIndex(aux)+1), 
+			aux.setBounds((int) ((Carta.DEFAULT_CARTA_WIDTH+Jogador.ESPACAMENTO)*(lista.getIndex(aux)+1)
+					+ this.jogador.getPosition().x), 
 					(int) addPosition.y, 
 					Carta.DEFAULT_CARTA_WIDTH, 
 					Carta.DEFAULT_CARTA_HEIGHT);
 			
-			aux.addCartaClickedListener(TurnoState.CLICKED_HANDLER);
-			addMagicaNoCampo(aux,aux.getMagica(),addPosition,tabuleiro);
+			aux.setMagicaAddedListener(new MagicaAdicionadaListener() {
+				
+				@Override
+				public void magicaSetada(Carta_Criatura cc, Carta_Magica cm) {
+					addMagicaNoCampo(cc, cm);
+				}
+			});
+			
+			aux.addCartaClickedListener(this.campoClickedHandler);
+			addMagicaNoCampo(aux,aux.getMagica());
 			
 			tabuleiro.add(aux);
 			length++;
 		}
 	}
 		
-	public void addMagicaNoCampo(Carta_Criatura cc, Carta_Magica c,Position addPosition, Tabuleiro tabuleiro){
+	public void addMagicaNoCampo(Carta_Criatura cc, Carta_Magica c){
+		Tabuleiro tabuleiro = jogador.getTabuleiro();
+		Position addPosition = jogador.getPosition();
 		Carta_Magica aux;
+		
 		if(c.getTipo() == Tipo_Carta.CAMPOMAGICA){
 			aux = c;
 		}else{
@@ -152,7 +212,7 @@ public class Campo{
 			
 		}		
 		
-		int x = (Carta.DEFAULT_CARTA_WIDTH+Jogador.ESPACAMENTO)*(lista.getIndex(cc)+1);
+		int x = (int) ((Carta.DEFAULT_CARTA_WIDTH+Jogador.ESPACAMENTO)*(lista.getIndex(cc)+1) + this.jogador.getPosition().x);
 		int y = (int) (addPosition.y + Jogador.ESPACAMENTO-10 + Carta.DEFAULT_CARTA_HEIGHT);
 		
 		if(tabuleiro.getComponentAt(x, y) != null){
@@ -162,37 +222,43 @@ public class Campo{
 		aux.setBounds(x, y, Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
 		
 		if(c.getTipo() != Tipo_Carta.CAMPOMAGICA){
-			aux.addCartaClickedListener(TurnoState.CLICKED_HANDLER);
+			aux.addCartaClickedListener(this.campoClickedHandler);
 		}
 		
 		tabuleiro.add(aux);
 			
 	}
 	
-	public void removeCriaturaDoCampo(Carta_Criatura c,Tabuleiro tabuleiro){
+	public void removeCriaturaDoCampo(Carta_Criatura c){
 		c.addCartaClickedListener(null);
+		Carta_Criatura novoPiso = getNewCarta_PisoCriatura();
 		
 		if(c.getTipo() != Tipo_Carta.CAMPOCRIATURA){
 			this.cemiterio.addCarta(c);
+			novoPiso.setBounds(c.getBounds());
 			lista.remover(c);
 			length--;
 		}
 		
-		removeMagicaDoCampo(c.getMagica(),tabuleiro);
+		removeMagicaDoCampo(c.getMagica());
 		c.setMagica(null);
+		c.setMagicaAddedListener(null);
 		
-		//Rectangle aux = c.getBounds();
-		tabuleiro.remove(c);
+		jogador.getTabuleiro().remove(c);
 		lista.remover(c);
-		//addPisoCriatura(aux);
+		
+		if(c.getTipo() != Tipo_Carta.CAMPOCRIATURA){
+			jogador.getTabuleiro().add(novoPiso);
+		}
+		
 	}
 	
 	
 	
-	private void removeMagicaDoCampo(Carta_Magica c, Tabuleiro tabuleiro) {
+	private void removeMagicaDoCampo(Carta_Magica c) {
 		c.addCartaClickedListener(null);
 		
-		tabuleiro.remove(c);
+		jogador.getTabuleiro().remove(c);
 		if(c.getTipo()!= Tipo_Carta.CAMPOMAGICA){
 			this.cemiterio.addCarta(c);	
 		}

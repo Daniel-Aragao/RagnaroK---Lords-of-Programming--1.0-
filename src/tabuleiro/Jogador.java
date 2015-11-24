@@ -1,5 +1,8 @@
 package tabuleiro;
 
+import handlers.ClickedHandler;
+
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,7 +10,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import listeners.CommandListener;
 import listeners.SelectedListener;
@@ -15,7 +17,7 @@ import state.inGameStates.AtaqueState;
 import state.inGameStates.DefesaState;
 import state.inGameStates.TurnoState;
 import Gráficos.SideFrames.HandFrame;
-import Gráficos.SideFrames.handPanels.HandPanel;
+import Gráficos.SideFrames.handPanels.DescriptionPanel;
 import Gráficos.SideFrames.handPanels.ScrollingCardPanel;
 import Util.BackgroundID;
 import Util.Importar;
@@ -24,21 +26,22 @@ import Util.Position;
 import entity.Carta;
 import entity.CartaParameters;
 import entity.Carta_Criatura;
-import entity.Carta_Especial;
 import entity.Carta_Magica;
 import entity.Entity;
 import entity.Tipo_Carta;
 import entity.cartas_de_topo.Baralho;
 import entity.cartas_de_topo.Campo;
 import entity.cartas_de_topo.Cemiterio;
+import entity.cartas_de_topo.ED;
+import entity.cartas_de_topo.OO;
 
 @SuppressWarnings("serial")
-public class Jogador extends Entity implements SelectedListener{
+public class Jogador extends Entity{
 	public static final Position UP_LABEL = new Position(100, 40);
 	public static final Position DOWN_LABEL = new Position(100, 720);
 	public static final Position[] VETLABEL = {Jogador.UP_LABEL,Jogador.DOWN_LABEL};	
-	public static final Position UP_REFERENCE = new Position(0,68+17);
-	public static final Position DOWN_REFERENCE = new Position(0,400+17);
+	public static final Position UP_REFERENCE = new Position(25,68+17);
+	public static final Position DOWN_REFERENCE = new Position(25,400+17);
 	public static final int ESPACAMENTO = 46;
 	public static final int WIDTH = 20;
 	public static final int HEIGHT = 20;
@@ -70,8 +73,8 @@ public class Jogador extends Entity implements SelectedListener{
 	private Baralho baralho;
 	private Cemiterio cemiterio;
 	private Campo campo;
-	private Carta_Especial ED;
-	private Carta_Especial OO;
+	private ED ed;
+	private OO oo;
 	
 	//private TopoBaralho topoBaralho; 
 	//private Lista_de_Generics<Carta_Especial> Registro_Especiais;
@@ -82,6 +85,7 @@ public class Jogador extends Entity implements SelectedListener{
 
 	private Tabuleiro tabuleiro;
 	private CommandListener commandListener;
+	private ClickedHandler clickedHandler;
 	
 	
 	public Jogador(Tabuleiro tabuleiro, Lista_de_Generics<Carta> baralho, PlayerPosition playerPosition) {
@@ -118,28 +122,27 @@ public class Jogador extends Entity implements SelectedListener{
 		
 		createButton();
 		
+		cartasCreator(baralho);
 		
-		///////////////CARTAS////////////////
-		/////////////////////////////////////
-		cartasCreator(baralho);		
+		this.setClickedHandler(ownClickedHandler());
 		
-		//if(playerPosition == PlayerPosition.UP_REFERENCE){
+			
 			Carta_Criatura aux2 = (Carta_Criatura) this.baralho.getElemento(5);
 			aux2.setMagica((Carta_Magica) this.baralho.getElemento(10));
-			campo.addCriaturaNoCampo(aux2,this.position,tabuleiro);
+			campo.addCriaturaNoCampo(aux2);
 			
 			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
 			aux2.setMagica((Carta_Magica) this.baralho.getElemento(11));
-			campo.addCriaturaNoCampo(aux2,this.position,tabuleiro);
+			campo.addCriaturaNoCampo(aux2);
 			
 			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
-			campo.addCriaturaNoCampo(aux2,this.position,tabuleiro);
+			campo.addCriaturaNoCampo(aux2);
 			
 			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
 			//campo.addCriaturaNoCampo(aux2,this.position,tabuleiro);
 			
 			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
-			campo.addCriaturaNoCampo(aux2,this.position,tabuleiro);
+			campo.addCriaturaNoCampo(aux2);
 			
 			Carta aux = this.baralho.getElemento(11);
 			addCartaMao(aux);
@@ -152,7 +155,7 @@ public class Jogador extends Entity implements SelectedListener{
 			aux = this.baralho.getElemento(15);
 			addCartaMao(aux);
 			
-		//}
+		
 		
 		this.baralho.embaralhar();
 	}
@@ -160,6 +163,13 @@ public class Jogador extends Entity implements SelectedListener{
 	
 
 	
+
+
+	
+
+
+
+
 
 
 	private void createButton() {
@@ -190,10 +200,28 @@ public class Jogador extends Entity implements SelectedListener{
 		this.baralho = new Baralho(baralho,cp, this);
 		
 		//cemiterio
-		cemiterio = new Cemiterio();
+		cp = new CartaParameters(Tipo_Carta.CEMITERIO);
+		cp.imagem = Importar.getBackground(BackgroundID.pisoCemitério);
+		cp.descricao = "Cemitério";
+		cp.nome = "Cemitério";
+		cemiterio = new Cemiterio(cp,this);
+		
+		//ed
+		cp = new CartaParameters(Tipo_Carta.ED);
+		cp.imagem = Importar.getBackground(BackgroundID.pisoED);
+		cp.descricao = "Estrutura de dados";
+		cp.nome = "ED";
+		ed = new ED(cp);
+		
+		//oo
+		cp = new CartaParameters(Tipo_Carta.OO);
+		cp.imagem = Importar.getBackground(BackgroundID.pisoOO);
+		cp.descricao = "Orientação a Objetos";
+		cp.nome = "OO";
+		oo = new OO(cp);
 		
 		//campo
-		campo = new Campo(this.baralho,cemiterio, this);
+		campo = new Campo(this.baralho, this.cemiterio, this.oo, this.ed, this);
 		
 	}
 
@@ -206,6 +234,7 @@ public class Jogador extends Entity implements SelectedListener{
 			}else{
 				this.jogadorInfo = new JLabel("Nome: "+this.nome+" Energia: "+energia+" Vez: Aguardando");
 			}
+			jogadorInfo.setForeground(Color.white);
 			
 			jogadorInfo.setBounds((int)this.interfacePosition.x, (int)this.interfacePosition.y,500,20);
 			
@@ -362,14 +391,86 @@ public class Jogador extends Entity implements SelectedListener{
 	}
 
 
+	
 
 
 
+	
 
-	@Override
-	public void select() {
-		// TODO Auto-generated method stub
+
+	private ClickedHandler ownClickedHandler() {
+		ClickedHandler ch = new ClickedHandler(this){
+			int acr = 10;
+			@Override
+			public void CardClicked(Carta c) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void CardHoover(Carta c, boolean b) {
+				DescriptionPanel description = getHand().getMainPanel().getEastPanel().getDescriptionPanel();
+				if(vez){
+					if(b){
+						crescer(c);
+						description.setInformacoes(c);
+					}else{
+						desCrescer(c);						
+					}
+				}else{
+					if(b){
+						diminuir(c);
+						description.setInformacoes(c);
+					}else{
+						desDiminuir(c);						
+					}
+				}
+			}
+			public void diminuir(Carta c){
+				c.setSize(Carta.DEFAULT_CARTA_WIDTH-acr, Carta.DEFAULT_CARTA_HEIGHT-acr);
+				c.fantasy_CARTA_WIDTH -= acr;
+				c.fantasy_CARTA_HEIGHT -= acr;
+				
+			}
+			public void desDiminuir(Carta c){
+				c.setSize(Carta.DEFAULT_CARTA_WIDTH,
+						Carta.DEFAULT_CARTA_HEIGHT);
+				c.fantasy_CARTA_WIDTH += acr;
+				c.fantasy_CARTA_HEIGHT += acr;
+				//description.setInformacoes(null);
+				c.repaint();
+			}
+			
+			public void crescer(Carta c){
+				c.setSize(Carta.DEFAULT_CARTA_WIDTH + acr,
+						Carta.DEFAULT_CARTA_HEIGHT + acr);
+				c.fantasy_CARTA_WIDTH += acr;
+				c.fantasy_CARTA_HEIGHT += acr;
+			}
+			public void desCrescer(Carta c){
+				c.setSize(Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
+				c.fantasy_CARTA_WIDTH -= acr;
+				c.fantasy_CARTA_HEIGHT -= acr;
+			}
+			
+		};
 		
+		return ch;
+	}
+
+
+
+	public ClickedHandler getClickedHandler() {
+		return clickedHandler;
+	}
+
+
+
+
+
+
+	public void setClickedHandler(ClickedHandler clickedHandler) {
+		this.clickedHandler = clickedHandler;
 	}
 
 }
