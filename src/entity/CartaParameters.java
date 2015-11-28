@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 
 import Game.Game;
 import Input.Mouse;
-import Util.Position;
 
 public class CartaParameters {
 	private Mouse mouse ;

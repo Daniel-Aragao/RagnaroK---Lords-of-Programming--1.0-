@@ -73,7 +73,6 @@ public class DescriptionPanel {
 	}
 
 	public void setInformacoes(Carta c){
-		
 		if(c != null){
 			setNome(c.getNome());
 			descricao.setDescricao(c.getDescricao());

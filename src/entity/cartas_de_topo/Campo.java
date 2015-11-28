@@ -1,6 +1,5 @@
 package entity.cartas_de_topo;
 
-import listeners.MagicaAdicionadaListener;
 import handlers.ClickedHandler;
 import handlers.PisoClickedHandler;
 import tabuleiro.Jogador;

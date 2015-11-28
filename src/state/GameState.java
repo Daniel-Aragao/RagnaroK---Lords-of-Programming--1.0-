@@ -50,11 +50,12 @@ public class GameState extends State{
 
 	@Override
 	public void repaintComponents() {
+		tabuleiro.repaintComponents();
 		for(Component i: mFrame.getComponents()){
 			i.revalidate();
 			i.repaint();
+			
 		}
-		tabuleiro.repaintComponents();
 	}
 
 

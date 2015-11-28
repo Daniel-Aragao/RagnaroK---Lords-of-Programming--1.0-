@@ -162,6 +162,8 @@ public class Jogador extends Entity{
 			aux = this.baralho.getElemento(15);
 			addCartaMao(aux);
 			
+			
+			
 		
 		putJogador();
 		this.baralho.embaralhar();
@@ -179,6 +181,8 @@ public class Jogador extends Entity{
 		defaultVida.setBorder(border);
 		defaultVida.setBounds((int)interfacePosition.x, (int)interfacePosition.y, ENERGIA_WIDTH, 25);
 		defaultVida.setBackground(new Color(0,0,0,0));
+		
+		this.addMouseListener(Game.Game.CARD_MOUSE);
 		
 		tabuleiro.add(defaultVida);
 		tabuleiro.add(this);
@@ -392,7 +396,6 @@ public class Jogador extends Entity{
 
 	public void repaintComponents() {
 		for(Component i : hand.getComponents()){
-			//i.validate();
 			i.revalidate();
 			i.repaint();
 		}

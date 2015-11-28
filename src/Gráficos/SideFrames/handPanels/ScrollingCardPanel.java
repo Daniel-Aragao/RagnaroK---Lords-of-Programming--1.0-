@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 import javax.swing.border.Border;
 
 import Gráficos.SideFrames.HandFrame;
@@ -24,6 +25,8 @@ public class ScrollingCardPanel{
 		scrollPanel = new JScrollPane(panel);
 		
 		scrollPanel.setBackground(new Color(0,0,0,0));
+		
+		scrollPanel.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
 		
 		panel.setBackground(new Color(0,0,0,45));
 		
@@ -52,11 +55,11 @@ public class ScrollingCardPanel{
 	public void addCard(Carta c){
 		panel.add(c);
 		int length = panel.getComponents().length;
-		if (length > 4){
+		
 			Dimension aux = panel.getPreferredSize();
-			aux.height = aux.height + ( ( (int) ( length + 1 - 4) / 2 ) * (Carta.DEFAULT_CARTA_HEIGHT));
+			aux.height = ( ( (int) ( length + 1) / 2 ) * (Carta.DEFAULT_CARTA_HEIGHT)) + 60;
 			panel.setPreferredSize(aux);
-		}
+		
 	}
 	public Carta removeCard(Carta c){
 		panel.remove(c);		

@@ -3,8 +3,10 @@ package Gráficos.SideFrames.handPanels;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import listeners.CommandListener;
@@ -39,6 +41,7 @@ public class HandPanel extends JPanel{
 		cardPanelDimension.width = HandFrame.WIDTH/2;		
 		
 		cardPanel.getScrollPanel().setPreferredSize(cardPanelDimension);
+		//cardPanel.getPanel().setPreferredSize(cardPanelDimension);
 		cardPanelDimension.width = HandFrame.WIDTH/2 -3;
 		eastPanel.getPanel().setPreferredSize(cardPanelDimension);		
 		
@@ -79,7 +82,11 @@ public class HandPanel extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics gr = g.create();
-	
+		
+		
+		
+		gr.clearRect(0, 0, HandFrame.WIDTH, HandFrame.HEIGHT);
+		
 		gr.drawImage(this.imagem, 0, 0,HandFrame.WIDTH,HandFrame.HEIGHT, null);
 		
 		

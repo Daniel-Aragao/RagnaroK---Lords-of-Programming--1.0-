@@ -2,6 +2,7 @@ package Gráficos.SideFrames.handPanels;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -99,9 +100,10 @@ public class HandCommandPanel {
 					HandCommandPanel.selected.setBorder(null);
 				}
 				
-				TitledBorder border = BorderFactory.createTitledBorder("Selecionado");
-				//border.setTitleColor(new Color(218, 160, 26));
-				border.setTitleColor(new Color(218,0,0));
+				TitledBorder border = BorderFactory.createTitledBorder("SELECIONADO");
+//				border.setTitleColor(new Color(0, 0, 0));
+				border.setTitleColor(new Color(62,28,100));
+				border.setTitlePosition(TitledBorder.ABOVE_BOTTOM);
 				selected.setBorder(border);			
 				
 				HandCommandPanel.selected = selected;

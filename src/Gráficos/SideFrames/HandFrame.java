@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
@@ -56,6 +57,12 @@ public class HandFrame extends JFrame{
 		this.setContentPane(handPanel);
 		
 		this.pack();
+		
+		BufferStrategy bs = this.getBufferStrategy();
+		if(bs == null){
+			this.createBufferStrategy(3);
+			return;
+		}
 	}
 	public JFrame getFrame(){
 		return this;
