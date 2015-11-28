@@ -1,5 +1,6 @@
 package entity;
 
+@SuppressWarnings("serial")
 public class Carta_Piso extends Carta {
 
 	public Carta_Piso(CartaParameters cp){

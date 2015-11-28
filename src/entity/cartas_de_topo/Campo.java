@@ -183,13 +183,13 @@ public class Campo{
 					Carta.DEFAULT_CARTA_WIDTH, 
 					Carta.DEFAULT_CARTA_HEIGHT);
 			
-			aux.setMagicaAddedListener(new MagicaAdicionadaListener() {
-				
-				@Override
-				public void magicaSetada(Carta_Criatura cc, Carta_Magica cm) {
-					addMagicaNoCampo(cc, cm);
-				}
-			});
+//			aux.setMagicaAddedListener(new MagicaAdicionadaListener() {
+//				
+//				@Override
+//				public void magicaSetada(Carta_Criatura cc, Carta_Magica cm) {
+//					addMagicaNoCampo(cc, cm);
+//				}
+//			});
 			
 			aux.addCartaClickedListener(this.campoClickedHandler);
 			addMagicaNoCampo(aux,aux.getMagica());
@@ -232,11 +232,12 @@ public class Campo{
 	public void removeCriaturaDoCampo(Carta_Criatura c){
 		c.addCartaClickedListener(null);
 		Carta_Criatura novoPiso = getNewCarta_PisoCriatura();
+		int posExcluido = 0;
 		
 		if(c.getTipo() != Tipo_Carta.CAMPOCRIATURA){
 			this.cemiterio.addCarta(c);
 			novoPiso.setBounds(c.getBounds());
-			lista.remover(c);
+			posExcluido = lista.getIndex(c);
 			length--;
 		}
 		
@@ -248,13 +249,29 @@ public class Campo{
 		lista.remover(c);
 		
 		if(c.getTipo() != Tipo_Carta.CAMPOCRIATURA){
-			jogador.getTabuleiro().add(novoPiso);
+			addCriaturaPisoNoCampo(novoPiso, posExcluido);
 		}
 		
 	}
 	
 	
 	
+	private void addCriaturaPisoNoCampo(Carta_Criatura aux, int posExcluido) {
+		lista.add(posExcluido,aux);
+		
+		
+		aux.setBounds((int) ((Carta.DEFAULT_CARTA_WIDTH+Jogador.ESPACAMENTO)*(lista.getIndex(aux)+1)
+				+ this.jogador.getPosition().x), 
+				(int) jogador.getPosition().y, 
+				Carta.DEFAULT_CARTA_WIDTH, 
+				Carta.DEFAULT_CARTA_HEIGHT);
+		
+		jogador.getTabuleiro().add(aux);
+		
+		addMagicaNoCampo(aux,aux.getMagica());
+		
+	}
+
 	private void removeMagicaDoCampo(Carta_Magica c) {
 		c.addCartaClickedListener(null);
 		
@@ -262,5 +279,18 @@ public class Campo{
 		if(c.getTipo()!= Tipo_Carta.CAMPOMAGICA){
 			this.cemiterio.addCarta(c);	
 		}
+	}
+
+	public int getAtaque() {
+		int resultado = 0;
+
+		for(int i = 0; i < lista.getQtdElementos(); i ++){
+			Carta_Criatura aux = lista.getElemento(i);
+			if(aux.getTipo() != Tipo_Carta.CAMPOCRIATURA){
+				resultado = aux.getAtaque();
+			}
+		}
+		
+		return resultado;
 	}
 }

@@ -4,15 +4,18 @@ import handlers.ClickedHandler;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import listeners.CommandListener;
-import listeners.SelectedListener;
 import state.inGameStates.AtaqueState;
 import state.inGameStates.DefesaState;
 import state.inGameStates.TurnoState;
@@ -37,14 +40,15 @@ import entity.cartas_de_topo.OO;
 
 @SuppressWarnings("serial")
 public class Jogador extends Entity{
-	public static final Position UP_LABEL = new Position(100, 40);
-	public static final Position DOWN_LABEL = new Position(100, 720);
+	public static final Position UP_LABEL = new Position(100, 16);
+	public static final Position DOWN_LABEL = new Position(100, 710);
 	public static final Position[] VETLABEL = {Jogador.UP_LABEL,Jogador.DOWN_LABEL};	
-	public static final Position UP_REFERENCE = new Position(25,68+17);
-	public static final Position DOWN_REFERENCE = new Position(25,400+17);
+	public static final Position UP_REFERENCE = new Position(25,68);
+	public static final Position DOWN_REFERENCE = new Position(25,400);
 	public static final int ESPACAMENTO = 46;
 	public static final int WIDTH = 20;
 	public static final int HEIGHT = 20;
+	public static final int ENERGIA_WIDTH = 350;
 	
 	public static final int ENERGIA_INICIAL = 150;
 
@@ -52,7 +56,7 @@ public class Jogador extends Entity{
 	private int energia;
 	private boolean vez;
 	PlayerPosition playerPosition;
-	SemiTransparentPanel semiTransparentPanel;
+	//private SemiTransparentPanel semiTransparentPanel;
 	private TurnoState turnoState;
 	private AtaqueState ataqueState;
 	private DefesaState defesaState;
@@ -86,6 +90,7 @@ public class Jogador extends Entity{
 	private Tabuleiro tabuleiro;
 	private CommandListener commandListener;
 	private ClickedHandler clickedHandler;
+	private DescriptionPanel description ;
 	
 	
 	public Jogador(Tabuleiro tabuleiro, Lista_de_Generics<Carta> baralho, PlayerPosition playerPosition) {
@@ -113,7 +118,7 @@ public class Jogador extends Entity{
 			this.setSide('2');
 			vez = false;
 		}
-		semiTransparentPanel = new SemiTransparentPanel(this.position);
+		//semiTransparentPanel = new SemiTransparentPanel(this.position);
 		
 		hand = new HandFrame(this);
 		
@@ -124,6 +129,8 @@ public class Jogador extends Entity{
 		
 		cartasCreator(baralho);
 		
+		this.description = getHand().getMainPanel().getEastPanel().getDescriptionPanel();
+		
 		this.setClickedHandler(ownClickedHandler());
 		
 			
@@ -132,7 +139,7 @@ public class Jogador extends Entity{
 			campo.addCriaturaNoCampo(aux2);
 			
 			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
-			aux2.setMagica((Carta_Magica) this.baralho.getElemento(11));
+			aux2.setMagica((Carta_Magica) this.baralho.getElemento(9));
 			campo.addCriaturaNoCampo(aux2);
 			
 			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
@@ -156,24 +163,35 @@ public class Jogador extends Entity{
 			addCartaMao(aux);
 			
 		
-		
+		putJogador();
 		this.baralho.embaralhar();
 	}
 	
-	
-
-	
-
-
-	
-
-
-
-
+	private void putJogador(){
+		
+		this.setBackground(new Color(255,0,0));
+		
+		this.setBounds((int)interfacePosition.x, (int)interfacePosition.y, ENERGIA_WIDTH, 25);
+		
+		JPanel defaultVida = new JPanel();
+		TitledBorder border = BorderFactory.createTitledBorder("");
+		border.setTitleColor(Color.white);
+		defaultVida.setBorder(border);
+		defaultVida.setBounds((int)interfacePosition.x, (int)interfacePosition.y, ENERGIA_WIDTH, 25);
+		defaultVida.setBackground(new Color(0,0,0,0));
+		
+		tabuleiro.add(defaultVida);
+		tabuleiro.add(this);
+	}
 
 
 	private void createButton() {
 		handButton = new JButton("Mão");
+		
+		handButton.setForeground(Color.white);
+		handButton.setBackground(new Color(62,28,100));
+		handButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		handButton.setFocusPainted(false);
 		
 		handButton.addActionListener(new ActionListener() {
 			
@@ -183,7 +201,7 @@ public class Jogador extends Entity{
 			}
 		});
 		
-		handButton.setBounds(0, (int)this.interfacePosition.y, 60, 25);
+		handButton.setBounds((int)this.position.x, (int)this.interfacePosition.y, 60, 25);
 		
 		tabuleiro.add(handButton);
 		
@@ -236,7 +254,7 @@ public class Jogador extends Entity{
 			}
 			jogadorInfo.setForeground(Color.white);
 			
-			jogadorInfo.setBounds((int)this.interfacePosition.x, (int)this.interfacePosition.y,500,20);
+			jogadorInfo.setBounds((int)this.interfacePosition.x, (int)this.interfacePosition.y,ENERGIA_WIDTH,20);
 			
 			tabuleiro.add(jogadorInfo);
 		}else{
@@ -246,6 +264,15 @@ public class Jogador extends Entity{
 				this.jogadorInfo.setText("Nome: "+this.nome+" Energia: "+energia+" Vez: Aguardando");
 			}
 		}
+	}
+	public void atualizarInfoEnergia(){
+		if(vez){
+			this.jogadorInfo.setText("Nome: "+this.nome+" Energia: "+energia+" Vez: Jogando!");
+		}else{
+			this.jogadorInfo.setText("Nome: "+this.nome+" Energia: "+energia+" Vez: Aguardando");
+		}
+		int newWidth = (energia*ENERGIA_WIDTH)/ENERGIA_INICIAL;
+		this.setSize(newWidth, 25);
 	}
 
 	public JLabel getJogadorInfo(){
@@ -258,10 +285,10 @@ public class Jogador extends Entity{
 		this.setJogadorInfo(nome, energia, vez);
 		if(vez){
 			turnoState = ataqueState = new AtaqueState(this, hand);
-			tabuleiro.remove(semiTransparentPanel);
+			//tabuleiro.remove(semiTransparentPanel);
 		}else{
 			turnoState = defesaState = new DefesaState(this, hand);
-			tabuleiro.add(semiTransparentPanel);
+			//tabuleiro.add(semiTransparentPanel);
 		}
 	}
 
@@ -327,6 +354,8 @@ public class Jogador extends Entity{
 	public int ataque(){
 		int resultado = 0;
 		
+		resultado = campo.getAtaque();
+		
 		return resultado;
 	}
 	public void defesa(int ataque, Entity alvo, Jogador jogadorAlvo){
@@ -338,21 +367,25 @@ public class Jogador extends Entity{
 		}else{
 			System.out.println("Impossível Atacar "+alvo.getNome());
 		}
-		
+		atualizarInfoEnergia();		
 	}
 	private void defender(int ataque, Carta_Criatura alvo, Jogador jogadorAlvo){
+		// ataque - defesa
 		int resultado = ataque - alvo.getDefesa();
 		if(resultado <= 0){
 			System.out.println("Defendido");
 		}else{
 			System.out.println("Morto");
+			campo.removeCriaturaDoCampo(alvo);
 			defender(resultado, jogadorAlvo);
 		}
+		System.out.println("Ataque: "+ataque);
+		System.out.println("Defesa: "+alvo.getDefesa());
 	}
 	private void defender(int ataque, Jogador alvo){
 		//vida - dano 
 		alvo.setEnergia(alvo.getEnergia() - ataque);
-		if(alvo.getEnergia() < 0){
+		if(alvo.getEnergia() <= 0){
 			System.out.println("Fim de jogo. "+  alvo.getNome().toUpperCase()+" perdeu!!");
 		}
 	}
@@ -391,7 +424,9 @@ public class Jogador extends Entity{
 	}
 
 
-	
+	public DescriptionPanel getDescription(){
+		return this.description;
+	}
 
 
 
@@ -409,18 +444,19 @@ public class Jogador extends Entity{
 
 			@Override
 			public void CardHoover(Carta c, boolean b) {
-				DescriptionPanel description = getHand().getMainPanel().getEastPanel().getDescriptionPanel();
+				
 				if(vez){
 					if(b){
 						crescer(c);
-						description.setInformacoes(c);
+						commandListener.hooverInfo(c);
 					}else{
 						desCrescer(c);						
 					}
 				}else{
 					if(b){
 						diminuir(c);
-						description.setInformacoes(c);
+						//description.setInformacoes(c);
+						commandListener.hooverInfo(c);
 					}else{
 						desDiminuir(c);						
 					}

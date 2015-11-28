@@ -22,8 +22,8 @@ public class Tabuleiro extends JPanel {
 	public static final BufferedImage BACKGROUND = Importar.getBackground(BackgroundID.JogoBackground);
 	
 	
-	public static final Position UP_TAB = new Position(0,52),
-								DOWN_TAB = new Position(0,388);
+	//public static final Position UP_TAB = new Position(0,52),
+	//							DOWN_TAB = new Position(0,388);
 	
 	
 	//private Importar importar = new Importar();
@@ -80,7 +80,14 @@ public class Tabuleiro extends JPanel {
 				}else{
 					System.out.println("Jogador B Ataca: "+ alvo.getNome());
 					jogadorA.defesa(jogadorB.ataque(), alvo, jogadorA);
-				}
+				}				
+			}
+
+
+			@Override
+			public void hooverInfo(Carta c) {
+				jogadorA.getDescription().setInformacoes(c);
+				jogadorB.getDescription().setInformacoes(c);
 				
 			}
 			

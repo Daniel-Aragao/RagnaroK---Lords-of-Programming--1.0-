@@ -1,7 +1,7 @@
 package entity;
 
-import java.awt.Graphics;
 
+@SuppressWarnings("serial")
 public class Carta_Magica extends Carta {
 	
 	public Carta_Magica(CartaParameters cp) {
@@ -9,12 +9,8 @@ public class Carta_Magica extends Carta {
 	}
 
 	
-
-	@Override
-	public void draw() {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	
 
 	@Override
 	public Carta copy() {

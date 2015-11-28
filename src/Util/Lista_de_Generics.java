@@ -143,25 +143,7 @@ public class Lista_de_Generics<T> implements Iterable<T>{
 	}
 
 	public T remover(T e) throws RuntimeException {
-		if (isEmpty()) {
-			throw new RuntimeException("is Empty");
-		} else {
-			
-			T aux = null;
-			for (int i = 0; i < getQtdElementos(); i++) {
-				aux = lista.get(i);
-				if(aux == e){
-					lista.remove(i);
-					setQtdElementos(getQtdElementos() - 1);
-					return aux;
-				}
-			}
-			setQtdElementos(getQtdElementos() - 1);
-			
-			return aux;
-			
-		}
-
+		return remover(getIndex(e));
 	}
 	
 	public void embaralhar() throws RuntimeException {

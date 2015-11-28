@@ -34,7 +34,7 @@ public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionLi
 		
 		if(me.getSource() instanceof Entity){
 			Entity entidade = (Entity)me.getSource();
-			HandCommandPanel.selected = entidade;
+			HandCommandPanel.setSelected(entidade);
 			
 			if(entidade instanceof Carta){
 				Carta carta = (Carta)entidade; 
@@ -63,8 +63,8 @@ public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionLi
 			if(aux.getCartaClickedListener() != null)
 			aux.getCartaClickedListener().CardHoover(aux, true);
 			
-			
-		}
+		}		
+		
 	}
 
 	@Override

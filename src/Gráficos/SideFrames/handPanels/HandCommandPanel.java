@@ -6,19 +6,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
-import entity.Entity;
 import listeners.CommandListener;
 import tabuleiro.Jogador;
 import Gráficos.SideFrames.HandFrame;
+import entity.Carta_Criatura;
+import entity.Entity;
 
 public class HandCommandPanel {
-	public static Entity selected;
+	private static Entity selected;
 	private JPanel panel;
 	 
 	private JButton passarVez;
@@ -85,6 +86,27 @@ public class HandCommandPanel {
 
 	public void setCommandListener(CommandListener commandListener) {
 		this.commandListener = commandListener;
+	}
+
+	public static Entity getSelected() {
+		return selected;
+	}
+
+	public static void setSelected(Entity selected) {
+		if(selected instanceof Carta_Criatura || selected instanceof Jogador){
+			if(!selected.getNome().toLowerCase().contains("piso")){
+				if(selected != HandCommandPanel.selected && HandCommandPanel.selected!=null){
+					HandCommandPanel.selected.setBorder(null);
+				}
+				
+				TitledBorder border = BorderFactory.createTitledBorder("Selecionado");
+				//border.setTitleColor(new Color(218, 160, 26));
+				border.setTitleColor(new Color(218,0,0));
+				selected.setBorder(border);			
+				
+				HandCommandPanel.selected = selected;
+			}
+		}
 	}
 	
 	

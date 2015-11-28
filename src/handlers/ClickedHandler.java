@@ -21,19 +21,7 @@ public class ClickedHandler implements CartaClickedListener {
 	@Override
 	public void CardClicked(Carta c) {
 
-		if (c instanceof Carta_Criatura){
-			System.out.println("Carta criatura clicada");
-			c.stateAction();
-		}
-		if (c instanceof Carta_Magica){
-			System.out.println("Carta Magica clicada");
-		}
-		if (c instanceof Carta_ED){
-			System.out.println("Carta ED clicada");
-		}
-		if (c instanceof Carta_OO){
-			System.out.println("Carta OO clicada");
-		}
+		
 
 	}
 
