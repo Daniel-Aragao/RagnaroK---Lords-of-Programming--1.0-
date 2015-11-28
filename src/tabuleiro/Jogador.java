@@ -175,16 +175,16 @@ public class Jogador extends Entity{
 		
 		this.setBounds((int)interfacePosition.x, (int)interfacePosition.y, ENERGIA_WIDTH, 25);
 		
-		JPanel defaultVida = new JPanel();
-		TitledBorder border = BorderFactory.createTitledBorder("");
-		border.setTitleColor(Color.white);
-		defaultVida.setBorder(border);
-		defaultVida.setBounds((int)interfacePosition.x, (int)interfacePosition.y, ENERGIA_WIDTH, 25);
-		defaultVida.setBackground(new Color(0,0,0,0));
+		//JPanel defaultVida = new JPanel();
+		//TitledBorder border = BorderFactory.createTitledBorder("");
+		//border.setTitleColor(Color.white);
+		//defaultVida.setBorder(border);
+		//defaultVida.setBounds((int)interfacePosition.x, (int)interfacePosition.y, ENERGIA_WIDTH, 25);
+		//defaultVida.setBackground(new Color(0,0,0,0));
+		//tabuleiro.add(defaultVida);
 		
 		this.addMouseListener(Game.Game.CARD_MOUSE);
 		
-		tabuleiro.add(defaultVida);
 		tabuleiro.add(this);
 	}
 
