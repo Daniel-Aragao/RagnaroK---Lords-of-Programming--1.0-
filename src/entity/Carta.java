@@ -75,6 +75,7 @@ public abstract class Carta extends Entity {
 		gr.dispose();
 		
 	}
+	
 	public void addCartaClickedListener(CartaClickedListener listener){
 		this.cartaClickedListener = listener;
 	}

@@ -4,3 +4,4 @@ Terror das cavernas
 4
 7
 ./Cartas/Criaturas/Siroma.jpg
+./Cartas/Criaturas/SiromaDEF.jpg

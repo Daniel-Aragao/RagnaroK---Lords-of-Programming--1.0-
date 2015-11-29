@@ -44,7 +44,7 @@ public class HandFrame extends JFrame{
 	private void createFrame() {
 		this.setTitle("Mão "+jogador.getNome());
 		this.setPreferredSize(HandFrame.DEFAULT_HAND_DIMENSION);
-		this.setLocationRelativeTo(jogador.getTabuleiro().getParent());
+		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setVisible(false);
 		this.setFocusable(false);

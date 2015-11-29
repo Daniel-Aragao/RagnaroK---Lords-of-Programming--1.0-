@@ -21,14 +21,11 @@ import entity.Entity;
 public class Tabuleiro extends JPanel {
 	public static final BufferedImage BACKGROUND = Importar.getBackground(BackgroundID.JogoBackground);
 	
-	
-	//public static final Position UP_TAB = new Position(0,52),
-	//							DOWN_TAB = new Position(0,388);
-	
-	
-	//private Importar importar = new Importar();
+
 	private Jogador jogadorA;
 	private Jogador jogadorB;
+	
+	private Turno turno;
 	
 	
 	public Tabuleiro() {
@@ -41,18 +38,19 @@ public class Tabuleiro extends JPanel {
 		this.setMinimumSize(MainFrame.MainDimension);
 		this.setMaximumSize(MainFrame.MainDimension);
 		this.setLayout(null);
+		
+		CommandListener cl = commandCreator();
+		turno = new Turno();
+		turno.setCommandListener(cl);
 
 		jogadorA = new Jogador(this, baralho, PlayerPosition.UP_REFERENCE);
 		jogadorB = new Jogador(this, baralho, PlayerPosition.DOWN_REFERENCE);
-//		this.add(jogadorA.getJogadorInfo(), BorderLayout.NORTH);
-//		this.add(new JLabel("33333333333333333333333333333333333333333333333"), BorderLayout.NORTH);
-//		this.addMouseListener(new Mouse());
 		
-		CommandListener cl = commandCreator();
 		jogadorA.setCommandListener(cl);
 		jogadorB.setCommandListener(cl);
 		
 		this.setVisible(true);
+		//turno.start();
 	}
 	
 	public CommandListener commandCreator(){
@@ -63,9 +61,11 @@ public class Tabuleiro extends JPanel {
 				if(jogador == jogadorA){
 					jogadorA.setVez(false);
 					jogadorB.setVez(true);
+					turno.setJogador(jogadorB);
 				}else{
 					jogadorA.setVez(true);
 					jogadorB.setVez(false);
+					turno.setJogador(jogadorA);
 				}
 				
 			}
@@ -80,7 +80,9 @@ public class Tabuleiro extends JPanel {
 				}else{
 					System.out.println("Jogador B Ataca: "+ alvo.getNome());
 					jogadorA.defesa(jogadorB.ataque(), alvo, jogadorA);
-				}				
+				}
+				
+				turno.externalNotify();
 			}
 
 
@@ -103,46 +105,25 @@ public class Tabuleiro extends JPanel {
 		 gr.drawImage(BACKGROUND,0,0,MainFrame.WIDTH*MainFrame.SCALE
 				 ,MainFrame.HEIGHT*MainFrame.SCALE,null);
 		 
-//		g.drawImage(background, 0, 0, null);
 		///////////////////////LINE MAKER///////////////////////
 		g.setColor(new Color(218, 160, 26));
 		
 		//FIRST LINE
 		g.fillRect( 0, (int) Jogador.UP_REFERENCE.y-20, 1024, 4);
+		
 		//SECOND (BROKEN) LINE
 		g.fillRect( 0, (int) Jogador.DOWN_REFERENCE.y-20, 353, 4);
 		g.fillRect( (int) 700, (int) Jogador.DOWN_REFERENCE.y-20, 355, 4);
+		
 		//THIRD LINE
 		g.fillRect( 0, (int) Jogador.DOWN_REFERENCE.y+300, 1024, 4);
 		
 		g.setColor(Color.black);
 		////////////////////////////////////////////////////////
 		gr.dispose();
-//		g.dispose();
-	}
-	
-	public void draw(Graphics g){
-//		this.getComponentGraphics(g);
-		
-		//g.drawImage(background, 0, 0, null);
-		//jogadorA.draw(g);
-		//jogadorB.draw(g);
-		
-		//g.drawRect(30, 30, 30, 30);
-		
 	}
 	
 	
-
-//	public boolean repetida(Carta_Especial c) {
-//		for (int i = 0; i < Registro_Especiais.getQtdElementos(); i++) {
-//			Carta_Especial C = Registro_Especiais.getElemento(i);
-//			if (c.getValor() == C.getValor()) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
 	
 
 	
@@ -153,12 +134,10 @@ public class Tabuleiro extends JPanel {
 		
 	}
 
-	public void trocaVez(Jogador jogador) {
-		if(jogador == jogadorA){
-			jogadorB.setVez(true);
-		}else{
-			jogadorA.setVez(true);
-		}
+	
+
+	public void update() {
+		// TODO Auto-generated method stub
 		
 	}
 

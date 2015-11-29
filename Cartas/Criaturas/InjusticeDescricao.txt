@@ -4,3 +4,4 @@ O Lamento de Glast Heim
 4
 8
 ./Cartas/Criaturas/Injustice.png
+./Cartas/Criaturas/InjusticeDEF.png

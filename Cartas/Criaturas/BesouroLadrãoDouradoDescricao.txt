@@ -4,3 +4,4 @@ Demônio do esgoto de Prontera
 3
 6
 ./Cartas/Criaturas/BesouroLadrãoDourado.png
+./Cartas/Criaturas/BesouroLadrãoDouradoDEF.png

@@ -48,6 +48,8 @@ public class HandCommandPanel {
 		passarVez = new JButton("Passar a Vez");
 		atacar = new JButton("Atacar");
 		
+		atacar.setEnabled(false);
+		
 		passarVez.addActionListener(new ActionListener() {
 			
 			@Override
@@ -69,6 +71,7 @@ public class HandCommandPanel {
 				if(selec != null && selec.getSide() != jogador.getSide())
 				jogador.getCommandListener().atacar(jogador,selec);
 				
+				setSelected(null);				
 			}
 		});
 		
@@ -95,6 +98,11 @@ public class HandCommandPanel {
 
 	public static void setSelected(Entity selected) {
 		if(selected instanceof Carta_Criatura || selected instanceof Jogador){
+			if(selected instanceof Jogador){
+				if(((Jogador)selected).isDefended()){
+					return;
+				}
+			}
 			if(!selected.getNome().toLowerCase().contains("piso")){
 				if(selected != HandCommandPanel.selected && HandCommandPanel.selected!=null){
 					HandCommandPanel.selected.setBorder(null);
@@ -105,10 +113,19 @@ public class HandCommandPanel {
 				border.setTitleColor(new Color(62,28,100));
 				border.setTitlePosition(TitledBorder.ABOVE_BOTTOM);
 				selected.setBorder(border);			
-				
 				HandCommandPanel.selected = selected;
+				
 			}
 		}
+		if(selected == null && HandCommandPanel.selected != null){
+			HandCommandPanel.selected.setBorder(null);
+			HandCommandPanel.selected = selected;
+		}
+	}
+
+	public void allowAtack(boolean letAtack) {
+		this.atacar.setEnabled(letAtack);
+		
 	}
 	
 	

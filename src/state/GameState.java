@@ -20,9 +20,6 @@ public class GameState extends State{
 		this.game = game;
 		Round = 0;
 		mFrame = game.getFrame().getFrame();
-//		mFrame.add(new JLabel("11111111111111111111111111111111111111111"), BorderLayout.SOUTH);
-		
-		//mFrame.addMouseListener(new Mouse());
 		
 		tabuleiro = new Tabuleiro();
 		mFrame.setContentPane(tabuleiro);
@@ -35,17 +32,8 @@ public class GameState extends State{
 
 	@Override
 	public void update() {
-		//tabuleiro.update();
+		tabuleiro.update();
 	}
-
-
-
-	@Override
-	public void draw(Graphics g) {
-		tabuleiro.draw(g);
-		
-	}
-
 
 
 	@Override

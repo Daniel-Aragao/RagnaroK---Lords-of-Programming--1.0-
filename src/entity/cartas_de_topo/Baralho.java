@@ -1,7 +1,11 @@
 package entity.cartas_de_topo;
 
+import java.awt.Component;
+
 import handlers.ClickedHandler;
 import tabuleiro.Jogador;
+import Gráficos.SideFrames.SelectFrame;
+import Gráficos.SideFrames.SelectPanel.SelectPanel;
 import Util.Lista_de_Generics;
 import entity.Carta;
 import entity.CartaParameters;
@@ -15,6 +19,8 @@ public class Baralho extends Carta{
 
 	private Lista_de_Generics<Carta> lista;
 	private Jogador jogador;
+	private SelectFrame selectFrame;
+	private SelectPanel selectPanel;
 	
 	public Baralho(Lista_de_Generics<Carta> lista, CartaParameters cp, Jogador jogador) {
 		super(cp);
@@ -25,6 +31,20 @@ public class Baralho extends Carta{
 		
 		this.addCartaClickedListener(new ClickedHandler(this.jogador));
 		setBaralho(lista);
+		
+		this.selectFrame = new SelectFrame();
+		this.selectPanel = this.selectFrame.getMainPanel();
+	}
+	
+	public void itWasClicked(){
+		if(jogador.getVez()){
+			
+			this.selectFrame.setVisible(true);
+			parei em quanto setava as propriedades de turno, como os waits e os controles dos
+			butões dos sidepanels como o selectPanel que estava fazendo antes de ir dormir
+			lembrar de agilizar pois amanhã ainda tem o trabalho de administração para fzr;
+			
+		}
 	}
 
 	public void setBaralho(Lista_de_Generics<Carta> baralho) {
@@ -123,5 +143,13 @@ public class Baralho extends Carta{
 	public Carta getElemento(int i) {
 		// TODO Auto-generated method stub
 		return lista.getElemento(i);
+	}
+
+	public void repaintComponents() {
+		for(Component i : this.selectFrame.getComponents()){
+			i.revalidate();
+			i.repaint();
+		}		
+		
 	}
 }

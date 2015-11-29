@@ -16,8 +16,6 @@ public abstract class State {
 	
 	//abstract states
 	public abstract void update();
-
-	public abstract void draw(Graphics g);
 	
 	public abstract void repaintComponents();
 	

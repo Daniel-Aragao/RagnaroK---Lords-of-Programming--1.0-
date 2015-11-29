@@ -4,3 +4,4 @@ O baú do Desespero.
 7
 4
 ./Cartas/Criaturas/MimicoAnciao.jpg
+./Cartas/Criaturas/MimicoAnciaoDEF.jpg

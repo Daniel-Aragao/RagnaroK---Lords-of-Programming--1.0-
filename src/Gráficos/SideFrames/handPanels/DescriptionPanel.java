@@ -82,8 +82,8 @@ public class DescriptionPanel {
 		}
 		if(c instanceof Carta_Criatura){
 			Carta_Criatura ccriatura = (Carta_Criatura)c;
-			setAtaque(ccriatura.getAtaque()+"");
-			setDefesa(ccriatura.getDefesa()+"");
+			setAtaque(ccriatura.getAtaque(false)+"");
+			setDefesa(ccriatura.getDefesa(false)+"");
 			setSkill(ccriatura.getSkill()+"");
 		}else{
 			setAtaque(null);

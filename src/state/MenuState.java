@@ -25,12 +25,6 @@ public class MenuState extends State{
 	}
 
 	@Override
-	public void draw(Graphics g) {
-		
-		
-	}
-
-	@Override
 	public void repaintComponents() {
 		// TODO Auto-generated method stub
 		

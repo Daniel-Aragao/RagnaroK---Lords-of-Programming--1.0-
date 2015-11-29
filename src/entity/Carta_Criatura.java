@@ -1,10 +1,10 @@
 package entity;
 
+import java.awt.image.BufferedImage;
+
 import javax.swing.JOptionPane;
 
-import listeners.MagicaAdicionadaListener;
-import listeners.SelectedListener;
-import state.inGameStates.TurnoState;
+import listeners.MagicSetListener;
 import entity.cartas_de_topo.Campo;
 
 @SuppressWarnings("serial")
@@ -14,51 +14,85 @@ public class Carta_Criatura extends Carta {
 	private int defesa;
 	private int skill;
 	private boolean atackMode;
+	private BufferedImage defImage;
+	private BufferedImage atqImage;
 
 	// Carta Mágica Associada
 	private Carta_Magica magica;
+	private MagicSetListener magicSetListener;
 
-	private MagicaAdicionadaListener magicaAddedListener;
-
-	public Carta_Criatura(int ataque, int defesa, int skill, CartaParameters cp) {
+	
+	public Carta_Criatura(int ataque, int defesa, int skill,BufferedImage defImage, CartaParameters cp) {
 		super(cp);
 		// TODO Auto-generated constructor stub
 		this.ataque = ataque;
 		this.defesa = defesa;
 		this.skill = skill;
-		this.setMagica(null);
-		this.setModo_de_ataque(true);
+		atqImage = this.imagem;
+		this.defImage = defImage; 
+		this.magica = Campo.getNewCarta_PisoMagica();
+		setAtackMode(true);
 	}
 
 	// public int getActionResult(boolean vez){
 	// if(vez)return getAtaque();
 	// return getDefesa();
 	// }
+	
+	public int getAtaqueValue(){
+		return this.ataque;
+	}
 
-	public int getAtaque() {
+	public int getAtaque(boolean atacando) {
 		int atq = this.ataque;
 
 		if (this.magica != null) {
-			if (magica.getNome().toLowerCase() == "if") {
-				String[] options = new String[2];
-				options[0] = new String("ATQ");
-				options[1] = new String("DEF");
-				
-				if (JOptionPane.showOptionDialog(this,
-						"Utilizar ATQ ou DEF neste ataque?", "IF",
-						JOptionPane.OK_CANCEL_OPTION,
-						JOptionPane.PLAIN_MESSAGE, null, options, null) == 0) {
+			if (magica.getNome().toLowerCase().equals("if")) {
+				if(atacando){
+					String[] options = new String[2];
+					options[0] = new String("ATQ");
+					options[1] = new String("DEF");
 					
-					atq = this.defesa;
+					if (JOptionPane.showOptionDialog(this,
+							"Utilizar ATQ ou DEF neste ataque?", "IF",
+							JOptionPane.OK_CANCEL_OPTION,
+							JOptionPane.PLAIN_MESSAGE, null, options, null) != 0) {
+						
+						atq = this.defesa;
+					}
 				}
-			}
+			}else if(magica.getNome().toLowerCase().equals("while")){
+				atq = this.ataque * this.skill;
+			}//else if(){
+				
+			//}
 		}
 
 		return atq;
 	}
 
-	public int getDefesa() {
-		return defesa;
+	public int getDefesa(boolean defendendo) {
+		int def = this.defesa;
+		if(this.magica != null){
+			if(this.magica.getNome().toLowerCase().equals("if")){
+				if(defendendo){
+					String[] options = new String[2];
+					options[0] = new String("ATQ");
+					options[1] = new String("DEF");
+					
+					if (JOptionPane.showOptionDialog(this,
+							"Utilizar ATQ ou DEF nesta defesa?", "IF",
+							JOptionPane.OK_CANCEL_OPTION,
+							JOptionPane.PLAIN_MESSAGE, null, options, null) == 0) {
+						
+						def = this.ataque;
+					}
+				}
+			}else if(this.magica.getNome().toLowerCase().equals("while")){
+				def = this.defesa*this.skill;
+			}
+		}
+		return def;
 	}
 
 	public int getSkill() {
@@ -70,38 +104,43 @@ public class Carta_Criatura extends Carta {
 	}
 
 	public void setMagica(Carta_Magica magica) {
-
-		if (magica == null) {
-			this.magica = Campo.getNewCarta_PisoMagica();
-		} else {
-			this.magica = magica;
+		
+		if(magicSetListener != null){
+			this.magicSetListener.magicaSetada(this, magica);
 		}
 
-		if (this.getMagicaAddedListener() != null) {
-			magicaAddedListener.magicaSetada(this, magica);
-		}
+		this.magica = magica;
+		
 	}
 
-	public MagicaAdicionadaListener getMagicaAddedListener() {
-		return magicaAddedListener;
-	}
-
-	public void setMagicaAddedListener(
-			MagicaAdicionadaListener magicaAddedListener) {
-		this.magicaAddedListener = magicaAddedListener;
-	}
+	
 
 	@Override
 	public Carta copy() {
-		Carta_Criatura aux = new Carta_Criatura(ataque, defesa, skill, cp);
+		Carta_Criatura aux = new Carta_Criatura(ataque, defesa, skill,defImage, cp);
 		return aux;
 	}
 
-	public boolean isModo_de_ataque() {
+	public boolean isAtackMode() {
 		return atackMode;
 	}
 
-	public void setModo_de_ataque(boolean modo_de_ataque) {
-		this.atackMode = modo_de_ataque;
+	public void setAtackMode(boolean atackMode) {
+		this.atackMode = atackMode;
+		if(atackMode){
+			this.imagem = this.atqImage;
+		}else{
+			this.imagem = this.defImage;
+		}
 	}
+
+	public MagicSetListener getMagicSetListener() {
+		return magicSetListener;
+	}
+
+	public void setMagicSetListener(MagicSetListener magicSetListener) {
+		this.magicSetListener = magicSetListener;
+	}
+	
+	
 }

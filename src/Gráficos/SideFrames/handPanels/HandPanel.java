@@ -49,7 +49,7 @@ public class HandPanel extends JPanel{
 		add(cardPanel.getScrollPanel(),BorderLayout.WEST);
 		add(eastPanel.getPanel(),BorderLayout.EAST);
 		
-		commandPanel = eastPanel.getCommandsPanel();
+		setCommandPanel(eastPanel.getCommandsPanel());
 		
 		
 	}
@@ -92,6 +92,16 @@ public class HandPanel extends JPanel{
 		
 		gr.dispose();
 		
+	}
+
+
+	public HandCommandPanel getCommandPanel() {
+		return commandPanel;
+	}
+
+
+	public void setCommandPanel(HandCommandPanel commandPanel) {
+		this.commandPanel = commandPanel;
 	}
 	
 	

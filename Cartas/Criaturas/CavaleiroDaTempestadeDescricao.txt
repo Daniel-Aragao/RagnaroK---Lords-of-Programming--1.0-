@@ -4,3 +4,4 @@ Demônio do natal
 3
 5
 ./Cartas/Criaturas/CavaleiroDaTempestade.jpg
+./Cartas/Criaturas/CavaleiroDaTempestadeDEF.jpg

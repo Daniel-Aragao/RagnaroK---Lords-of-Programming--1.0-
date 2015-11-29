@@ -2,12 +2,8 @@ package handlers;
 
 import listeners.CartaClickedListener;
 import tabuleiro.Jogador;
-import Gráficos.SideFrames.handPanels.DescriptionPanel;
 import entity.Carta;
-import entity.Carta_Criatura;
-import entity.Carta_ED;
-import entity.Carta_Magica;
-import entity.Carta_OO;
+import entity.cartas_de_topo.Baralho;
 
 public class ClickedHandler implements CartaClickedListener {
 	
@@ -20,7 +16,9 @@ public class ClickedHandler implements CartaClickedListener {
 	
 	@Override
 	public void CardClicked(Carta c) {
-
+		if(c instanceof Baralho){
+			((Baralho)c).itWasClicked();
+		}
 		
 
 	}

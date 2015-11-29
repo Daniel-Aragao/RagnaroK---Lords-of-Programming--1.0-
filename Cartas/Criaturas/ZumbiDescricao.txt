@@ -4,3 +4,4 @@ Bravo guerreiro morto
 4
 2
 ./Cartas/Criaturas/Zumbi.bmp
+./Cartas/Criaturas/ZumbiDEF.bmp

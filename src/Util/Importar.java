@@ -132,6 +132,7 @@ public class Importar {
 		int ataque = 0, defesa = 0, skill = 0;
 		String imagemUrl = null;
 		BufferedImage imagem = null;
+		BufferedImage defImage = null;
 		try {
 			nome = leituraArquivo.readLine();
 			descrição = leituraArquivo.readLine();
@@ -144,6 +145,8 @@ public class Importar {
 					ataque, defesa, skill, imagemUrl);
 			//
 			imagem = ImageIO.read(new File(imagemUrl));
+			imagemUrl = leituraArquivo.readLine();
+			defImage = ImageIO.read(new File(imagemUrl));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -159,7 +162,7 @@ public class Importar {
 		cp.nome = nome;
 		cp.descricao = descrição;
 		cp.imagem = imagem;
-		Carta_Criatura a = new Carta_Criatura(ataque, defesa, skill, cp);
+		Carta_Criatura a = new Carta_Criatura(ataque, defesa, skill, defImage, cp);
 		// debug avançado
 		System.out.println(a.getNome());
 		//

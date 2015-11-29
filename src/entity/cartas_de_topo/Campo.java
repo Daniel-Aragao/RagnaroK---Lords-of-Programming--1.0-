@@ -1,5 +1,6 @@
 package entity.cartas_de_topo;
 
+import listeners.MagicSetListener;
 import handlers.ClickedHandler;
 import handlers.PisoClickedHandler;
 import tabuleiro.Jogador;
@@ -13,6 +14,7 @@ import entity.CartaParameters;
 import entity.Carta_Criatura;
 import entity.Carta_Magica;
 import entity.Tipo_Carta;
+
 
 public class Campo{
 	public static final PisoClickedHandler pisoHandler = new PisoClickedHandler();
@@ -117,7 +119,7 @@ public class Campo{
 		cp.imagem = Importar.getBackground(BackgroundID.pisoCriaturas);
 		cp.nome = "Piso";
 		
-		Carta_Criatura criatura = new Carta_Criatura(0,0,0,cp);
+		Carta_Criatura criatura = new Carta_Criatura(0,0,0,cp.imagem,cp);
 		criatura.addCartaClickedListener(pisoHandler);
 		
 		return criatura;
@@ -182,16 +184,18 @@ public class Campo{
 					Carta.DEFAULT_CARTA_WIDTH, 
 					Carta.DEFAULT_CARTA_HEIGHT);
 			
-//			aux.setMagicaAddedListener(new MagicaAdicionadaListener() {
-//				
-//				@Override
-//				public void magicaSetada(Carta_Criatura cc, Carta_Magica cm) {
-//					addMagicaNoCampo(cc, cm);
-//				}
-//			});
 			
 			aux.addCartaClickedListener(this.campoClickedHandler);
 			addMagicaNoCampo(aux,aux.getMagica());
+			
+			aux.setMagicSetListener(new MagicSetListener(){
+
+				@Override
+				public void magicaSetada(Carta_Criatura cc, Carta_Magica cm) {
+					addMagicaNoCampo(cc, cm);					
+				}
+				
+			});
 			
 			tabuleiro.add(aux);
 			length++;
@@ -206,16 +210,14 @@ public class Campo{
 		if(c.getTipo() == Tipo_Carta.CAMPOMAGICA){
 			aux = c;
 		}else{
-			aux  = (Carta_Magica)this.baralho.remover(c);
-			
-			
+			aux  = (Carta_Magica)this.baralho.remover(c);			
 		}		
 		
 		int x = (int) ((Carta.DEFAULT_CARTA_WIDTH+Jogador.ESPACAMENTO)*(lista.getIndex(cc)+1) + this.jogador.getPosition().x);
 		int y = (int) (addPosition.y + Jogador.ESPACAMENTO-10 + Carta.DEFAULT_CARTA_HEIGHT);
 		
-		if(tabuleiro.getComponentAt(x, y) != null){
-			tabuleiro.remove(tabuleiro.getComponentAt(x, y));
+		if(cc.getMagica() != null){
+			tabuleiro.remove(cc.getMagica());
 		}
 		
 		aux.setBounds(x, y, Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
@@ -241,8 +243,8 @@ public class Campo{
 		}
 		
 		removeMagicaDoCampo(c.getMagica());
-		c.setMagica(null);
-		c.setMagicaAddedListener(null);
+		c.setMagicSetListener(null); 										// antes ou depois de setar nova magica?
+		c.setMagica(Campo.getNewCarta_PisoMagica());
 		
 		jogador.getTabuleiro().remove(c);
 		lista.remover(c);
@@ -286,10 +288,34 @@ public class Campo{
 		for(int i = 0; i < lista.getQtdElementos(); i ++){
 			Carta_Criatura aux = lista.getElemento(i);
 			if(aux.getTipo() != Tipo_Carta.CAMPOCRIATURA){
-				resultado = aux.getAtaque();
+				resultado += aux.getAtaque(true);
 			}
 		}
 		
 		return resultado;
+	}
+
+	public boolean isDefended() {
+		for(int i = 0; i < lista.getQtdElementos(); i ++){
+			Carta_Criatura aux = lista.getElemento(i);
+			if(aux.getTipo() != Tipo_Carta.CAMPOCRIATURA){
+				if(!aux.isAtackMode()){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean canAtack() {
+		for(int i = 0; i < lista.getQtdElementos(); i ++){
+			Carta_Criatura aux = lista.getElemento(i);
+			if(aux.getTipo() != Tipo_Carta.CAMPOCRIATURA){
+				if(aux.isAtackMode()){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

@@ -8,12 +8,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 import listeners.CommandListener;
 import state.inGameStates.AtaqueState;
@@ -21,6 +18,7 @@ import state.inGameStates.DefesaState;
 import state.inGameStates.TurnoState;
 import Gráficos.SideFrames.HandFrame;
 import Gráficos.SideFrames.handPanels.DescriptionPanel;
+import Gráficos.SideFrames.handPanels.HandPanel;
 import Gráficos.SideFrames.handPanels.ScrollingCardPanel;
 import Util.BackgroundID;
 import Util.Importar;
@@ -29,7 +27,6 @@ import Util.Position;
 import entity.Carta;
 import entity.CartaParameters;
 import entity.Carta_Criatura;
-import entity.Carta_Magica;
 import entity.Entity;
 import entity.Tipo_Carta;
 import entity.cartas_de_topo.Baralho;
@@ -91,6 +88,7 @@ public class Jogador extends Entity{
 	private CommandListener commandListener;
 	private ClickedHandler clickedHandler;
 	private DescriptionPanel description ;
+	private HandPanel handPanel;
 	
 	
 	public Jogador(Tabuleiro tabuleiro, Lista_de_Generics<Carta> baralho, PlayerPosition playerPosition) {
@@ -121,6 +119,7 @@ public class Jogador extends Entity{
 		//semiTransparentPanel = new SemiTransparentPanel(this.position);
 		
 		hand = new HandFrame(this);
+		handPanel = hand.getMainPanel();
 		
 		
 		this.setVez(vez);
@@ -134,34 +133,35 @@ public class Jogador extends Entity{
 		this.setClickedHandler(ownClickedHandler());
 		
 			
-			Carta_Criatura aux2 = (Carta_Criatura) this.baralho.getElemento(5);
-			aux2.setMagica((Carta_Magica) this.baralho.getElemento(10));
-			campo.addCriaturaNoCampo(aux2);
-			
-			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
-			aux2.setMagica((Carta_Magica) this.baralho.getElemento(9));
-			campo.addCriaturaNoCampo(aux2);
-			
-			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
-			campo.addCriaturaNoCampo(aux2);
-			
-			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
-			//campo.addCriaturaNoCampo(aux2,this.position,tabuleiro);
-			
-			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
-			campo.addCriaturaNoCampo(aux2);
-			
-			Carta aux = this.baralho.getElemento(11);
-			addCartaMao(aux);
-			aux = this.baralho.getElemento(12);
-			addCartaMao(aux);
-			aux = this.baralho.getElemento(13);
-			addCartaMao(aux);
-			aux = this.baralho.getElemento(14);
-			addCartaMao(aux);
-			aux = this.baralho.getElemento(15);
-			addCartaMao(aux);
-			
+//			Carta_Criatura aux2 = (Carta_Criatura) this.baralho.getElemento(5);
+//			campo.addCriaturaNoCampo(aux2);
+//			aux2.setMagica((Carta_Magica) this.baralho.getElemento(10));
+//			
+//			aux2 = (Carta_Criatura) this.baralho.getElemento(7);
+//			aux2.setMagica((Carta_Magica) this.baralho.getElemento(9));
+//			campo.addCriaturaNoCampo(aux2);
+//			
+//			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
+//			campo.addCriaturaNoCampo(aux2);
+//			
+//			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
+//			//campo.addCriaturaNoCampo(aux2,this.position,tabuleiro);
+//			
+//			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
+//			aux2.setAtackMode(false);
+//			campo.addCriaturaNoCampo(aux2);
+//			
+//			Carta aux = this.baralho.getElemento(11);
+//			addCartaMao(aux);
+//			aux = this.baralho.getElemento(12);
+//			addCartaMao(aux);
+//			aux = this.baralho.getElemento(13);
+//			addCartaMao(aux);
+//			aux = this.baralho.getElemento(14);
+//			addCartaMao(aux);
+//			aux = this.baralho.getElemento(15);
+//			addCartaMao(aux);
+//			
 			
 			
 		
@@ -375,7 +375,9 @@ public class Jogador extends Entity{
 	}
 	private void defender(int ataque, Carta_Criatura alvo, Jogador jogadorAlvo){
 		// ataque - defesa
-		int resultado = ataque - alvo.getDefesa();
+		int defesaAlvo = alvo.getDefesa(true);
+		int resultado = ataque - defesaAlvo;
+		
 		if(resultado <= 0){
 			System.out.println("Defendido");
 		}else{
@@ -383,8 +385,9 @@ public class Jogador extends Entity{
 			campo.removeCriaturaDoCampo(alvo);
 			defender(resultado, jogadorAlvo);
 		}
+		
 		System.out.println("Ataque: "+ataque);
-		System.out.println("Defesa: "+alvo.getDefesa());
+		System.out.println("Defesa: "+defesaAlvo);
 	}
 	private void defender(int ataque, Jogador alvo){
 		//vida - dano 
@@ -395,6 +398,7 @@ public class Jogador extends Entity{
 	}
 
 	public void repaintComponents() {
+		baralho.repaintComponents();
 		for(Component i : hand.getComponents()){
 			i.revalidate();
 			i.repaint();
@@ -458,7 +462,6 @@ public class Jogador extends Entity{
 				}else{
 					if(b){
 						diminuir(c);
-						//description.setInformacoes(c);
 						commandListener.hooverInfo(c);
 					}else{
 						desDiminuir(c);						
@@ -510,6 +513,19 @@ public class Jogador extends Entity{
 
 	public void setClickedHandler(ClickedHandler clickedHandler) {
 		this.clickedHandler = clickedHandler;
+	}
+
+	public boolean isDefended() {
+		return campo.isDefended();
+	}
+
+	public void allowAtack(boolean letAtack) {
+		this.handPanel.getCommandPanel().allowAtack(letAtack);
+		
+	}
+
+	public boolean canAtack() {
+		return campo.canAtack();
 	}
 
 }

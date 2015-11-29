@@ -4,3 +4,4 @@ Espírito maltrapilho
 7
 5
 ./Cartas/Criaturas/WhisperBoss.png
+./Cartas/Criaturas/WhisperBossDEF.png

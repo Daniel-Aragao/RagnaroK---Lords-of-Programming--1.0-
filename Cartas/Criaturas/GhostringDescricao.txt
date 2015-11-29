@@ -4,3 +4,4 @@ Espírito dos Anciões
 10
 3
 ./Cartas/Criaturas/Ghostring.png
+./Cartas/Criaturas/GhostringDEF.png
