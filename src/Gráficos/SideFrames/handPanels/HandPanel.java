@@ -20,7 +20,7 @@ public class HandPanel extends JPanel{
 	private BufferedImage imagem;
 	
 
-	private ScrollingCardPanel cardPanel;
+	private ScrollingVCardPanel cardPanel;
 	private HandEastPanel eastPanel;
 	private HandCommandPanel commandPanel; 
 	
@@ -33,7 +33,7 @@ public class HandPanel extends JPanel{
 		
 		setLayout(new BorderLayout());
 		
-		cardPanel = new ScrollingCardPanel();
+		cardPanel = new ScrollingVCardPanel();
 		eastPanel = new HandEastPanel(jogador);
 		
 		
@@ -55,12 +55,12 @@ public class HandPanel extends JPanel{
 	}
 	
 	
-	public ScrollingCardPanel getCardPanel() {
+	public ScrollingVCardPanel getCardPanel() {
 		return cardPanel;
 	}
 
 
-	public void setCardPanel(ScrollingCardPanel cardPanel) {
+	public void setCardPanel(ScrollingVCardPanel cardPanel) {
 		this.cardPanel = cardPanel;
 	}
 

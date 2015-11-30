@@ -25,7 +25,6 @@ public class ClickedHandler implements CartaClickedListener {
 
 	@Override
 	public void CardHoover(Carta c, boolean b) {
-		jogador.getClickedHandler().CardHoover(c, b);			
-
+		jogador.getClickedHandler().CardHoover(c, b);
 	}
 }

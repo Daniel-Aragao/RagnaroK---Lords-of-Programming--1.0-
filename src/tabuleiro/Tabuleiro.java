@@ -11,7 +11,6 @@ import Gráficos.MainFrame;
 import Util.BackgroundID;
 import Util.Importar;
 import Util.Lista_de_Generics;
-import Util.Position;
 import entity.Carta;
 import entity.Entity;
 
@@ -25,7 +24,6 @@ public class Tabuleiro extends JPanel {
 	private Jogador jogadorA;
 	private Jogador jogadorB;
 	
-	private Turno turno;
 	
 	
 	public Tabuleiro() {
@@ -39,9 +37,9 @@ public class Tabuleiro extends JPanel {
 		this.setMaximumSize(MainFrame.MainDimension);
 		this.setLayout(null);
 		
+		
 		CommandListener cl = commandCreator();
-		turno = new Turno();
-		turno.setCommandListener(cl);
+		Turno turno = new Turno();  
 
 		jogadorA = new Jogador(this, baralho, PlayerPosition.UP_REFERENCE);
 		jogadorB = new Jogador(this, baralho, PlayerPosition.DOWN_REFERENCE);
@@ -50,29 +48,30 @@ public class Tabuleiro extends JPanel {
 		jogadorB.setCommandListener(cl);
 		
 		this.setVisible(true);
-		//turno.start();
 	}
 	
 	public CommandListener commandCreator(){
 		CommandListener aux = new CommandListener(){
-
+			
 			@Override
 			public void passarVez(Jogador jogador) {
 				if(jogador == jogadorA){
 					jogadorA.setVez(false);
 					jogadorB.setVez(true);
-					turno.setJogador(jogadorB);
+					jogador.setTurnoCounter(jogador.getTurnoCounter()+1);
 				}else{
 					jogadorA.setVez(true);
 					jogadorB.setVez(false);
-					turno.setJogador(jogadorA);
+					jogador.setTurnoCounter(jogador.getTurnoCounter()+1);
 				}
-				
+				Turno.setPullTime(true);
+				jogador.allowEndTurn(false);
 			}
 
 
 			@Override
 			public void atacar(Jogador jogador, Entity alvo) {
+				
 				if(jogador == jogadorA){
 					System.out.println("Jogador A Ataca: "+ alvo.getNome());
 					jogadorB.defesa(jogadorA.ataque(), alvo, jogadorB);
@@ -82,7 +81,10 @@ public class Tabuleiro extends JPanel {
 					jogadorA.defesa(jogadorB.ataque(), alvo, jogadorA);
 				}
 				
-				turno.externalNotify();
+					//JOptionPane.showMessageDialog(jogador, "Só após a 3ª rodada");
+				
+				Turno.setLetAtack(false);
+				jogador.allowAtack(false);
 			}
 
 
@@ -97,6 +99,7 @@ public class Tabuleiro extends JPanel {
 		return aux;
 	}
 	
+		
 	@Override
 	public void paintComponent(final Graphics g){
 		super.paintComponent(g);
@@ -109,14 +112,14 @@ public class Tabuleiro extends JPanel {
 		g.setColor(new Color(218, 160, 26));
 		
 		//FIRST LINE
-		g.fillRect( 0, (int) Jogador.UP_REFERENCE.y-20, 1024, 4);
+		//g.fillRect( 0, (int) Jogador.UP_REFERENCE.y-20, 1024, 4);
 		
 		//SECOND (BROKEN) LINE
 		g.fillRect( 0, (int) Jogador.DOWN_REFERENCE.y-20, 353, 4);
 		g.fillRect( (int) 700, (int) Jogador.DOWN_REFERENCE.y-20, 355, 4);
 		
 		//THIRD LINE
-		g.fillRect( 0, (int) Jogador.DOWN_REFERENCE.y+300, 1024, 4);
+		//g.fillRect( 0, (int) Jogador.DOWN_REFERENCE.y+300, 1024, 4);
 		
 		g.setColor(Color.black);
 		////////////////////////////////////////////////////////
@@ -141,6 +144,7 @@ public class Tabuleiro extends JPanel {
 		
 	}
 
+	
 	
 	
 	

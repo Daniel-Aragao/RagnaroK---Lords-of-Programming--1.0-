@@ -7,9 +7,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
 import tabuleiro.Jogador;
+import Gráficos.SideFrames.SelectPanel.SelectPanel;
 import Util.BackgroundID;
 import Util.Importar;
-import Gráficos.SideFrames.SelectPanel.SelectPanel;
 
 @SuppressWarnings("serial")
 public class SelectFrame extends JFrame{
@@ -21,9 +21,12 @@ public class SelectFrame extends JFrame{
 			new Dimension(SelectFrame.WIDTH, SelectFrame.HEIGHT); 
 	
 	SelectPanel selectPanel;
+	Jogador jogador;
 	
-	public SelectFrame(){
-		selectPanel = new SelectPanel();
+	public SelectFrame(Jogador jogador){
+		selectPanel = new SelectPanel(jogador);
+		this.jogador = jogador;
+		
 		createFrame();
 		
 		

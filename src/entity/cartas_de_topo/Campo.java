@@ -169,8 +169,7 @@ public class Campo{
 		
 		if(!isFull()){
 			
-			Carta_Criatura aux;
-			aux = (Carta_Criatura)this.baralho.remover(c);
+			Carta_Criatura aux = c;
 			int safeposition = safePosition();
 			removeCriaturaDoCampo(lista.getElemento(safeposition));
 			
@@ -317,5 +316,9 @@ public class Campo{
 			}
 		}
 		return false;
+	}
+
+	public boolean isEmpty() {
+		return lista.isEmpty();
 	}
 }

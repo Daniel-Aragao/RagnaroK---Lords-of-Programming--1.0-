@@ -1,10 +1,8 @@
 package entity.cartas_de_topo;
 
-import state.inGameStates.TurnoState;
 import Util.Lista_de_Generics;
 import entity.Carta;
 import entity.CartaParameters;
-import entity.Carta_ED;
 import entity.Carta_OO;
 
 public class OO extends Carta{

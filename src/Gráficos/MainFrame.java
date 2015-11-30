@@ -11,6 +11,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JRootPane;
 
 import Util.BackgroundID;
 import Util.Importar;
@@ -40,7 +41,7 @@ public class MainFrame {
 		frame.setPreferredSize(screenDimension);
 		frame.setSize(screenDimension);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(frame.getRootPane());
+		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		//frame.setUndecorated(true);
 		frame.setFocusable(false);
@@ -59,7 +60,6 @@ public class MainFrame {
 			return;
 		}
 		
-		//frame.add(new JLabel("000000000000000000000000000000000000000000000"));
 	}
 	
 //	public Canvas getCanvas(){ return this.canvas;}

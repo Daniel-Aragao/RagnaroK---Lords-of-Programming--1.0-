@@ -1,5 +1,5 @@
 Backgrounds
-13
+16
 ./Background/Principais/InicioBackground.jpg
 ./Background/Principais/JogoBackground.jpg
 ./Background/Principais/mao.png
@@ -13,3 +13,6 @@ Backgrounds
 ./Background/Principais/baralho.jpg
 ./Background/card.gif
 ./Background/Principais/selecionarCarta.png
+./Background/escudo.gif
+./Background/espada.gif
+./Background/bo.gif

@@ -1,9 +1,11 @@
 package entity.cartas_de_topo;
 
+import handlers.ClickedHandler;
+
 import java.awt.Component;
 
-import handlers.ClickedHandler;
 import tabuleiro.Jogador;
+import tabuleiro.Turno;
 import Gráficos.SideFrames.SelectFrame;
 import Gráficos.SideFrames.SelectPanel.SelectPanel;
 import Util.Lista_de_Generics;
@@ -22,6 +24,8 @@ public class Baralho extends Carta{
 	private SelectFrame selectFrame;
 	private SelectPanel selectPanel;
 	
+	
+	
 	public Baralho(Lista_de_Generics<Carta> lista, CartaParameters cp, Jogador jogador) {
 		super(cp);
 		this.jogador = jogador;
@@ -32,19 +36,25 @@ public class Baralho extends Carta{
 		this.addCartaClickedListener(new ClickedHandler(this.jogador));
 		setBaralho(lista);
 		
-		this.selectFrame = new SelectFrame();
+		this.selectFrame = new SelectFrame(jogador);
 		this.selectPanel = this.selectFrame.getMainPanel();
 	}
 	
 	public void itWasClicked(){
-		if(jogador.getVez()){
+		if(jogador.getVez() ){
 			
 			this.selectFrame.setVisible(true);
-			parei em quanto setava as propriedades de turno, como os waits e os controles dos
-			butões dos sidepanels como o selectPanel que estava fazendo antes de ir dormir
-			lembrar de agilizar pois amanhã ainda tem o trabalho de administração para fzr;
 			
+			if( Turno.isPullTime()){
+				selectPanel.getScrollPanel().addCard(lista.removerInicio());
+			}
+			
+			Turno.setPullTime(false);
 		}
+	}
+	//TODO
+	public void SelectionCardClicked(Carta c) {
+		this.selectPanel.getCommandPanel().setSelected(c);		
 	}
 
 	public void setBaralho(Lista_de_Generics<Carta> baralho) {
@@ -152,4 +162,27 @@ public class Baralho extends Carta{
 		}		
 		
 	}
+
+	public SelectFrame getSelectFrame() {
+		return selectFrame;
+	}
+
+	public void setSelectFrame(SelectFrame selectFrame) {
+		this.selectFrame = selectFrame;
+	}
+
+	public SelectPanel getSelectPanel() {
+		return selectPanel;
+	}
+
+	public void setSelectPanel(SelectPanel selectPanel) {
+		this.selectPanel = selectPanel;
+	}
+
+	public void addFim(Carta selected) {
+		lista.addFim(selected);
+		
+	}
+
+	
 }

@@ -1,10 +1,13 @@
 package tabuleiro;
 
+import handlers.ClickedHandHandler;
 import handlers.ClickedHandler;
+import handlers.ClickedSelectHandler;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,13 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import listeners.CommandListener;
-import state.inGameStates.AtaqueState;
-import state.inGameStates.DefesaState;
-import state.inGameStates.TurnoState;
 import Gráficos.SideFrames.HandFrame;
 import Gráficos.SideFrames.handPanels.DescriptionPanel;
 import Gráficos.SideFrames.handPanels.HandPanel;
-import Gráficos.SideFrames.handPanels.ScrollingCardPanel;
+import Gráficos.SideFrames.handPanels.ScrollingVCardPanel;
 import Util.BackgroundID;
 import Util.Importar;
 import Util.Lista_de_Generics;
@@ -48,15 +48,15 @@ public class Jogador extends Entity{
 	public static final int ENERGIA_WIDTH = 350;
 	
 	public static final int ENERGIA_INICIAL = 150;
+	
+	public ClickedSelectHandler CLICKED_SELECT_HANDLER = new ClickedSelectHandler(this);
+	public ClickedHandHandler CLICKED_HAND_HANDLER = new ClickedHandHandler(this);
 
-	private String vezString;
 	private int energia;
 	private boolean vez;
 	PlayerPosition playerPosition;
-	//private SemiTransparentPanel semiTransparentPanel;
-	private TurnoState turnoState;
-	private AtaqueState ataqueState;
-	private DefesaState defesaState;
+	
+	private int turnoCounter;
 	
 	private Position interfacePosition;
 	private JLabel jogadorInfo;
@@ -76,20 +76,19 @@ public class Jogador extends Entity{
 	private Campo campo;
 	private ED ed;
 	private OO oo;
-	
-	//private TopoBaralho topoBaralho; 
-	//private Lista_de_Generics<Carta_Especial> Registro_Especiais;
-	
+		
 	/////////////////////////////////////
+	
 
-	// tamanho do tabuleiro = 1024 x 380
-
+	///////////////PANELS////////////////
+	
 	private Tabuleiro tabuleiro;
 	private CommandListener commandListener;
 	private ClickedHandler clickedHandler;
 	private DescriptionPanel description ;
 	private HandPanel handPanel;
 	
+	/////////////////////////////////////
 	
 	public Jogador(Tabuleiro tabuleiro, Lista_de_Generics<Carta> baralho, PlayerPosition playerPosition) {
 		super(Jogador.WIDTH,Jogador.HEIGHT);
@@ -97,6 +96,7 @@ public class Jogador extends Entity{
 		
 		//panel.setBackground(new Color(213, 134, 145, 123)); transluscent color
 		
+		this.turnoCounter = 1;
 		
 		this.energia = Jogador.ENERGIA_INICIAL;
 		
@@ -122,11 +122,11 @@ public class Jogador extends Entity{
 		handPanel = hand.getMainPanel();
 		
 		
-		this.setVez(vez);
-		
 		createButton();
 		
 		cartasCreator(baralho);
+		
+		this.setVez(vez);
 		
 		this.description = getHand().getMainPanel().getEastPanel().getDescriptionPanel();
 		
@@ -161,7 +161,7 @@ public class Jogador extends Entity{
 //			addCartaMao(aux);
 //			aux = this.baralho.getElemento(15);
 //			addCartaMao(aux);
-//			
+			
 			
 			
 		
@@ -254,7 +254,7 @@ public class Jogador extends Entity{
 			if(vez){
 				this.jogadorInfo = new JLabel("Nome: "+this.nome+" Energia: "+energia+" Vez: Jogando!");
 			}else{
-				this.jogadorInfo = new JLabel("Nome: "+this.nome+" Energia: "+energia+" Vez: Aguardando");
+				this.jogadorInfo = new JLabel("Nome: "+this.nome+" Energia: "+energia+" Vez: Aguardando.");
 			}
 			jogadorInfo.setForeground(Color.white);
 			
@@ -265,15 +265,16 @@ public class Jogador extends Entity{
 			if(vez){
 				this.jogadorInfo.setText("Nome: "+this.nome+" Energia: "+energia+" Vez: Jogando!");
 			}else{
-				this.jogadorInfo.setText("Nome: "+this.nome+" Energia: "+energia+" Vez: Aguardando");
+				this.jogadorInfo.setText("Nome: "+this.nome+" Energia: "+energia+" Vez: Aguardando.");
 			}
 		}
+		this.jogadorInfo.setText(jogadorInfo.getText() + " Turno: " + getTurnoCounter());
 	}
 	public void atualizarInfoEnergia(){
 		if(vez){
 			this.jogadorInfo.setText("Nome: "+this.nome+" Energia: "+energia+" Vez: Jogando!");
 		}else{
-			this.jogadorInfo.setText("Nome: "+this.nome+" Energia: "+energia+" Vez: Aguardando");
+			this.jogadorInfo.setText("Nome: "+this.nome+" Energia: "+energia+" Vez: Aguardando.");
 		}
 		int newWidth = (energia*ENERGIA_WIDTH)/ENERGIA_INICIAL;
 		this.setSize(newWidth, 25);
@@ -285,15 +286,14 @@ public class Jogador extends Entity{
 	
 	public void setVez(boolean vez){
 		this.vez = vez;
-		//tabuleiro.trocaVez(this);
 		this.setJogadorInfo(nome, energia, vez);
 		if(vez){
-			turnoState = ataqueState = new AtaqueState(this, hand);
-			//tabuleiro.remove(semiTransparentPanel);
+			
 		}else{
-			turnoState = defesaState = new DefesaState(this, hand);
-			//tabuleiro.add(semiTransparentPanel);
+			hand.setVisible(false);
+			baralho.getSelectFrame().setVisible(vez);
 		}
+		this.baralho.getSelectPanel().getCommandPanel().denableOptions();
 	}
 
 
@@ -409,9 +409,10 @@ public class Jogador extends Entity{
 
 	public void addCartaMao(Carta c){
 		
-		if(c instanceof Carta_Criatura) return;
+		if(c instanceof Carta_Criatura || c == null) return;
 		
-		ScrollingCardPanel hand = this.hand.getMainPanel().getCardPanel();
+		ScrollingVCardPanel hand = this.hand.getMainPanel().getCardPanel();
+		c.addCartaClickedListener(CLICKED_HAND_HANDLER);
 		hand.addCard(c);
 	}
 
@@ -420,11 +421,6 @@ public class Jogador extends Entity{
 	public CommandListener getCommandListener() {
 		return commandListener;
 	}
-
-
-
-
-
 
 	public void setCommandListener(CommandListener commandListener) {
 		this.commandListener = commandListener;
@@ -435,9 +431,6 @@ public class Jogador extends Entity{
 		return this.description;
 	}
 
-
-
-	
 
 
 	private ClickedHandler ownClickedHandler() {
@@ -506,11 +499,6 @@ public class Jogador extends Entity{
 		return clickedHandler;
 	}
 
-
-
-
-
-
 	public void setClickedHandler(ClickedHandler clickedHandler) {
 		this.clickedHandler = clickedHandler;
 	}
@@ -518,14 +506,51 @@ public class Jogador extends Entity{
 	public boolean isDefended() {
 		return campo.isDefended();
 	}
-
+	public void allowEndTurn(boolean letEndTurn){
+		this.handPanel.getCommandPanel().allowEndTurn(letEndTurn);
+	}
 	public void allowAtack(boolean letAtack) {
-		this.handPanel.getCommandPanel().allowAtack(letAtack);
-		
+		if(getTurnoCounter() > 3 && canAtack()){
+			this.handPanel.getCommandPanel().allowAtack(letAtack);
+		}
+		allowEndTurn(true);
+		this.hand.setVisible(true);
+		this.baralho.getSelectFrame().setVisible(false);
 	}
 
 	public boolean canAtack() {
 		return campo.canAtack();
+	}
+
+	public Baralho getBaralho() {
+		return baralho;
+	}
+
+	public void setBaralho(Baralho baralho) {
+		this.baralho = baralho;
+	}
+
+	public Campo getCampo() {
+		return campo;
+	}
+
+	public void setCampo(Campo campo) {
+		this.campo = campo;
+	}
+
+	public int getTurnoCounter() {
+		return turnoCounter;
+	}
+
+	public void setTurnoCounter(int turnoCounter) {
+		this.turnoCounter = turnoCounter;
+	}
+	@Override
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+		
+		
+		
 	}
 
 }

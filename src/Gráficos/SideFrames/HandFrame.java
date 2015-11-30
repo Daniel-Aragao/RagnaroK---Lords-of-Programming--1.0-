@@ -17,7 +17,7 @@ import Util.Importar;
 import tabuleiro.Jogador;
 import Gráficos.MainFrame;
 import Gráficos.SideFrames.handPanels.HandPanel;
-import Gráficos.SideFrames.handPanels.ScrollingCardPanel;
+import Gráficos.SideFrames.handPanels.ScrollingVCardPanel;
 
 public class HandFrame extends JFrame{
 	public static final int WIDTH = 600;
@@ -44,7 +44,7 @@ public class HandFrame extends JFrame{
 	private void createFrame() {
 		this.setTitle("Mão "+jogador.getNome());
 		this.setPreferredSize(HandFrame.DEFAULT_HAND_DIMENSION);
-		this.setLocationRelativeTo(null);
+		this.setLocationRelativeTo(jogador);
 		this.setResizable(false);
 		this.setVisible(false);
 		this.setFocusable(false);

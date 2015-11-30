@@ -14,7 +14,10 @@ public enum BackgroundID {
 	verso(9),
 	baralho(10),
 	icone(11),
-	selecionarCarta(12);
+	selecionarCarta(12),
+	escudo(13),
+	espada(14),
+	maoIco(15);
 	
 	private final int index;
 	
