@@ -1,6 +1,5 @@
 package Util;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,14 +8,13 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 
-import Game.Game;
 import entity.Carta;
 import entity.CartaParameters;
 import entity.Carta_Criatura;
-import entity.Carta_Especial;
+import entity.Carta_ED;
 import entity.Carta_Magica;
+import entity.Carta_OO;
 import entity.Tipo_Carta;
 
 public class Importar {
@@ -95,14 +93,14 @@ public class Importar {
 			cp.descricao = descrição;
 			cp.nome = nome;
 			cp.imagem = imagem;
-			a = new Carta_Especial(cp);
+			a = new Carta_ED(cp);
 			break;
 		case OO:
 			cp = new CartaParameters(Tipo_Carta.OO);
 			cp.descricao = descrição;
 			cp.nome = nome;
 			cp.imagem = imagem;
-			a = new Carta_Especial(cp);
+			a = new Carta_OO(cp);
 		}
 		try {
 			leituraArquivo.close();

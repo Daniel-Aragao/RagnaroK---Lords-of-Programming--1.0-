@@ -1,6 +1,7 @@
 Zumbi
 Bravo guerreiro morto
-8
+9
+4
 2
-5
 ./Cartas/Criaturas/Zumbi.bmp
+./Cartas/Criaturas/ZumbiDEF.bmp

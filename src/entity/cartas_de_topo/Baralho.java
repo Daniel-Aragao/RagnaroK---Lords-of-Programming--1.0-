@@ -183,6 +183,13 @@ public class Baralho extends Carta{
 		lista.addFim(selected);
 		
 	}
-
+	
+	public int getQtdElementos(){
+		return lista.getQtdElementos();
+	}
+	
+	public Lista_de_Generics<Carta> getBaralho(){
+		return this.lista;
+	}
 	
 }

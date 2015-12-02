@@ -18,11 +18,8 @@ public abstract class Carta extends Entity {
 	public int fantasy_CARTA_WIDTH = DEFAULT_CARTA_WIDTH,fantasy_CARTA_HEIGHT = DEFAULT_CARTA_HEIGHT;
 	
 	
-	//Listeners
-	protected CartaClickedListener cartaClickedListener;
-	//
 	
-	private String descricao;
+	protected String descricao;
 
 	private Tipo_Carta tipo;
 
@@ -59,30 +56,19 @@ public abstract class Carta extends Entity {
 	}
 	
 
-	public void draw(){
 		
-		
-	}
-	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics gr = g.create();
 	
-		gr.drawImage(this.imagem, 0, 0,this.fantasy_CARTA_WIDTH,this.fantasy_CARTA_HEIGHT, null);
-		
+		gr.drawImage(this.imagem, 0, 0,this.fantasy_CARTA_WIDTH,this.fantasy_CARTA_HEIGHT, null);		
 		
 		gr.dispose();
 		
 	}
 	
-	public void addCartaClickedListener(CartaClickedListener listener){
-		this.cartaClickedListener = listener;
-	}
 	
-	public CartaClickedListener getCartaClickedListener(){
-		return this.cartaClickedListener;
-	}
 
 
 	public void stateAction() {

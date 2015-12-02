@@ -211,6 +211,11 @@ public class Lista_de_Generics<T> implements Iterable<T>{
 		
 		while(!isFull()){
 			int n = rand.nextInt(qtdInicial);
+			n = rand.nextInt(qtdInicial);
+			n = rand.nextInt(qtdInicial);
+			n = rand.nextInt(qtdInicial);
+			n = rand.nextInt(qtdInicial);
+			
 			Carta c = (Carta) lista.get(n);
 			c = c.copy();
 			this.addFim((T) c);

@@ -1,5 +1,5 @@
 Backgrounds
-16
+17
 ./Background/Principais/InicioBackground.jpg
 ./Background/Principais/JogoBackground.jpg
 ./Background/Principais/mao.png
@@ -16,3 +16,4 @@ Backgrounds
 ./Background/escudo.gif
 ./Background/espada.gif
 ./Background/bo.gif
+./Background/hpBackGround.png

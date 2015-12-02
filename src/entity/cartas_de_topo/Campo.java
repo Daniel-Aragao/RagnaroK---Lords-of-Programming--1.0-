@@ -1,8 +1,9 @@
 package entity.cartas_de_topo;
 
-import listeners.MagicSetListener;
+import javax.swing.JOptionPane;
+
 import handlers.ClickedHandler;
-import handlers.PisoClickedHandler;
+import listeners.MagicSetListener;
 import tabuleiro.Jogador;
 import tabuleiro.Tabuleiro;
 import Util.BackgroundID;
@@ -12,12 +13,13 @@ import Util.Position;
 import entity.Carta;
 import entity.CartaParameters;
 import entity.Carta_Criatura;
+import entity.Carta_ED;
+import entity.Carta_Especial;
 import entity.Carta_Magica;
 import entity.Tipo_Carta;
 
 
 public class Campo{
-	public static final PisoClickedHandler pisoHandler = new PisoClickedHandler();
 
 	private Lista_de_Generics<Carta_Criatura> lista;
 	private int length;
@@ -39,7 +41,10 @@ public class Campo{
 		this.ed = ed;
 		this.oo = oo;
 		
+		
 		campoClickedHandler = new ClickedHandler(jogador);
+		ed.addCartaClickedListener(campoClickedHandler);
+		oo.addCartaClickedListener(campoClickedHandler);
 		
 		length = 0;
 		PisoCreator();
@@ -120,7 +125,7 @@ public class Campo{
 		cp.nome = "Piso";
 		
 		Carta_Criatura criatura = new Carta_Criatura(0,0,0,cp.imagem,cp);
-		criatura.addCartaClickedListener(pisoHandler);
+		criatura.addCartaClickedListener(null);
 		
 		return criatura;
 	}
@@ -133,16 +138,29 @@ public class Campo{
 		cp.nome = "Piso";
 		
 		Carta_Magica magica = new Carta_Magica(cp);
-		magica.addCartaClickedListener(pisoHandler);
+		magica.addCartaClickedListener(null);
 		
 		return magica;
 	}
 	
-	public void addCarta(Carta c){
+	public boolean addCarta(Carta c){
 		if(c instanceof Carta_Criatura){
 			addCriaturaNoCampo((Carta_Criatura) c);
+		}else if(c instanceof Carta_Especial){
+			if(c instanceof Carta_ED){
+				return ed.addCard(c);
+			}else{
+				return oo.addCard(c);
+			}
 		}
-		
+		return true;
+	}
+	public Carta_Especial RemoveCarta_Especial(Carta_Especial ce){
+		if(ce instanceof Carta_ED){
+			return ed.remove(ce);
+		}else{
+			return oo.remove(ce);
+		}
 	}
 	
 	public boolean isFull(){
@@ -187,14 +205,77 @@ public class Campo{
 			aux.addCartaClickedListener(this.campoClickedHandler);
 			addMagicaNoCampo(aux,aux.getMagica());
 			
+			//////////////////////////////////////////////////////////////////
+			/////////////////////NEW MAGIC SET LISTENER/////////////////////
+			
 			aux.setMagicSetListener(new MagicSetListener(){
 
 				@Override
 				public void magicaSetada(Carta_Criatura cc, Carta_Magica cm) {
 					addMagicaNoCampo(cc, cm);					
 				}
+
+				@Override
+				public void swtichAtivado(Carta_Criatura cc) {
+					Carta_Criatura newCard = null;
+					
+					for(int i = 0; i < baralho.getQtdElementos(); i++){
+						Carta aux = baralho.getElemento(i);
+						if(aux instanceof Carta_Criatura){
+							newCard = (Carta_Criatura) aux;
+							break;
+						}
+					}
+					
+					if(newCard != null){
+						if(newCard.getSkill()%2 == 0){
+							newCard.setAtackMode(cc.isAtackMode());
+						}else{
+							newCard.setAtackMode(!cc.isAtackMode());
+						}
+						removeCriaturaDoCampo(cc);
+						addCriaturaNoCampo(newCard);
+					}else{
+						JOptionPane.showMessageDialog(cc, "Não existe mais criaturas no deque");
+						cc.setMagica(getNewCarta_PisoMagica());
+					}
+				}
+
+				@Override
+				public void forAtivado(Carta_Criatura cc) {
+					Carta_Criatura newCard = null;
+					
+					Lista_de_Generics<Carta_Criatura> criaturas = 
+							new Lista_de_Generics<Carta_Criatura>(10);
+							
+					for(int i = 0; i < baralho.getQtdElementos(); i++){
+						Carta aux = baralho.getElemento(i);
+						if(aux instanceof Carta_Criatura){
+							criaturas.addFim((Carta_Criatura) aux);
+						}
+					}
+					
+					if(!criaturas.isEmpty()){
+						newCard = criaturas.getElementoRandom();
+					}
+					
+					if(newCard != null){
+						if(newCard.getSkill()%2 == 0){
+							newCard.setAtackMode(cc.isAtackMode());
+						}else{
+							newCard.setAtackMode(!cc.isAtackMode());
+						}
+						removeCriaturaDoCampo(cc);
+						addCriaturaNoCampo(newCard);
+					}else{
+						JOptionPane.showMessageDialog(cc, "Não existe mais criaturas no deque");
+						cc.setMagica(getNewCarta_PisoMagica());
+					}
+				}
 				
 			});
+			//////////////////////////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////
 			
 			tabuleiro.add(aux);
 			length++;
@@ -206,17 +287,18 @@ public class Campo{
 		Position addPosition = jogador.getPosition();
 		Carta_Magica aux;
 		
-		if(c.getTipo() == Tipo_Carta.CAMPOMAGICA){
-			aux = c;
-		}else{
-			aux  = (Carta_Magica)this.baralho.remover(c);			
-		}		
+		aux = c;
+			
 		
 		int x = (int) ((Carta.DEFAULT_CARTA_WIDTH+Jogador.ESPACAMENTO)*(lista.getIndex(cc)+1) + this.jogador.getPosition().x);
 		int y = (int) (addPosition.y + Jogador.ESPACAMENTO-10 + Carta.DEFAULT_CARTA_HEIGHT);
 		
 		if(cc.getMagica() != null){
-			tabuleiro.remove(cc.getMagica());
+//			if(!cc.getMagica().getNome().toLowerCase().contains("piso")){
+//				removeMagicaDoCampo(cc.getMagica());
+//			}
+//			tabuleiro.remove(cc.getMagica());
+			removeMagicaDoCampo(cc.getMagica());
 		}
 		
 		aux.setBounds(x, y, Carta.DEFAULT_CARTA_WIDTH, Carta.DEFAULT_CARTA_HEIGHT);
@@ -293,6 +375,59 @@ public class Campo{
 		
 		return resultado;
 	}
+	
+	public int[] maioresAtributos(){
+		int maiorA = 0, maiorD = 0, maiorS = 0;
+
+		for(int i = 0; i < lista.getQtdElementos(); i ++){
+			Carta_Criatura aux = lista.getElemento(i);
+			if(aux.getTipo() != Tipo_Carta.CAMPOCRIATURA){
+				int ataque = aux.getAtaque(false);
+				int defesa = aux.getDefesa(false);
+				int skill = aux.getSkill();
+				
+				if(ataque > maiorA){
+					maiorA = ataque;
+				}
+				if(defesa > maiorA){
+					maiorD = defesa;
+				}
+				if(skill > maiorA){
+					maiorS = skill;
+				}
+			}
+		}
+		int [] vetor = {maiorA, maiorD, maiorS};
+		return vetor;
+	}
+	public int maiorDefesa(){
+		int maior = 0;
+
+		for(int i = 0; i < lista.getQtdElementos(); i ++){
+			Carta_Criatura aux = lista.getElemento(i);
+			if(aux.getTipo() != Tipo_Carta.CAMPOCRIATURA){
+				int defesa = aux.getDefesa(false);
+				if(defesa > maior)
+				maior = defesa;
+			}
+		}
+		
+		return maior;
+	}
+	public int maiorSkill(){
+		int maior = 0;
+
+		for(int i = 0; i < lista.getQtdElementos(); i ++){
+			Carta_Criatura aux = lista.getElemento(i);
+			if(aux.getTipo() != Tipo_Carta.CAMPOCRIATURA){
+				int skill = aux.getSkill();
+				if(skill > maior)
+				maior = skill;
+			}
+		}
+		
+		return maior;
+	}
 
 	public boolean isDefended() {
 		for(int i = 0; i < lista.getQtdElementos(); i ++){
@@ -320,5 +455,33 @@ public class Campo{
 
 	public boolean isEmpty() {
 		return lista.isEmpty();
+	}
+	
+	public int getAtaqueAssociação(){
+		int resultado = 0;
+
+		for(int i = 0; i < lista.getQtdElementos(); i ++){
+			Carta_Criatura aux = lista.getElemento(i);
+				resultado += aux.getAtaque(true);
+		}
+		
+		return resultado;
+	}
+	public int getDefesaAssociação(){
+		int resultado = 0;
+
+		for(int i = 0; i < lista.getQtdElementos(); i ++){
+			Carta_Criatura aux = lista.getElemento(i);
+				resultado += aux.getDefesa(true);
+			
+		}
+		
+		return resultado;
+	}
+	public void polimorfismo(){
+		for(int i = 0; i < lista.getQtdElementos(); i ++){
+			Carta_Criatura aux = lista.getElemento(i);
+				aux.setAtackMode(!aux.isAtackMode());			
+		}
 	}
 }

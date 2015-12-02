@@ -17,7 +17,8 @@ public enum BackgroundID {
 	selecionarCarta(12),
 	escudo(13),
 	espada(14),
-	maoIco(15);
+	maoIco(15),
+	hpJogador(16);
 	
 	private final int index;
 	

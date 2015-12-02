@@ -2,14 +2,10 @@ package Input;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 import Gráficos.SideFrames.handPanels.HandCommandPanel;
-import Gráficos.SideFrames.handPanels.HandEastPanel;
 import entity.Carta;
 import entity.Entity;
-import listeners.CartaClickedListener;
 
 public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionListener, MouseAdapter*/{
 	private int x, y;
@@ -34,15 +30,9 @@ public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionLi
 		
 		if(me.getSource() instanceof Entity){
 			Entity entidade = (Entity)me.getSource();
-			HandCommandPanel.setSelected(entidade);
-			
-			if(entidade instanceof Carta){
-				Carta carta = (Carta)entidade; 
-				
-				if(carta.getCartaClickedListener() != null)
-				carta.getCartaClickedListener().CardClicked(carta);
+			if(entidade.getCartaClickedListener() != null){
+				entidade.getCartaClickedListener().CardClicked(entidade);
 			}
-			
 		}
 		
 		this.clicked = true;
@@ -82,7 +72,7 @@ public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionLi
 	@Override
 	public void mousePressed(MouseEvent me) {
 //		System.out.println(me.getX()+ ", "+ me.getY());
-		this.pressed = true;
+		this.setPressed(true);
 	}
 	
 	@Override
@@ -104,6 +94,14 @@ public class Mouse extends MouseAdapter/*implements MouseListener, MouseMotionLi
 		this.x = e.getX();
 		this.y = e.getY();
 		
+	}
+
+	public boolean isPressed() {
+		return pressed;
+	}
+
+	public void setPressed(boolean pressed) {
+		this.pressed = pressed;
 	}
 
 }

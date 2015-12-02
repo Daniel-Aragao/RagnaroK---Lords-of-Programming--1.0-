@@ -1,6 +1,7 @@
-Injustice
-Lacaio de ifrit
-2
-5
+Injustiçado
+O Lamento de Glast Heim
+3
+4
 8
 ./Cartas/Criaturas/Injustice.png
+./Cartas/Criaturas/InjusticeDEF.png

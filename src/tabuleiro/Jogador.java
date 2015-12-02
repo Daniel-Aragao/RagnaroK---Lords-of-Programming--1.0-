@@ -16,8 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import listeners.CommandListener;
+import Gráficos.MainFrame;
 import Gráficos.SideFrames.HandFrame;
 import Gráficos.SideFrames.handPanels.DescriptionPanel;
+import Gráficos.SideFrames.handPanels.HandCommandPanel;
 import Gráficos.SideFrames.handPanels.HandPanel;
 import Gráficos.SideFrames.handPanels.ScrollingVCardPanel;
 import Util.BackgroundID;
@@ -45,7 +47,8 @@ public class Jogador extends Entity{
 	public static final int ESPACAMENTO = 46;
 	public static final int WIDTH = 20;
 	public static final int HEIGHT = 20;
-	public static final int ENERGIA_WIDTH = 350;
+	public static final int ENERGIA_WIDTH = 350,
+							ENERGIA_HEIGHT = 25;
 	
 	public static final int ENERGIA_INICIAL = 150;
 	
@@ -53,8 +56,10 @@ public class Jogador extends Entity{
 	public ClickedHandHandler CLICKED_HAND_HANDLER = new ClickedHandHandler(this);
 
 	private int energia;
+	private int associaçãoDEF;
+	private int associaçãoATQ;
 	private boolean vez;
-	PlayerPosition playerPosition;
+	private PlayerPosition playerPosition;
 	
 	private int turnoCounter;
 	
@@ -84,9 +89,9 @@ public class Jogador extends Entity{
 	
 	private Tabuleiro tabuleiro;
 	private CommandListener commandListener;
-	private ClickedHandler clickedHandler;
 	private DescriptionPanel description ;
 	private HandPanel handPanel;
+	private HandCommandPanel handCommandPanel;
 	
 	/////////////////////////////////////
 	
@@ -99,6 +104,9 @@ public class Jogador extends Entity{
 		this.turnoCounter = 1;
 		
 		this.energia = Jogador.ENERGIA_INICIAL;
+		
+		this.associaçãoDEF = 0;
+		this.associaçãoATQ = 0;
 		
 		this.playerPosition = playerPosition;
 
@@ -120,7 +128,9 @@ public class Jogador extends Entity{
 		
 		hand = new HandFrame(this);
 		handPanel = hand.getMainPanel();
+		handCommandPanel = handPanel.getCommandPanel();
 		
+		this.imagem = Importar.getBackground(BackgroundID.hpJogador);
 		
 		createButton();
 		
@@ -130,7 +140,7 @@ public class Jogador extends Entity{
 		
 		this.description = getHand().getMainPanel().getEastPanel().getDescriptionPanel();
 		
-		this.setClickedHandler(ownClickedHandler());
+		this.addCartaClickedListener(ownClickedHandler());
 		
 			
 //			Carta_Criatura aux2 = (Carta_Criatura) this.baralho.getElemento(5);
@@ -167,13 +177,15 @@ public class Jogador extends Entity{
 		
 		putJogador();
 		this.baralho.embaralhar();
+		this.baralho.embaralhar();
+		//this.baralho.embaralhar();
 	}
 	
 	private void putJogador(){
 		
-		this.setBackground(new Color(255,0,0));
+		//this.setBackground(new Color(255,0,0));
 		
-		this.setBounds((int)interfacePosition.x, (int)interfacePosition.y, ENERGIA_WIDTH, 25);
+		this.setBounds((int)interfacePosition.x, (int)interfacePosition.y, ENERGIA_WIDTH, ENERGIA_HEIGHT);
 		
 		//JPanel defaultVida = new JPanel();
 		//TitledBorder border = BorderFactory.createTitledBorder("");
@@ -358,7 +370,12 @@ public class Jogador extends Entity{
 	public int ataque(){
 		int resultado = 0;
 		
-		resultado = campo.getAtaque();
+		if(this.associaçãoATQ == 0){
+			resultado = campo.getAtaque();
+		}else{
+			resultado = this.associaçãoATQ;
+			this.associaçãoATQ = 0;
+		}
 		
 		return resultado;
 	}
@@ -369,7 +386,7 @@ public class Jogador extends Entity{
 		}else if(alvo instanceof Jogador){
 			defender(ataque, (Jogador)alvo);
 		}else{
-			System.out.println("Impossível Atacar "+alvo.getNome());
+			LogPanel.appendText("Impossível Atacar "+alvo.getNome());
 		}
 		atualizarInfoEnergia();		
 	}
@@ -379,21 +396,24 @@ public class Jogador extends Entity{
 		int resultado = ataque - defesaAlvo;
 		
 		if(resultado <= 0){
-			System.out.println("Defendido");
+			LogPanel.appendText("Defendido");
 		}else{
-			System.out.println("Morto");
+			LogPanel.appendText("Morto");
 			campo.removeCriaturaDoCampo(alvo);
 			defender(resultado, jogadorAlvo);
 		}
 		
-		System.out.println("Ataque: "+ataque);
-		System.out.println("Defesa: "+defesaAlvo);
+		LogPanel.appendText("Ataque: "+ataque);
+		LogPanel.appendText("Defesa: "+defesaAlvo);
 	}
 	private void defender(int ataque, Jogador alvo){
-		//vida - dano 
-		alvo.setEnergia(alvo.getEnergia() - ataque);
+		//vida + associação - dano 
+		alvo.setEnergia(alvo.getEnergia() +alvo.getAssossiação() - ataque);
+		if(alvo.getAssossiação() != 0){
+			alvo.setAssossiação(0);
+		}
 		if(alvo.getEnergia() <= 0){
-			System.out.println("Fim de jogo. "+  alvo.getNome().toUpperCase()+" perdeu!!");
+			LogPanel.appendText("Fim de jogo. "+  alvo.getNome().toUpperCase()+" perdeu!!");
 		}
 	}
 
@@ -437,8 +457,12 @@ public class Jogador extends Entity{
 		ClickedHandler ch = new ClickedHandler(this){
 			int acr = 10;
 			@Override
-			public void CardClicked(Carta c) {
-				// TODO Auto-generated method stub
+			public void CardClicked(Entity c) {
+				HandCommandPanel.setGlobalSelection(c);
+				
+				if(getVez()){
+					getHandCommandPanel().setSelected(c);
+				}		
 				
 			}
 
@@ -494,15 +518,6 @@ public class Jogador extends Entity{
 	}
 
 
-
-	public ClickedHandler getClickedHandler() {
-		return clickedHandler;
-	}
-
-	public void setClickedHandler(ClickedHandler clickedHandler) {
-		this.clickedHandler = clickedHandler;
-	}
-
 	public boolean isDefended() {
 		return campo.isDefended();
 	}
@@ -548,9 +563,34 @@ public class Jogador extends Entity{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
+		 Graphics gr = g.create();  
+		 
+		 gr.drawImage(this.imagem,0,0,Jogador.ENERGIA_WIDTH
+				 ,ENERGIA_HEIGHT,null);
+		 
+		
+		gr.dispose();
 		
 		
 		
 	}
 
+	public HandCommandPanel getHandCommandPanel() {
+		return handCommandPanel;
+	}
+
+	public void setHandCommandPanel(HandCommandPanel handCommandPanel) {
+		this.handCommandPanel = handCommandPanel;
+	}
+	public Cemiterio getCemiterio() {
+		return cemiterio;
+	}
+
+	public int getAssossiação() {
+		return associaçãoDEF;
+	}
+
+	public void setAssossiação(int assossiação) {
+		this.associaçãoDEF = assossiação;
+	}
 }

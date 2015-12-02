@@ -1,6 +1,7 @@
 package handlers;
 
 import entity.Carta;
+import entity.Entity;
 import listeners.CartaClickedListener;
 import tabuleiro.Jogador;
 
@@ -12,8 +13,8 @@ public class ClickedHandHandler implements CartaClickedListener{
 	}
 	
 	@Override
-	public void CardClicked(Carta c) {
-		jogador.getHand().getMainPanel().getCommandPanel().setHandCardClicked(c);
+	public void CardClicked(Entity c) {
+		jogador.getHand().getMainPanel().getCommandPanel().setHandCardClicked((Carta) c);
 		
 	}
 	@Override

@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import listeners.CartaClickedListener;
 import Util.Position;
 
 @SuppressWarnings("serial")
@@ -21,6 +22,7 @@ public abstract class Entity  extends JPanel {
 	
 	protected char side;
 	
+	protected CartaClickedListener cartaClickedListener;
 	
 	public char getSide() {
 		return side;
@@ -67,6 +69,14 @@ public abstract class Entity  extends JPanel {
 		
 		gr.dispose();
 		
+	}
+	
+	public void addCartaClickedListener(CartaClickedListener listener){
+		this.cartaClickedListener = listener;
+	}
+	
+	public CartaClickedListener getCartaClickedListener(){
+		return this.cartaClickedListener;
 	}
 
 	public String getNome() {

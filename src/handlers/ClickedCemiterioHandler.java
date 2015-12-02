@@ -1,8 +1,9 @@
 package handlers;
 
+import listeners.CartaClickedListener;
 import tabuleiro.Jogador;
 import entity.Carta;
-import listeners.CartaClickedListener;
+import entity.Entity;
 
 public class ClickedCemiterioHandler implements CartaClickedListener{
 
@@ -11,7 +12,7 @@ public class ClickedCemiterioHandler implements CartaClickedListener{
 	}
 
 	@Override
-	public void CardClicked(Carta c) {
+	public void CardClicked(Entity c) {
 		// TODO Auto-generated method stub
 		
 	}

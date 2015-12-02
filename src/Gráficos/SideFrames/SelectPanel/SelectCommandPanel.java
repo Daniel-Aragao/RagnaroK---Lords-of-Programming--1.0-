@@ -93,6 +93,7 @@ public class SelectCommandPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if(selected == null) return;
 				((Carta_Criatura)selected).setAtackMode(true);
 				
 				Campo campo = jogador.getCampo();
@@ -107,6 +108,7 @@ public class SelectCommandPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if(selected == null) return;
 				((Carta_Criatura)selected).setAtackMode(false);
 		
 				Campo campo = jogador.getCampo();
@@ -121,6 +123,7 @@ public class SelectCommandPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if(selected == null) return;
 				Baralho baralho = jogador.getBaralho();
 				
 				baralho.addFim(selected);
@@ -134,6 +137,7 @@ public class SelectCommandPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if(selected == null) return;
 				jogador.addCartaMao(selected);
 				
 				afterPull();
@@ -145,7 +149,7 @@ public class SelectCommandPanel {
 	}
 	public void afterPull(){
 		removeFromCardPanel();
-						
+		denableOptions();
 		setSelected(null);
 		
 		Turno.setLetAtack(true);
@@ -160,14 +164,14 @@ public class SelectCommandPanel {
 		denableOptions();
 		if(selected instanceof Carta_Criatura){
 				if(!jogador.getCampo().isFull()){
-					toBaralho.setEnabled(true);
 					ATQ.setEnabled(true);
 					DEF.setEnabled(true);
 				}
-			}else{
+		}else{
 				toMao.setEnabled(true);
-				toBaralho.setEnabled(true);
-			}
+		}
+		
+		toBaralho.setEnabled(true);
 		
 	}
 	public void denableOptions(){

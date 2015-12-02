@@ -1,6 +1,7 @@
 Ghostring
-Fofura fantasma
-13
-1
-1
+Espírito dos Anciões
+2
+10
+3
 ./Cartas/Criaturas/Ghostring.png
+./Cartas/Criaturas/GhostringDEF.png

@@ -14,6 +14,7 @@ public class Carta_Criatura extends Carta {
 	private int defesa;
 	private int skill;
 	private boolean atackMode;
+	private boolean herançaModeOn;
 	private BufferedImage defImage;
 	private BufferedImage atqImage;
 
@@ -32,6 +33,7 @@ public class Carta_Criatura extends Carta {
 		this.defImage = defImage; 
 		this.magica = Campo.getNewCarta_PisoMagica();
 		setAtackMode(true);
+		setHerançaModeOn(false);
 	}
 
 	// public int getActionResult(boolean vez){
@@ -47,8 +49,10 @@ public class Carta_Criatura extends Carta {
 		int atq = this.ataque;
 
 		if (this.magica != null) {
-			if (magica.getNome().toLowerCase().equals("if")) {
-				if(atacando){
+			String lowerNome = this.magica.getNome().toLowerCase();
+			if(atacando){
+				if (lowerNome.equals("if")) {
+					
 					String[] options = new String[2];
 					options[0] = new String("ATQ");
 					options[1] = new String("DEF");
@@ -60,12 +64,43 @@ public class Carta_Criatura extends Carta {
 						
 						atq = this.defesa;
 					}
+					
+				}else if(lowerNome.equals("switch")){
+					
+					String[] options = new String[2];
+					options[0] = new String("Ativar!");
+					options[1] = new String("Não!");
+					
+					if (JOptionPane.showOptionDialog(this,
+							"Ativar Switch?", "SWITCH",
+							JOptionPane.OK_CANCEL_OPTION,
+							JOptionPane.PLAIN_MESSAGE, null, options, null) != 0) {
+						
+						magicSetListener.swtichAtivado(this);
+					}			
+					
+					
+				}else if(lowerNome.equals("for")){
+					
+					String[] options = new String[2];
+					options[0] = new String("Ativar!");
+					options[1] = new String("Não!");
+					
+					if (JOptionPane.showOptionDialog(this,
+							"Ativar For?", "FOR",
+							JOptionPane.OK_CANCEL_OPTION,
+							JOptionPane.PLAIN_MESSAGE, null, options, null) != 0) {
+						
+						magicSetListener.forAtivado(this);
+					}	
+					
 				}
-			}else if(magica.getNome().toLowerCase().equals("while")){
-				atq = this.ataque * this.skill;
-			}//else if(){
+			}	
+			
+			if(lowerNome.equals("while")){
+				atq = atq * this.skill;
 				
-			//}
+			}
 		}
 
 		return atq;
@@ -73,23 +108,62 @@ public class Carta_Criatura extends Carta {
 
 	public int getDefesa(boolean defendendo) {
 		int def = this.defesa;
+		
 		if(this.magica != null){
-			if(this.magica.getNome().toLowerCase().equals("if")){
+			String lowerNome = this.magica.getNome().toLowerCase();
+			if(!lowerNome.contains("piso")){
 				if(defendendo){
-					String[] options = new String[2];
-					options[0] = new String("ATQ");
-					options[1] = new String("DEF");
 					
-					if (JOptionPane.showOptionDialog(this,
+					if(lowerNome.equals("if")){
+					
+						String[] options = new String[2];
+						options[0] = new String("ATQ");
+						options[1] = new String("DEF");
+					
+						if (JOptionPane.showOptionDialog(this,
 							"Utilizar ATQ ou DEF nesta defesa?", "IF",
-							JOptionPane.OK_CANCEL_OPTION,
-							JOptionPane.PLAIN_MESSAGE, null, options, null) == 0) {
+								JOptionPane.OK_CANCEL_OPTION,
+								JOptionPane.PLAIN_MESSAGE, null, options, null) == 0) {
+							
+							def = this.ataque;
+						}
+					
+					}else if(lowerNome.equals("switch")){
 						
-						def = this.ataque;
+						String[] options = new String[2];
+						options[0] = new String("Ativar!");
+						options[1] = new String("Não!");
+						
+						if (JOptionPane.showOptionDialog(this,
+								"Ativar Switch?", "SWITCH",
+								JOptionPane.OK_CANCEL_OPTION,
+								JOptionPane.PLAIN_MESSAGE, null, options, null) != 0) {
+							
+							magicSetListener.swtichAtivado(this);
+						}	
+						
+					}else if(lowerNome.equals("for")){
+						
+						String[] options = new String[2];
+						options[0] = new String("Ativar!");
+						options[1] = new String("Não!");
+						
+						if (JOptionPane.showOptionDialog(this,
+								"Ativar For?", "FOR",
+								JOptionPane.OK_CANCEL_OPTION,
+								JOptionPane.PLAIN_MESSAGE, null, options, null) != 0) {
+							
+							magicSetListener.forAtivado(this);
+						}	
+						
 					}
 				}
-			}else if(this.magica.getNome().toLowerCase().equals("while")){
-				def = this.defesa*this.skill;
+				
+				if(lowerNome.equals("while")){
+					def = this.defesa*this.skill;
+					
+				} 
+				
 			}
 		}
 		return def;
@@ -140,6 +214,14 @@ public class Carta_Criatura extends Carta {
 
 	public void setMagicSetListener(MagicSetListener magicSetListener) {
 		this.magicSetListener = magicSetListener;
+	}
+
+	public boolean isHerançaModeOn() {
+		return herançaModeOn;
+	}
+
+	public void setHerançaModeOn(boolean herançaModeOn) {
+		this.herançaModeOn = herançaModeOn;
 	}
 	
 	

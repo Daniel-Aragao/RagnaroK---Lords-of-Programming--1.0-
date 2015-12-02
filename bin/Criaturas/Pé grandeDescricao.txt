@@ -1,6 +1,7 @@
 Pé grande
-Master of cuteness
+Devorador de donzelas
 5
 5
 5
 ./Cartas/Criaturas/Pé grande.jpg
+./Cartas/Criaturas/Pé grandeDEF.jpg

@@ -15,21 +15,25 @@ import javax.swing.border.TitledBorder;
 
 import listeners.CommandListener;
 import tabuleiro.Jogador;
+import tabuleiro.Turno;
 import entity.Carta;
 import entity.Carta_Criatura;
 import entity.Carta_Especial;
 import entity.Carta_Magica;
 import entity.Entity;
+import entity.cartas_de_topo.ED;
+import entity.cartas_de_topo.OO;
 
 public class HandCommandPanel {
-	private static Entity selected;
+	private Entity selected;
+	private static Entity globalSelection;
 	public static Carta selected_hand;
 	private JPanel panel;
 	 
 	private JButton passarVez;
 	private JButton atacar;
 	private JButton usarCarta;
-	private static JButton ativarCarta;
+	private JButton ativarCarta;
 	
 	private CommandListener commandListener;
 	private Jogador jogador;
@@ -69,14 +73,21 @@ public class HandCommandPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String[] options = new String[2];
+				options[0] = new String("Sim");
+				options[1] = new String("Não");
 				
-				if(JOptionPane.showConfirmDialog(jogador, "Tem certeza que deseja passar a vez?")==0){
+				if (JOptionPane.showOptionDialog(passarVez,
+						"Deseja terminar o turno?", "Fim de Turno",
+						JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.PLAIN_MESSAGE, null, options, null) == 0) {
 					
 					jogador.getCommandListener().passarVez(jogador);
 					
 					denableButtons();
-					
+					Turno.setLetED_OO(false);
 					setSelected(null);
+					setHandCardClicked(null);
 				}
 				
 			}
@@ -86,17 +97,22 @@ public class HandCommandPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Entity selec = selected;
+				Entity selec = HandCommandPanel.getGlobalSelection();
 				if(selec != null){
 					if(selec.getSide() != jogador.getSide()){
-						jogador.getCommandListener().atacar(jogador,selec);
-						atacar.setEnabled(false);
-						usarCarta.setEnabled(false);
+						if(!(selec instanceof Jogador && ((Jogador)selec).isDefended())){
+							jogador.getCommandListener().atacar(jogador,selec);
+							atacar.setEnabled(false);
+							usarCarta.setEnabled(false);
+							Turno.setLetED_OO(true);
+						}else{
+							JOptionPane.showMessageDialog(atacar, "Este jogador está sendo defendido!");
+						}
 					}else{
-						JOptionPane.showMessageDialog(jogador, "Impossível atacar esse alvo");
+						JOptionPane.showMessageDialog(atacar, "Impossível atacar esse alvo!");
 					}
 				}else{
-					JOptionPane.showMessageDialog(jogador, "Selecione um Alvo");
+					JOptionPane.showMessageDialog(atacar, "Selecione um Alvo!");
 				}
 				setSelected(null);				
 			}
@@ -109,28 +125,74 @@ public class HandCommandPanel {
 				
 				if(selected_hand != null){
 					if(selected != null || selected_hand instanceof Carta_Especial){
-						// remover carta da mão
-						// adicionar carta no monstro selected
+						if(selected_hand instanceof Carta_Magica){
+							if(selected instanceof Carta_Criatura){
+								
+								jogador.getHand().getMainPanel().getCardPanel().removeCard(selected_hand);	
+								((Carta_Criatura)selected).setMagica((Carta_Magica) selected_hand);								
+								
+							}else{
+								JOptionPane.showMessageDialog(usarCarta, "Alvo inválido!");
+							}
+						}
+						
+						if(selected_hand instanceof Carta_Especial){
+							
+							//add no ED ou no OO
+							if(jogador.getCampo().addCarta(selected_hand)){
+								jogador.getHand().getMainPanel().getCardPanel().removeCard(selected_hand);
+							}
+							
+						}
+						
+						setHandCardClicked(null);
+						
 					}else{
-						JOptionPane.showMessageDialog(jogador, "Selecione uma criatura");
+						JOptionPane.showMessageDialog(usarCarta, "Selecione uma criatura");
 					}
 				}else{
-					JOptionPane.showMessageDialog(jogador, "Selecione uma carta");
+					JOptionPane.showMessageDialog(usarCarta, "Selecione uma carta");
 				}
 				
 			}
-		});
+		}); 
+		
+//		inimigo não foi des-selecionado automaticamente
+
+//		o for está alterando a carta do inimigo e não a dele mesmo
+		
+//		implementação das actions Encapsulamento e Herança(terminando)
+		
+//		metodo de ativa uma oo que se mantém ativa até executar sua ação deve questionar se quer sobreescrever
+//		a carta. metodo da herança deve atuar diretamente no SelectionPanel
+		
+//		adicionar tela do encapsulamento
+		
+//		perder ao acabar as cartas!!
+		
+//		o jogador não está sendo informado do que está acontecendo, o log que aparece no console
+		
+//		adicionar botão descartar card para o cemitério
+		
+//		exibir no cemitério a carta removida pro último
+		
 		ativarCarta.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				if(selected_hand != null){
-					if(selected_hand instanceof Carta_Especial){
-						//ativar ação no jogador.ED || jogador.OO
+				if(selected != null){
+					//ativar ação no jogador.ED || jogador.OO
+					if(selected instanceof ED){
+						jogador.getCampo().RemoveCarta_Especial((ED)selected);
+						((ED)selected).ativarED(jogador.getBaralho(), jogador.getCemiterio());
 						
-						setHandCardClicked(null);
+					}else if(selected instanceof OO){
+						jogador.getCampo().RemoveCarta_Especial((OO)selected);
+						((OO)selected).ativarOO(jogador);
 					}
+					setHandCardClicked(null);
+					
 				}
 				
 			}
@@ -141,6 +203,9 @@ public class HandCommandPanel {
 		panel.add(usarCarta);
 		panel.add(ativarCarta);
 		panel.add(passarVez);
+	}
+	public void attackButtonPressed(){
+		
 	}
 
 	public JPanel getPanel() {
@@ -155,7 +220,7 @@ public class HandCommandPanel {
 		this.commandListener = commandListener;
 	}
 
-	public static Entity getSelected() {
+	public Entity getSelected() {
 		return selected;
 	}
 
@@ -183,57 +248,82 @@ public class HandCommandPanel {
 		ativarCarta.setEnabled(false);
 	}
 	
-	public static void setSelected(Entity selected) {
+	public void setSelected(Entity selected) {		
+		if(selected_hand != null && selected == selected_hand ) return;
 		if(selected instanceof Carta_Criatura 
-				|| selected instanceof Carta_Especial
+				|| selected instanceof Carta_Especial 
 				|| selected instanceof Jogador){
 			
-			if(selected instanceof Jogador){
-				if(((Jogador)selected).isDefended()){
-					return;
-				}
-			}
+			
 			if(!selected.getNome().toLowerCase().contains("piso")){
-				if(selected != HandCommandPanel.selected && HandCommandPanel.selected!=null){
-					HandCommandPanel.selected.setBorder(null);
-					if(HandCommandPanel.selected instanceof Carta_Especial){
+				if(selected != this.selected && this.selected!=null){
+					this.selected.setBorder(null);
+					if(this.selected instanceof Carta_Especial){
 						ativarCarta.setEnabled(false);
 					}
 				}
 				
-				if(selected instanceof Carta_Especial){
+				if(selected instanceof Carta_Especial  && Turno.isLetED_OO()){
 					ativarCarta.setEnabled(true);
 				}
+				
+				HandCommandPanel.setGlobalSelection(null);
+				
 				
 				TitledBorder border = BorderFactory.createTitledBorder("SELECIONADO");
 				border.setTitleColor(new Color(62,28,100));
 				border.setTitlePosition(TitledBorder.ABOVE_BOTTOM);
 				selected.setBorder(border);			
-				HandCommandPanel.selected = selected;
+				this.selected = selected;
 				
 			}
 		}
-		if(selected == null && HandCommandPanel.selected != null){
-			HandCommandPanel.selected.setBorder(null);
-			HandCommandPanel.selected = selected;
+		if(selected == null && this.selected != null){
+			this.selected.setBorder(null);
+			this.selected = selected;
 		}
 	}
 
 	
 	public void setHandCardClicked(Carta c) {
+		
 		if(c != null){
-			if(c != selected_hand){
-				
-				usarCarta.setEnabled(true);
-				selected_hand = c;
-				
-			}
-		}else if(selected_hand != null){
-			selected_hand.setBorder(null);
-			selected_hand = null;
+			usarCarta.setEnabled(true);
+			
+			TitledBorder border = BorderFactory.createTitledBorder("SELECIONADO");
+			border.setTitleColor(new Color(0,255,0));
+			border.setTitlePosition(TitledBorder.ABOVE_BOTTOM);
+			c.setBorder(border);
 		}
 		
+		if(c != selected_hand && selected_hand != null){
+			selected_hand.setBorder(null);
+			
+		}
+		selected_hand = c;
+		
+		
 	}
-	botão ativar enabled sem selecionar a carta, seleção não permite trocar de selecionado, carta selecionada sem
-	ter a troca de borda ainda, corrigir urgente!!
+	
+	public static void setGlobalSelection(Entity e) {
+		if(e instanceof Carta_Criatura || e instanceof Jogador){
+			TitledBorder border = BorderFactory.createTitledBorder("SELECIONADO");
+			border.setTitleColor(new Color(0,255,255));
+			border.setTitlePosition(TitledBorder.ABOVE_BOTTOM);
+			e.setBorder(border);			
+			
+		}		
+		
+		if(HandCommandPanel.globalSelection != null && HandCommandPanel.globalSelection != e){
+			HandCommandPanel.globalSelection.setBorder(null);
+		}		
+		HandCommandPanel.globalSelection = e;
+		
+	}
+
+	public static Entity getGlobalSelection() {
+		return globalSelection;
+	}
+
+
 }

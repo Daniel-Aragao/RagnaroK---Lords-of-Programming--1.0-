@@ -3,6 +3,7 @@ package handlers;
 import tabuleiro.Jogador;
 import listeners.CartaClickedListener;
 import entity.Carta;
+import entity.Entity;
 
 public class ClickedBaralhoHandler implements CartaClickedListener {
 
@@ -11,7 +12,7 @@ public class ClickedBaralhoHandler implements CartaClickedListener {
 	}
 
 	@Override
-	public void CardClicked(Carta c) {
+	public void CardClicked(Entity c) {
 		// TODO Auto-generated method stub
 
 	}

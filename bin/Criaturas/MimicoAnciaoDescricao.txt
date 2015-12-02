@@ -1,6 +1,7 @@
-Mimico Anciao
-Bicho-papão
+Mimico Ancião
+O baú do Desespero.
 4
 7
 4
 ./Cartas/Criaturas/MimicoAnciao.jpg
+./Cartas/Criaturas/MimicoAnciaoDEF.jpg

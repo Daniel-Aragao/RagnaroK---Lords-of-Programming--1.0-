@@ -1,7 +1,7 @@
 package entity;
 
-import java.awt.image.BufferedImage;
 
+@SuppressWarnings("serial")
 public class Carta_Especial extends Carta {
 	
 	public Carta_Especial(CartaParameters cp) {
@@ -9,12 +9,6 @@ public class Carta_Especial extends Carta {
 	}
 
 	
-
-	@Override
-	public void draw() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public Carta copy() {

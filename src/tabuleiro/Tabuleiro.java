@@ -24,7 +24,7 @@ public class Tabuleiro extends JPanel {
 	private Jogador jogadorA;
 	private Jogador jogadorB;
 	
-	
+	private LogPanel logPanel;
 	
 	public Tabuleiro() {
 		////////////////////IMPORTAR CARTAS//////////////////////////////
@@ -40,12 +40,17 @@ public class Tabuleiro extends JPanel {
 		
 		CommandListener cl = commandCreator();
 		Turno turno = new Turno();  
+		logPanel = new LogPanel();
+		logPanel.setBounds((int)Jogador.UP_LABEL.x + Jogador.ENERGIA_WIDTH + 10 
+				,5, 250, 55);
 
 		jogadorA = new Jogador(this, baralho, PlayerPosition.UP_REFERENCE);
 		jogadorB = new Jogador(this, baralho, PlayerPosition.DOWN_REFERENCE);
 		
 		jogadorA.setCommandListener(cl);
 		jogadorB.setCommandListener(cl);
+		
+		this.add(logPanel);
 		
 		this.setVisible(true);
 	}
@@ -63,6 +68,11 @@ public class Tabuleiro extends JPanel {
 					jogadorA.setVez(true);
 					jogadorB.setVez(false);
 					jogador.setTurnoCounter(jogador.getTurnoCounter()+1);
+					
+					LogPanel.setFontColor(Color.RED);					
+					LogPanel.appendText("------------------- Fim do turno "+
+					(-1+jogador.getTurnoCounter())
+					+" -------------------");
 				}
 				Turno.setPullTime(true);
 				jogador.allowEndTurn(false);
@@ -73,11 +83,17 @@ public class Tabuleiro extends JPanel {
 			public void atacar(Jogador jogador, Entity alvo) {
 				
 				if(jogador == jogadorA){
-					System.out.println("Jogador A Ataca: "+ alvo.getNome());
+					if(alvo.getNome().toLowerCase().equals("associação")){
+						alvo = jogadorB;
+					}
+					LogPanel.appendText("Jogador A Ataca: "+ alvo.getNome());
 					jogadorB.defesa(jogadorA.ataque(), alvo, jogadorB);
 					
 				}else{
-					System.out.println("Jogador B Ataca: "+ alvo.getNome());
+					if(alvo.getNome().toLowerCase().equals("associação")){
+						alvo = jogadorA;
+					}
+					LogPanel.appendText("Jogador B Ataca: "+ alvo.getNome());
 					jogadorA.defesa(jogadorB.ataque(), alvo, jogadorA);
 				}
 				
@@ -92,6 +108,63 @@ public class Tabuleiro extends JPanel {
 			public void hooverInfo(Carta c) {
 				jogadorA.getDescription().setInformacoes(c);
 				jogadorB.getDescription().setInformacoes(c);
+				
+			}
+
+
+			@Override
+			public void assossiaçãoAtaque(Jogador jogador) {
+				if(jogador == jogadorA){
+					LogPanel.appendText("Jogador A Ataca: "+ jogadorB.getNome()+ " por Associação");
+					jogadorB.defesa(jogadorA.ataque(), jogadorB, jogadorB);
+					
+				}else{
+					
+					LogPanel.appendText("Jogador B Ataca: "+ jogadorA.getNome()+ " por Associação");
+					jogadorA.defesa(jogadorB.ataque(), jogadorA, jogadorA);
+				}
+				
+			}
+
+
+			@Override
+			public void polimorfismo(Jogador jogador) {
+				if(jogador == jogadorA){
+					LogPanel.appendText(jogadorB.getNome()+ " sofreu Polimorfismo");
+					jogadorB.getCampo().polimorfismo();
+				}else{
+					LogPanel.appendText(jogadorA.getNome()+ " sofreu Polimorfismo");
+					jogadorA.getCampo().polimorfismo();
+				}
+				
+			}
+
+
+			@Override
+			public void herança(Jogador jogador) {
+				int[]A = jogadorA.getCampo().maioresAtributos();
+				int[]B = jogadorA.getCampo().maioresAtributos();
+				int[]C = new int[3];
+				
+				C[0] = A[0];
+				if(A[0] < B[0]) C[0] = B[0];
+				
+				C[1] = A[1];
+				if(A[1] < B[1]) C[1] = B[1];
+				
+				C[2] = A[2];
+				if(A[2] < B[2]) C[2] = B[2];
+				
+//				avisar para o painel de seleção que a prox carta criatura 
+//				receberá atributos de herança do vetor C
+				
+				
+			}
+
+
+			@Override
+			public void encapsulamento() {
+				// TODO Auto-generated method stub
 				
 			}
 			

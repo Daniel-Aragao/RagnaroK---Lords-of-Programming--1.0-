@@ -1,6 +1,7 @@
 Ifrit
-Em busca do anel
+O Inferno vivo
 6
 5
 4
 ./Cartas/Criaturas/Ifrit.png
+./Cartas/Criaturas/IfritDEF.png
