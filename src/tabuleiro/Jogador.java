@@ -151,13 +151,14 @@ public class Jogador extends Entity{
 		//////////////////////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////////
 		
-		CartaParameters cp = new CartaParameters(Tipo_Carta.CRIATURA);
-		BufferedImage img = Importar.getBackground(BackgroundID.pisoCemitério);
-		cp.imagem = img;
-		img = Importar.getBackground(BackgroundID.pisoOO);
-		Carta_Criatura imaginaria = new Carta_Criatura(200,200,200,img,cp);
-		campo.addCarta(imaginaria);
-		this.turnoCounter = 5;
+//		CartaParameters cp = new CartaParameters(Tipo_Carta.CRIATURA);
+//		BufferedImage img = Importar.getBackground(BackgroundID.pisoCemitério);
+//		cp.imagem = img;
+//		img = Importar.getBackground(BackgroundID.pisoOO);
+//		Carta_Criatura imaginaria = new Carta_Criatura(200,200,200,img,cp);
+//		campo.addCarta(imaginaria);
+//		this.turnoCounter = 5;
+		
 		//////////////////////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////////
