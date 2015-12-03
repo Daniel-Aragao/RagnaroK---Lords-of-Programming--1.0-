@@ -8,7 +8,6 @@ import tabuleiro.Jogador;
 import Util.Lista_de_Generics;
 import entity.Carta;
 import entity.CartaParameters;
-import entity.Carta_ED;
 import entity.Carta_OO;
 
 @SuppressWarnings("serial")
@@ -34,14 +33,16 @@ public class OO extends Carta_OO{
 	}
 	
 	public boolean usada(Carta_OO c){
-		if(registro.contains(c)){
-			return true;
+		for(int i = 0 ; i < registro.getQtdElementos(); i++){
+			Carta_OO aux = registro.getElemento(i);
+			if(aux.getNome().equals(c.getNome())){
+				return true;
+			}
 		}
 		return false;
 	}
 	@Override
 	public Carta copy() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	public boolean addCard(Carta c) {
@@ -66,14 +67,15 @@ public class OO extends Carta_OO{
 		return true;		
 	}
 	public Carta_OO remove(Carta c){
-		c.addCartaClickedListener(null);
+		carta.addCartaClickedListener(null);
 		
+		Carta_OO aux = carta;
 		setCarta(null);
 		imagem = imagemPadrão;
 		nome = nomePadrão;
 		descricao = descriçãoPadrão;
 		
-		return (Carta_OO) c;
+		return aux;
 	}
 	
 	public Carta_OO getCarta() {
@@ -84,10 +86,7 @@ public class OO extends Carta_OO{
 	}
 	public void ativarOO(Jogador jogador) {
 		String nomeLower = carta.getNome().toLowerCase();
-		// assosiação, a pessoa escolhe ataque ou defesa  - campo
-		// herança - selection panel
-		// polimorfismo - campo
-		//encapsulamento - baralho e cemiterio
+		
 		if (nomeLower.equals("associação")){
 			String[] options = new String[2];
 			options[0] = new String("Atacar");
@@ -107,10 +106,13 @@ public class OO extends Carta_OO{
 			
 		}else if(nomeLower.equals("polimorfismo")){
 			jogador.getCommandListener().polimorfismo(jogador);
+			
 		}else if(nomeLower.equals("herança")){
 			jogador.getCommandListener().herança(jogador);
-		}else if(nomeLower.equals("encapsulamento")){
 			
+		}else if(nomeLower.equals("encapsulamento")){
+			jogador.getCommandListener().encapsulamento(jogador);
+
 		}
 		
 	}

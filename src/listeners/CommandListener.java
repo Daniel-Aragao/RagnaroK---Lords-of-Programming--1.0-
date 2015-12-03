@@ -11,5 +11,5 @@ public interface CommandListener {
 	public void assossiaçãoAtaque(Jogador jogador);
 	public void polimorfismo(Jogador jogador);
 	public void herança(Jogador jogador);
-	public void encapsulamento();
+	public void encapsulamento(Jogador jogador);
 }

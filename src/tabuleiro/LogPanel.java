@@ -2,15 +2,17 @@ package tabuleiro;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.event.AncestorListener;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
+@SuppressWarnings("serial")
 public class LogPanel extends JPanel{
 	private static JTextArea textArea;
 	private static JScrollPane scrollPanel;
@@ -23,10 +25,11 @@ public class LogPanel extends JPanel{
 		this.setBackground(new Color(0,0,0,0));
 		scrollPanel.setBackground(new Color(0,0,0,0));
 		
-		textArea.setBackground(Color.black);
+		textArea.setBackground(new Color(0,0,0));
 		textArea.setForeground(Color.white);
 		textArea.setCaretColor(Color.white);
-		textArea.setSelectionColor(Color.red);
+		textArea.setSelectionColor(Color.cyan);
+		
 		textArea.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e){
 				e.consume();
@@ -39,21 +42,16 @@ public class LogPanel extends JPanel{
 		
 		this.setLayout(new BorderLayout());
 		this.add(scrollPanel,BorderLayout.CENTER);
-		LogPanel.appendText("------------------- Fim do turno "+1+" -------------------");
 	}
-	public static void setFontColor(Color color){
-		textArea.setForeground(color);
-	}
-	public static void resetColor(){
-		textArea.setForeground(Color.white);
-	}
-	
+		
 	public static void setText(String text){
 		textArea.setText(text);
 	}
 	public static void appendText(String text){
 		textArea.append("\n" + text);
-		resetColor();
+		
+		scrollPanel.getViewport().setViewPosition(new Point(0,textArea.getSize().height));
 	}
+	
 	
 }

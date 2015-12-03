@@ -74,9 +74,12 @@ public class Carta_Criatura extends Carta {
 					if (JOptionPane.showOptionDialog(this,
 							"Ativar Switch?", "SWITCH",
 							JOptionPane.OK_CANCEL_OPTION,
-							JOptionPane.PLAIN_MESSAGE, null, options, null) != 0) {
+							JOptionPane.PLAIN_MESSAGE, null, options, null) == 0) {
 						
-						magicSetListener.swtichAtivado(this);
+						Carta_Criatura aux = magicSetListener.switchAtivado(this);
+						if( aux != null){
+							return aux.getAtaque(true);
+						}
 					}			
 					
 					
@@ -89,9 +92,12 @@ public class Carta_Criatura extends Carta {
 					if (JOptionPane.showOptionDialog(this,
 							"Ativar For?", "FOR",
 							JOptionPane.OK_CANCEL_OPTION,
-							JOptionPane.PLAIN_MESSAGE, null, options, null) != 0) {
+							JOptionPane.PLAIN_MESSAGE, null, options, null) == 0) {
 						
-						magicSetListener.forAtivado(this);
+						Carta_Criatura aux = magicSetListener.forAtivado(this);
+						if (aux != null){
+							return aux.getAtaque(true);
+						}
 					}	
 					
 				}
@@ -123,7 +129,7 @@ public class Carta_Criatura extends Carta {
 						if (JOptionPane.showOptionDialog(this,
 							"Utilizar ATQ ou DEF nesta defesa?", "IF",
 								JOptionPane.OK_CANCEL_OPTION,
-								JOptionPane.PLAIN_MESSAGE, null, options, null) == 0) {
+								JOptionPane.PLAIN_MESSAGE, null, options, null) != 0) {
 							
 							def = this.ataque;
 						}
@@ -137,9 +143,12 @@ public class Carta_Criatura extends Carta {
 						if (JOptionPane.showOptionDialog(this,
 								"Ativar Switch?", "SWITCH",
 								JOptionPane.OK_CANCEL_OPTION,
-								JOptionPane.PLAIN_MESSAGE, null, options, null) != 0) {
+								JOptionPane.PLAIN_MESSAGE, null, options, null) == 0) {
 							
-							magicSetListener.swtichAtivado(this);
+							Carta_Criatura aux = magicSetListener.switchAtivado(this);
+							if(aux != null){
+								return aux.getDefesa(true);
+							}
 						}	
 						
 					}else if(lowerNome.equals("for")){
@@ -151,9 +160,12 @@ public class Carta_Criatura extends Carta {
 						if (JOptionPane.showOptionDialog(this,
 								"Ativar For?", "FOR",
 								JOptionPane.OK_CANCEL_OPTION,
-								JOptionPane.PLAIN_MESSAGE, null, options, null) != 0) {
+								JOptionPane.PLAIN_MESSAGE, null, options, null) == 0) {
 							
-							magicSetListener.forAtivado(this);
+							Carta_Criatura aux =  magicSetListener.forAtivado(this);
+							if(aux != null){
+								return aux.getDefesa(true);
+							}
 						}	
 						
 					}
@@ -193,6 +205,18 @@ public class Carta_Criatura extends Carta {
 	public Carta copy() {
 		Carta_Criatura aux = new Carta_Criatura(ataque, defesa, skill,defImage, cp);
 		return aux;
+	}
+	
+	public void setHerançaProperties(int[] c){
+		
+		if(c[0] > ataque)
+		this.ataque = c[0];
+		
+		if(c[1] > defesa)
+		this.defesa = c[1];
+		
+		if(c[2] > skill)
+		this.skill = c[2];
 	}
 
 	public boolean isAtackMode() {

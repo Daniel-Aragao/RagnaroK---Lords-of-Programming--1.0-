@@ -1,8 +1,9 @@
 package entity.cartas_de_topo;
 
+import handlers.ClickedHandler;
+
 import javax.swing.JOptionPane;
 
-import handlers.ClickedHandler;
 import listeners.MagicSetListener;
 import tabuleiro.Jogador;
 import tabuleiro.Tabuleiro;
@@ -156,11 +157,14 @@ public class Campo{
 		return true;
 	}
 	public Carta_Especial RemoveCarta_Especial(Carta_Especial ce){
-		if(ce instanceof Carta_ED){
-			return ed.remove(ce);
+		Carta_Especial aux = null;
+		if(ce instanceof Carta_ED){ // 
+			aux = ed.remove(ce);
 		}else{
-			return oo.remove(ce);
+			aux = oo.remove(ce);
 		}
+		cemiterio.addCarta(aux);
+		return aux;
 	}
 	
 	public boolean isFull(){
@@ -216,7 +220,7 @@ public class Campo{
 				}
 
 				@Override
-				public void swtichAtivado(Carta_Criatura cc) {
+				public Carta_Criatura switchAtivado(Carta_Criatura cc) {
 					Carta_Criatura newCard = null;
 					
 					for(int i = 0; i < baralho.getQtdElementos(); i++){
@@ -235,14 +239,16 @@ public class Campo{
 						}
 						removeCriaturaDoCampo(cc);
 						addCriaturaNoCampo(newCard);
+						return newCard;
 					}else{
 						JOptionPane.showMessageDialog(cc, "Não existe mais criaturas no deque");
 						cc.setMagica(getNewCarta_PisoMagica());
+						return null;
 					}
 				}
 
 				@Override
-				public void forAtivado(Carta_Criatura cc) {
+				public Carta_Criatura forAtivado(Carta_Criatura cc) {
 					Carta_Criatura newCard = null;
 					
 					Lista_de_Generics<Carta_Criatura> criaturas = 
@@ -267,9 +273,11 @@ public class Campo{
 						}
 						removeCriaturaDoCampo(cc);
 						addCriaturaNoCampo(newCard);
+						return newCard;
 					}else{
 						JOptionPane.showMessageDialog(cc, "Não existe mais criaturas no deque");
 						cc.setMagica(getNewCarta_PisoMagica());
+						return null;
 					}
 				}
 				
@@ -294,10 +302,6 @@ public class Campo{
 		int y = (int) (addPosition.y + Jogador.ESPACAMENTO-10 + Carta.DEFAULT_CARTA_HEIGHT);
 		
 		if(cc.getMagica() != null){
-//			if(!cc.getMagica().getNome().toLowerCase().contains("piso")){
-//				removeMagicaDoCampo(cc.getMagica());
-//			}
-//			tabuleiro.remove(cc.getMagica());
 			removeMagicaDoCampo(cc.getMagica());
 		}
 		
@@ -369,7 +373,9 @@ public class Campo{
 		for(int i = 0; i < lista.getQtdElementos(); i ++){
 			Carta_Criatura aux = lista.getElemento(i);
 			if(aux.getTipo() != Tipo_Carta.CAMPOCRIATURA){
-				resultado += aux.getAtaque(true);
+				if(aux.isAtackMode()){
+					resultado += aux.getAtaque(true);
+				}
 			}
 		}
 		
@@ -389,10 +395,10 @@ public class Campo{
 				if(ataque > maiorA){
 					maiorA = ataque;
 				}
-				if(defesa > maiorA){
+				if(defesa > maiorD){
 					maiorD = defesa;
 				}
-				if(skill > maiorA){
+				if(skill > maiorS){
 					maiorS = skill;
 				}
 			}

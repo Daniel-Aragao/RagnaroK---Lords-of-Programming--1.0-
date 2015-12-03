@@ -32,6 +32,8 @@ public class Cemiterio extends Carta{
 	public void addCarta(Carta c) {
 		if(c!=null){
 			lista.addFim(c);
+			this.revalidate();
+			this.repaint();
 		}
 		
 	}
@@ -47,9 +49,13 @@ public class Cemiterio extends Carta{
 		super.paintComponent(g);
 		Graphics gr = g.create();
 	
-		gr.drawImage(this.imagem, 0, 0,this.fantasy_CARTA_WIDTH,this.fantasy_CARTA_HEIGHT, null);
 		if(!lista.isEmpty()){
-			gr.drawImage(lista.getElemento(0).getImagem(), 0, 0,this.fantasy_CARTA_WIDTH,this.fantasy_CARTA_HEIGHT, null);
+			gr.drawImage(this.imagem, 0, 0,this.fantasy_CARTA_WIDTH,this.fantasy_CARTA_HEIGHT, null);
+			Carta a = lista.getElemento(lista.getQtdElementos()-1);
+			gr.drawImage(a.getImagem(), 0, 0,a.fantasy_CARTA_WIDTH-10,a.fantasy_CARTA_HEIGHT, null);
+		}else{
+			gr.drawImage(this.imagem, 0, 0,this.fantasy_CARTA_WIDTH,this.fantasy_CARTA_HEIGHT, null);
+			
 		}
 		gr.dispose();
 		

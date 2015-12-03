@@ -16,8 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import listeners.CommandListener;
-import Gráficos.MainFrame;
 import Gráficos.SideFrames.HandFrame;
+import Gráficos.SideFrames.SelectPanel.SelectPanel;
 import Gráficos.SideFrames.handPanels.DescriptionPanel;
 import Gráficos.SideFrames.handPanels.HandCommandPanel;
 import Gráficos.SideFrames.handPanels.HandPanel;
@@ -92,6 +92,7 @@ public class Jogador extends Entity{
 	private DescriptionPanel description ;
 	private HandPanel handPanel;
 	private HandCommandPanel handCommandPanel;
+	private SelectPanel selectPanel;
 	
 	/////////////////////////////////////
 	
@@ -140,40 +141,14 @@ public class Jogador extends Entity{
 		
 		this.description = getHand().getMainPanel().getEastPanel().getDescriptionPanel();
 		
-		this.addCartaClickedListener(ownClickedHandler());
+		this.addCartaClickedListener(ownClickedHandler());		
+			
+		this.setSelectPanel(this.baralho.getSelectPanel());
 		
-			
-//			Carta_Criatura aux2 = (Carta_Criatura) this.baralho.getElemento(5);
-//			campo.addCriaturaNoCampo(aux2);
-//			aux2.setMagica((Carta_Magica) this.baralho.getElemento(10));
-//			
-//			aux2 = (Carta_Criatura) this.baralho.getElemento(7);
-//			aux2.setMagica((Carta_Magica) this.baralho.getElemento(9));
-//			campo.addCriaturaNoCampo(aux2);
-//			
-//			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
-//			campo.addCriaturaNoCampo(aux2);
-//			
-//			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
-//			//campo.addCriaturaNoCampo(aux2,this.position,tabuleiro);
-//			
-//			aux2 = (Carta_Criatura) this.baralho.getElemento(5);
-//			aux2.setAtackMode(false);
-//			campo.addCriaturaNoCampo(aux2);
-//			
-//			Carta aux = this.baralho.getElemento(11);
-//			addCartaMao(aux);
-//			aux = this.baralho.getElemento(12);
-//			addCartaMao(aux);
-//			aux = this.baralho.getElemento(13);
-//			addCartaMao(aux);
-//			aux = this.baralho.getElemento(14);
-//			addCartaMao(aux);
-//			aux = this.baralho.getElemento(15);
-//			addCartaMao(aux);
-			
-			
-			
+		addCartaMao(this.baralho.getElemento(26));
+		addCartaMao(this.baralho.getElemento(27));
+		addCartaMao(this.baralho.getElemento(28));
+		addCartaMao(this.baralho.getElemento(29));
 		
 		putJogador();
 		this.baralho.embaralhar();
@@ -395,6 +370,9 @@ public class Jogador extends Entity{
 		int defesaAlvo = alvo.getDefesa(true);
 		int resultado = ataque - defesaAlvo;
 		
+		LogPanel.appendText("Ataque: "+ataque);
+		LogPanel.appendText("Defesa: "+defesaAlvo);
+		
 		if(resultado <= 0){
 			LogPanel.appendText("Defendido");
 		}else{
@@ -403,13 +381,17 @@ public class Jogador extends Entity{
 			defender(resultado, jogadorAlvo);
 		}
 		
-		LogPanel.appendText("Ataque: "+ataque);
-		LogPanel.appendText("Defesa: "+defesaAlvo);
 	}
 	private void defender(int ataque, Jogador alvo){
 		//vida + associação - dano 
+		
 		alvo.setEnergia(alvo.getEnergia() +alvo.getAssossiação() - ataque);
+		
+		LogPanel.appendText("Dano : " + (ataque - alvo.getAssossiação()));
+		LogPanel.appendText("Energia: " + alvo.getEnergia());
+		
 		if(alvo.getAssossiação() != 0){
+			LogPanel.appendText("Defesa por Associação: "+alvo.getAssossiação());
 			alvo.setAssossiação(0);
 		}
 		if(alvo.getEnergia() <= 0){
@@ -592,5 +574,13 @@ public class Jogador extends Entity{
 
 	public void setAssossiação(int assossiação) {
 		this.associaçãoDEF = assossiação;
+	}
+
+	public SelectPanel getSelectPanel() {
+		return selectPanel;
+	}
+
+	public void setSelectPanel(SelectPanel selectPanel) {
+		this.selectPanel = selectPanel;
 	}
 }

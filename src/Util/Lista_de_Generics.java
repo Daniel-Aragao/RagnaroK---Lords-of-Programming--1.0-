@@ -175,6 +175,21 @@ public class Lista_de_Generics<T> implements Iterable<T>{
 
 	public T getElemento(int n){return lista.elementAt(n);}
 	
+	public Lista_de_Generics<T> getElemento(int i, int j) {
+		if(i > j){
+			int aux = i;
+			i = j;
+			j = aux;
+		}
+		
+		Lista_de_Generics<T> lista = new Lista_de_Generics<T>(j - i);		
+		
+		for(int x = i; x < j ; x++){
+			lista.addFim(this.lista.get(x));
+		}
+		
+		return lista;
+	}
 	
 	
 	public T getElementoRandom(){
@@ -249,7 +264,7 @@ public class Lista_de_Generics<T> implements Iterable<T>{
 		}
 	}
 
-	
+		
 
 	
 }

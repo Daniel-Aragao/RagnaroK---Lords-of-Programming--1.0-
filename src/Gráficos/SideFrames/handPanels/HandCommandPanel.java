@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 
 import listeners.CommandListener;
 import tabuleiro.Jogador;
+import tabuleiro.LogPanel;
 import tabuleiro.Turno;
 import entity.Carta;
 import entity.Carta_Criatura;
@@ -34,6 +35,7 @@ public class HandCommandPanel {
 	private JButton atacar;
 	private JButton usarCarta;
 	private JButton ativarCarta;
+	private JButton descartar;
 	
 	private CommandListener commandListener;
 	private Jogador jogador;
@@ -51,23 +53,26 @@ public class HandCommandPanel {
 		
 		panel.setBackground(new Color(0,0,0,100));
 		
-		panel.setLayout(new GridLayout(3, 1, 5, 5));
+		panel.setLayout(new GridLayout(3, 2, 5, 5));
 		
 		
 		passarVez = new JButton("Fim de Turno");
 		atacar = new JButton("Atacar");
 		usarCarta = new JButton("Usar Carta");
 		ativarCarta = new JButton("Ativar Carta ED/OO");
+		descartar = new JButton("Descartar");
 		
 		buttonCustomization(passarVez);
 		buttonCustomization(atacar);
 		buttonCustomization(usarCarta);
 		buttonCustomization(ativarCarta);
+		buttonCustomization(descartar);
 		
 		atacar.setEnabled(false);
 		passarVez.setEnabled(false);
 		usarCarta.setEnabled(false);
 		ativarCarta.setEnabled(false);
+		descartar.setEnabled(false);
 		
 		passarVez.addActionListener(new ActionListener() {
 			
@@ -88,6 +93,7 @@ public class HandCommandPanel {
 					Turno.setLetED_OO(false);
 					setSelected(null);
 					setHandCardClicked(null);
+					setGlobalSelection(null);
 				}
 				
 			}
@@ -129,7 +135,9 @@ public class HandCommandPanel {
 							if(selected instanceof Carta_Criatura){
 								
 								jogador.getHand().getMainPanel().getCardPanel().removeCard(selected_hand);	
-								((Carta_Criatura)selected).setMagica((Carta_Magica) selected_hand);								
+								((Carta_Criatura)selected).setMagica((Carta_Magica) selected_hand);
+								usarCarta.setEnabled(false);
+								descartar.setEnabled(false);
 								
 							}else{
 								JOptionPane.showMessageDialog(usarCarta, "Alvo inválido!");
@@ -144,8 +152,10 @@ public class HandCommandPanel {
 							}
 							
 						}
-						
+						usarCarta.setEnabled(false);
+						descartar.setEnabled(false);
 						setHandCardClicked(null);
+						
 						
 					}else{
 						JOptionPane.showMessageDialog(usarCarta, "Selecione uma criatura");
@@ -157,24 +167,12 @@ public class HandCommandPanel {
 			}
 		}); 
 		
-//		inimigo não foi des-selecionado automaticamente
-
-//		o for está alterando a carta do inimigo e não a dele mesmo
-		
-//		implementação das actions Encapsulamento e Herança(terminando)
-		
-//		metodo de ativa uma oo que se mantém ativa até executar sua ação deve questionar se quer sobreescrever
-//		a carta. metodo da herança deve atuar diretamente no SelectionPanel
-		
-//		adicionar tela do encapsulamento
-		
 //		perder ao acabar as cartas!!
 		
-//		o jogador não está sendo informado do que está acontecendo, o log que aparece no console
+//		perder...		
 		
-//		adicionar botão descartar card para o cemitério
+//		remover as cartas colcoadas automáticamente no jogador
 		
-//		exibir no cemitério a carta removida pro último
 		
 		ativarCarta.addActionListener(new ActionListener(){
 
@@ -183,26 +181,57 @@ public class HandCommandPanel {
 
 				if(selected != null){
 					//ativar ação no jogador.ED || jogador.OO
+					LogPanel.appendText(selected.getNome() + " Ativado por "+jogador.getNome());
+					
 					if(selected instanceof ED){
-						jogador.getCampo().RemoveCarta_Especial((ED)selected);
 						((ED)selected).ativarED(jogador.getBaralho(), jogador.getCemiterio());
+						jogador.getCampo().RemoveCarta_Especial((ED)selected);
 						
 					}else if(selected instanceof OO){
-						jogador.getCampo().RemoveCarta_Especial((OO)selected);
 						((OO)selected).ativarOO(jogador);
+						jogador.getCampo().RemoveCarta_Especial((OO)selected);
 					}
-					setHandCardClicked(null);
+					setSelected(null);
+					ativarCarta.setEnabled(false);
 					
 				}
 				
 			}
 			
 		});
+		descartar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(selected_hand != null){
+					String[] options = new String[2];
+					options[0] = new String("Sim");
+					options[1] = new String("Não");
+					
+					if (JOptionPane.showOptionDialog(descartar,
+							"Deseja enviar "+ selected_hand.getNome() +" para o cemitério?", "Descarte",
+							JOptionPane.OK_CANCEL_OPTION,
+							JOptionPane.PLAIN_MESSAGE, null, options, null) == 0) {
+						
+						jogador.getHand().getMainPanel().getCardPanel().removeCard(selected_hand);
+						jogador.getCemiterio().addCarta(selected_hand);
+						
+						setHandCardClicked(null);
+						descartar.setEnabled(false);
+						usarCarta.setEnabled(false);
+					}
+				}else{
+					JOptionPane.showMessageDialog(atacar, "Selecione uma carta!");
+				}
+				
+			}
+		});
 		
 		panel.add(atacar);
 		panel.add(usarCarta);
 		panel.add(ativarCarta);
 		panel.add(passarVez);
+		panel.add(descartar);
 	}
 	public void attackButtonPressed(){
 		
@@ -227,9 +256,8 @@ public class HandCommandPanel {
 	
 	public void allowAtack(boolean letAtack) {
 		this.atacar.setEnabled(letAtack);
-		
 	}
-	
+		
 	public void buttonCustomization(JButton button){
 		button.setForeground(Color.white);
 		button.setBackground(new Color(62,28,100));
@@ -239,13 +267,16 @@ public class HandCommandPanel {
 
 	public void allowEndTurn(boolean letEndTurn) {
 		passarVez.setEnabled(letEndTurn);
-		
+		if(Turno.isLetAtack() && !this.atacar.isEnabled()){
+			Turno.setLetED_OO(true);
+		}
 	}
 	public void denableButtons(){
 		atacar.setEnabled(false);
 		passarVez.setEnabled(false);
 		usarCarta.setEnabled(false);
 		ativarCarta.setEnabled(false);
+		descartar.setEnabled(false);
 	}
 	
 	public void setSelected(Entity selected) {		
@@ -254,6 +285,8 @@ public class HandCommandPanel {
 				|| selected instanceof Carta_Especial 
 				|| selected instanceof Jogador){
 			
+			if(selected.getNome().equals("ED"))return;
+			if(selected.getNome().equals("OO"))return;
 			
 			if(!selected.getNome().toLowerCase().contains("piso")){
 				if(selected != this.selected && this.selected!=null){
@@ -289,6 +322,7 @@ public class HandCommandPanel {
 		
 		if(c != null){
 			usarCarta.setEnabled(true);
+			descartar.setEnabled(true);
 			
 			TitledBorder border = BorderFactory.createTitledBorder("SELECIONADO");
 			border.setTitleColor(new Color(0,255,0));
@@ -303,6 +337,9 @@ public class HandCommandPanel {
 		selected_hand = c;
 		
 		
+	}
+	public Carta getHandCardClicked(){
+		return HandCommandPanel.selected_hand;
 	}
 	
 	public static void setGlobalSelection(Entity e) {

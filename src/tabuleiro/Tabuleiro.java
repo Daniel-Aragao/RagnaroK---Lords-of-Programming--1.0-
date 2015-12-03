@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import listeners.CommandListener;
 import Gráficos.MainFrame;
+import Gráficos.SideFrames.EncapsulamentoFrame;
 import Util.BackgroundID;
 import Util.Importar;
 import Util.Lista_de_Generics;
@@ -24,7 +25,7 @@ public class Tabuleiro extends JPanel {
 	private Jogador jogadorA;
 	private Jogador jogadorB;
 	
-	private LogPanel logPanel;
+	public static LogPanel logPanel;
 	
 	public Tabuleiro() {
 		////////////////////IMPORTAR CARTAS//////////////////////////////
@@ -39,6 +40,8 @@ public class Tabuleiro extends JPanel {
 		
 		
 		CommandListener cl = commandCreator();
+		
+		@SuppressWarnings("unused")
 		Turno turno = new Turno();  
 		logPanel = new LogPanel();
 		logPanel.setBounds((int)Jogador.UP_LABEL.x + Jogador.ENERGIA_WIDTH + 10 
@@ -69,10 +72,10 @@ public class Tabuleiro extends JPanel {
 					jogadorB.setVez(false);
 					jogador.setTurnoCounter(jogador.getTurnoCounter()+1);
 					
-					LogPanel.setFontColor(Color.RED);					
+					//LogPanel.setFontColor(Color.RED);					
 					LogPanel.appendText("------------------- Fim do turno "+
 					(-1+jogador.getTurnoCounter())
-					+" -------------------");
+					+" ----------------");
 				}
 				Turno.setPullTime(true);
 				jogador.allowEndTurn(false);
@@ -143,7 +146,7 @@ public class Tabuleiro extends JPanel {
 			@Override
 			public void herança(Jogador jogador) {
 				int[]A = jogadorA.getCampo().maioresAtributos();
-				int[]B = jogadorA.getCampo().maioresAtributos();
+				int[]B = jogadorB.getCampo().maioresAtributos();
 				int[]C = new int[3];
 				
 				C[0] = A[0];
@@ -152,19 +155,28 @@ public class Tabuleiro extends JPanel {
 				C[1] = A[1];
 				if(A[1] < B[1]) C[1] = B[1];
 				
-				C[2] = A[2];
+				C[2] = A[2]; // ta dando zero
 				if(A[2] < B[2]) C[2] = B[2];
 				
-//				avisar para o painel de seleção que a prox carta criatura 
-//				receberá atributos de herança do vetor C
-				
+				jogador.getSelectPanel().getScrollPanel().setHerança(C);				
 				
 			}
 
 
 			@Override
-			public void encapsulamento() {
-				// TODO Auto-generated method stub
+			public void encapsulamento(Jogador jogador) {
+				Jogador inimigo = null;
+				if(jogador == jogadorA){
+					inimigo = jogadorB;
+				}else{
+					inimigo = jogadorA;
+				}				
+				
+				Lista_de_Generics<Carta> elementos = inimigo.getBaralho().getBaralho().getElemento(0,5);
+				
+				jogador.allowEndTurn(false);
+				@SuppressWarnings("unused")
+				EncapsulamentoFrame encapsulamento = new EncapsulamentoFrame(elementos, jogador, inimigo);
 				
 			}
 			

@@ -1,5 +1,5 @@
 Backgrounds
-17
+19
 ./Background/Secundários/InicioBackground.jpg
 ./Background/Secundários/JogoBackground.jpg
 ./Background/Secundários/mao.png
@@ -17,3 +17,5 @@ Backgrounds
 ./Background/espada.gif
 ./Background/bo.gif
 ./Background/hpBackGround.png
+./Background/Principais/bafome.jpg
+./Background/foice.gif

@@ -15,7 +15,6 @@ import javax.swing.border.Border;
 import Gráficos.SideFrames.HandFrame;
 import entity.Carta;
 
-@SuppressWarnings("serial")
 public class ScrollingVCardPanel{
 	JPanel panel;
 	JScrollPane scrollPanel;

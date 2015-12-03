@@ -4,13 +4,12 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JOptionPane;
 
-import handlers.ClickedHandler;
 import Util.Lista_de_Generics;
 import entity.Carta;
 import entity.CartaParameters;
 import entity.Carta_ED;
-import entity.Carta_OO;
 
+@SuppressWarnings("serial")
 public class ED extends Carta_ED{
 
 	private Lista_de_Generics<Carta_ED> registro;
@@ -38,8 +37,11 @@ public class ED extends Carta_ED{
 	}
 	
 	public boolean usada(Carta_ED c){
-		if(registro.contains(c)){
-			return true;
+		for(int i = 0 ; i < registro.getQtdElementos(); i++){
+			Carta_ED aux = registro.getElemento(i);
+			if(aux.getNome().equals(c.getNome())){
+				return true;
+			}
 		}
 		return false;
 	}
@@ -67,14 +69,15 @@ public class ED extends Carta_ED{
 		return true;		
 	}
 	public Carta_ED remove(Carta c){
-		c.addCartaClickedListener(null);
+		carta.addCartaClickedListener(null);
 		
+		Carta_ED aux = carta;
 		setCarta(null);
 		imagem = imagemPadrão;
 		nome = nomePadrão;
 		descricao = descriçãoPadrão;
 		
-		return (Carta_ED) c;
+		return aux;
 	}
 	
 	@Override
@@ -98,6 +101,7 @@ public class ED extends Carta_ED{
 		String nomeLower = carta.getNome().toLowerCase();
 		Lista_de_Generics<Carta> listaC = cemiterio.getLista();
 		Lista_de_Generics<Carta> listaB = baralho.getBaralho();
+		
 		
 		if(nomeLower.equals("lista")){
 			for(int i = 0; i < 3; i++){

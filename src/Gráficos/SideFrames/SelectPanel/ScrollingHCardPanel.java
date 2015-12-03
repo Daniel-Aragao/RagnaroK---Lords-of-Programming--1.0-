@@ -10,11 +10,12 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.border.Border;
-import javax.swing.plaf.ScrollBarUI;
 
 import tabuleiro.Jogador;
+import tabuleiro.LogPanel;
 import Gráficos.SideFrames.SelectFrame;
 import entity.Carta;
+import entity.Carta_Criatura;
 
 public class ScrollingHCardPanel {
 	private JPanel panel;
@@ -22,6 +23,8 @@ public class ScrollingHCardPanel {
 	private JScrollPane scrollPanel;
 	
 	private Jogador jogador;
+	
+	private int herança[];
 	
 	public ScrollingHCardPanel(Jogador jogador){
 		panel = new JPanel();
@@ -70,10 +73,20 @@ public class ScrollingHCardPanel {
 	}
 	public Carta removeCard(Carta c){
 		panel.remove(c);
-
 		//c.addCartaClickedListener(null); não discomentar
-		
+
 		reCalcDimensions();
+
+		if(herança != null && c instanceof Carta_Criatura){
+			Carta_Criatura aux = (Carta_Criatura)c;
+			aux.setHerançaProperties(herança);
+			LogPanel.appendText(c.getNome()+" Herdou\n"
+			+aux.getAtaque(false)+" de ataque\n"
+			+aux.getDefesa(false)+" de defesa\n"
+			+aux.getSkill()+" de skill\n");
+			
+			herança = null;
+		}
 		
 		return c;		
 	}
@@ -103,6 +116,10 @@ public class ScrollingHCardPanel {
 
 	public void setScrollPanel(JScrollPane scrollPanel) {
 		this.scrollPanel = scrollPanel;
+	}
+
+	public void setHerança(int[] c) {
+		herança = c;		
 	}
 	
 }
