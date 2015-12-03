@@ -66,8 +66,12 @@ public class GameOverState extends State{
 			i.revalidate();
 			i.repaint();
 		}
+		if(!MusicPlayer.isAlive()){
+			new MusicPlayer().start(Importar.getSound(BackgroundSoundID.menu));;
+		}
 		
 	}
+	
 
 }
 @SuppressWarnings("serial")

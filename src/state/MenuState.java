@@ -38,7 +38,7 @@ public class MenuState extends State{
 				if(button.getText() == "Jogar"){
 					setState(new GameState(game));
 				}else if(button.getText() == "Regras"){
-//	11/09/2015				setState(new RegrasState(game));
+					setState(new RegrasState(game));    			 
 				}else if(button.getText() == "Créditos"){
 					setState(new CreditosState(game));
 				}

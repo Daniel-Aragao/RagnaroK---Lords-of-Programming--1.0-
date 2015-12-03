@@ -62,7 +62,6 @@ public class CreditosState extends State{
 
 	@Override
 	public void repaintComponents() {
-		creditosPane.repaintComponents();
 		for(Component i: mFrame.getComponents()){
 			i.revalidate();
 			i.repaint();
@@ -97,11 +96,17 @@ class CreditosPane extends JPanel{
 		
 		
 		msg +=       "----------------------------------------------------------------------------\n\n";
-		msg +=       "                        FONTES:                        \n";
+		msg +=       "                        FONTES:                         \n";
 		msg +=       "               CONTEÚDO: RAGNAROK ONLINE               \n\n";
 		msg +=       "                     REFÊRENCIAS:                       \n";
 		msg +=       "                      CODENMORE                         \n";
 		msg +=       "       MASTERING JAVA SWING - PART 1 JOHN PURCELL       \n";
+		msg +=       "----------------------------------------------------------------------------\n\n";
+		msg +=       "                    AGRADECIMENTOS:                     \n";
+		msg +=       " AGRADEÇO PRIMEIRAMENTE A DEUS POR SEMPRE ME DA FORÇAS  \n"
+				+    "                    PARA CONTINUAR.                     \n\n";
+		msg +=       "     A FAMÍLIA POR ME EDUCAR E ME PROTEGER DO MUNDO     \n";
+		msg +=       "        AOS MEUS AMIGOS QUE SEMPRE ME APOIARAM.         \n";
 		msg +=       "----------------------------------------------------------------------------\n\n";
 		
 		StyledDocument doc = textarea.getStyledDocument();
@@ -139,14 +144,6 @@ class CreditosPane extends JPanel{
 		this.add(menu,gc);
 	}
 	
-	public void repaintComponents() {
-//		for(Component i: this.getComponents()){
-//			i.revalidate();
-//			i.repaint();
-//		}	
-		
-	}
-
 	@Override
 	public void paintComponent(final Graphics g){
 		super.paintComponent(g);
@@ -166,12 +163,5 @@ class CreditosPane extends JPanel{
 		this.buttons = buttons;
 	}
 
-	class TextAreaPanel extends JPanel{
-		public TextAreaPanel(){
-			this.setLayout(new BorderLayout());
-			
-			this.add(textarea, BorderLayout.CENTER);
-		}
-	}
 	 
 }
