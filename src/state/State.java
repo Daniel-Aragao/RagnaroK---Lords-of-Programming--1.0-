@@ -1,6 +1,5 @@
 package state;
 
-import java.awt.Graphics;
 
 public abstract class State {
 	private static State currentState = null;

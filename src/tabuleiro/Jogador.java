@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 
 import listeners.CommandListener;
 import Gráficos.SideFrames.HandFrame;
+import Gráficos.SideFrames.SelectFrame;
 import Gráficos.SideFrames.SelectPanel.SelectPanel;
 import Gráficos.SideFrames.handPanels.DescriptionPanel;
 import Gráficos.SideFrames.handPanels.HandCommandPanel;
@@ -145,10 +147,21 @@ public class Jogador extends Entity{
 			
 		this.setSelectPanel(this.baralho.getSelectPanel());
 		
-		addCartaMao(this.baralho.getElemento(26));
-		addCartaMao(this.baralho.getElemento(27));
-		addCartaMao(this.baralho.getElemento(28));
-		addCartaMao(this.baralho.getElemento(29));
+		//////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////
+		
+		CartaParameters cp = new CartaParameters(Tipo_Carta.CRIATURA);
+		BufferedImage img = Importar.getBackground(BackgroundID.pisoCemitério);
+		cp.imagem = img;
+		img = Importar.getBackground(BackgroundID.pisoOO);
+		Carta_Criatura imaginaria = new Carta_Criatura(200,200,200,img,cp);
+		campo.addCarta(imaginaria);
+		this.turnoCounter = 5;
+		//////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////
+		
 		
 		putJogador();
 		this.baralho.embaralhar();
@@ -396,6 +409,7 @@ public class Jogador extends Entity{
 		}
 		if(alvo.getEnergia() <= 0){
 			LogPanel.appendText("Fim de jogo. "+  alvo.getNome().toUpperCase()+" perdeu!!");
+			commandListener.endGame(alvo);
 		}
 	}
 
@@ -578,6 +592,9 @@ public class Jogador extends Entity{
 
 	public SelectPanel getSelectPanel() {
 		return selectPanel;
+	}
+	public SelectFrame getSelectFrame(){
+		return this.baralho.getSelectFrame();
 	}
 
 	public void setSelectPanel(SelectPanel selectPanel) {

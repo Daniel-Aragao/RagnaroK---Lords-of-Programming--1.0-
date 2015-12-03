@@ -5,30 +5,23 @@ import java.awt.Graphics;
 
 import javax.swing.JFrame;
 
+import tabuleiro.Jogador;
 import tabuleiro.Tabuleiro;
 import Game.Game;
 
 public class GameState extends State{
 
-	int Round;
 	Tabuleiro tabuleiro; 
-	Graphics g;
 	JFrame mFrame;
-	Game game;
+	static Game game;
 	
 	public GameState(Game game) {
-		this.game = game;
-		Round = 0;
+		GameState.game = game;
 		mFrame = game.getFrame().getFrame();
 		
 		tabuleiro = new Tabuleiro();
 		mFrame.setContentPane(tabuleiro);
-
-	
-		System.out.println("reach game state constructor last line");
 	}
-
-	
 
 	@Override
 	public void update() {
@@ -44,6 +37,11 @@ public class GameState extends State{
 			i.repaint();
 			
 		}
+	}
+
+	public static void endGame(Jogador winner, Jogador loser) {
+		setState(new GameOverState(game, winner, loser));
+		
 	}
 
 

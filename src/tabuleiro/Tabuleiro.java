@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import state.GameState;
 import listeners.CommandListener;
 import Gráficos.MainFrame;
 import Gráficos.SideFrames.EncapsulamentoFrame;
@@ -104,6 +105,20 @@ public class Tabuleiro extends JPanel {
 				
 				Turno.setLetAtack(false);
 				jogador.allowAtack(false);
+			}
+			@Override
+			public void endGame(Jogador loser){
+				Jogador winner = null;
+				if(loser == jogadorA){
+					winner = jogadorB;
+				}else{
+					winner = jogadorA;
+				}
+				winner.getHand().setVisible(false);
+				winner.getSelectFrame().setVisible(false);
+				loser.getHand().setVisible(false);
+				loser.getSelectFrame().setVisible(false);
+				GameState.endGame(winner, loser);
 			}
 
 

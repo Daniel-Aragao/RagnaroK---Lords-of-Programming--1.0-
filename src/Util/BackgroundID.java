@@ -20,7 +20,8 @@ public enum BackgroundID {
 	maoIco(15),
 	hpJogador(16),
 	bafome(17),
-	foice(18);
+	foice(18),
+	gameover(19);
 	
 	private final int index;
 	
