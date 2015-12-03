@@ -1,5 +1,5 @@
 Backgrounds
-20
+21
 ./Background/Secundários/InicioBackground.jpg
 ./Background/Secundários/JogoBackground.jpg
 ./Background/Secundários/mao.png

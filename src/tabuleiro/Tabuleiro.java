@@ -90,14 +90,14 @@ public class Tabuleiro extends JPanel {
 					if(alvo.getNome().toLowerCase().equals("associação")){
 						alvo = jogadorB;
 					}
-					LogPanel.appendText("Jogador A Ataca: "+ alvo.getNome());
+					LogPanel.appendText(jogadorA.getNome()+" Ataca: "+ alvo.getNome());
 					jogadorB.defesa(jogadorA.ataque(), alvo, jogadorB);
 					
 				}else{
 					if(alvo.getNome().toLowerCase().equals("associação")){
 						alvo = jogadorA;
 					}
-					LogPanel.appendText("Jogador B Ataca: "+ alvo.getNome());
+					LogPanel.appendText(jogadorB.getNome()+" Ataca: "+ alvo.getNome());
 					jogadorA.defesa(jogadorB.ataque(), alvo, jogadorA);
 				}
 				

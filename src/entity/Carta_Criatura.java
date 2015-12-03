@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JOptionPane;
 
+import tabuleiro.LogPanel;
 import listeners.MagicSetListener;
 import entity.cartas_de_topo.Campo;
 
@@ -78,6 +79,7 @@ public class Carta_Criatura extends Carta {
 						
 						Carta_Criatura aux = magicSetListener.switchAtivado(this);
 						if( aux != null){
+							LogPanel.appendText(this.getNome()+" troca de lugar com "+aux.getNome());
 							return aux.getAtaque(true);
 						}
 					}			
@@ -96,6 +98,7 @@ public class Carta_Criatura extends Carta {
 						
 						Carta_Criatura aux = magicSetListener.forAtivado(this);
 						if (aux != null){
+							LogPanel.appendText(this.getNome()+" troca de lugar com "+aux.getNome());
 							return aux.getAtaque(true);
 						}
 					}	
@@ -147,6 +150,7 @@ public class Carta_Criatura extends Carta {
 							
 							Carta_Criatura aux = magicSetListener.switchAtivado(this);
 							if(aux != null){
+								LogPanel.appendText(this.getNome()+" troca de lugar com "+aux.getNome());
 								return aux.getDefesa(true);
 							}
 						}	
@@ -164,6 +168,7 @@ public class Carta_Criatura extends Carta {
 							
 							Carta_Criatura aux =  magicSetListener.forAtivado(this);
 							if(aux != null){
+								LogPanel.appendText(this.getNome()+" troca de lugar com "+aux.getNome());
 								return aux.getDefesa(true);
 							}
 						}	
@@ -197,6 +202,9 @@ public class Carta_Criatura extends Carta {
 
 		this.magica = magica;
 		
+		if(!magica.getNome().toLowerCase().contains("piso")){
+			LogPanel.appendText("A carta "+getNome()+" foi equipada com a magia "+magica.getNome());
+		}
 	}
 
 	

@@ -1,6 +1,6 @@
 Backgrounds
-20
-./Background/Principais/InicioBackground.jpg
+21
+./Background/Principais/InicioBackground.png
 ./Background/Principais/JogoBackground.jpg
 ./Background/Principais/mao.png
 ./Background/Principais/RegrasBackground.jpg
@@ -20,3 +20,4 @@ Backgrounds
 ./Background/Principais/bafome.jpg
 ./Background/foice.gif
 ./Background/gameover.png
+./Background/Principais/creditos.png

@@ -1,6 +1,5 @@
 package Game;
 
-import state.GameState;
 import state.MenuState;
 import state.State;
 import Gráficos.MainFrame;
@@ -21,7 +20,7 @@ public class Game implements Runnable {
 
 		
 	//States
-	private State gameState;
+//	private State gameState;
 	private State menuState;
 	
 	
@@ -32,9 +31,9 @@ public class Game implements Runnable {
 	
 	public void init() {
 		mFrame = new MainFrame();
-		gameState = new GameState(this);
-		menuState = new MenuState();
-		State.setState(gameState);
+		//gameState = new GameState(this); comentar isso aqui
+		menuState = new MenuState(this);
+		State.setState(menuState);
 	}
 
 	@Override

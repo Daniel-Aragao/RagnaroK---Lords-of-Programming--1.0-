@@ -238,6 +238,7 @@ public class Campo{
 							newCard.setAtackMode(!cc.isAtackMode());
 						}
 						removeCriaturaDoCampo(cc);
+						baralho.remover(newCard);
 						addCriaturaNoCampo(newCard);
 						return newCard;
 					}else{
@@ -272,6 +273,7 @@ public class Campo{
 							newCard.setAtackMode(!cc.isAtackMode());
 						}
 						removeCriaturaDoCampo(cc);
+						baralho.remover(newCard);
 						addCriaturaNoCampo(newCard);
 						return newCard;
 					}else{

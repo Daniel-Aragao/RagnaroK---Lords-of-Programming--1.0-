@@ -1,21 +1,52 @@
 package state;
-import Util.BackgroundID;
-import Util.Importar;
-
+import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
-import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Game.Game;
+import Gráficos.MainFrame;
+import Util.BackgroundID;
+import Util.BackgroundSoundID;
+import Util.ButtonCustomization;
+import Util.Importar;
+import Util.MusicPlayer;
+
 public class MenuState extends State{
-	String imagemUrl = null;
-	public BufferedImage image;
 	
-	public MenuState(){
-//		imagemUrl = leituraArquivo.readLine();
-//		imagem = ImageIO.read(new File(imagemUrl));
+	JFrame mFrame;
+	static Game game;
+	MenuPanel menuPanel;
+	ButtonsListener buttons;
+	
+	public MenuState(Game game){
+		MenuState.game = game;
+		mFrame = game.getFrame().getFrame();
+		
+		new MusicPlayer().start(Importar.getSound(BackgroundSoundID.menu));
+		
+		menuPanel = new MenuPanel(); 
+		menuPanel.setButtonsListener(new ButtonsListener() {
+			
+			@Override
+			public void pressed(JButton button) {
+				if(button.getText() == "Jogar"){
+					setState(new GameState(game));
+				}else if(button.getText() == "Regras"){
+//	11/09/2015				setState(new RegrasState(game));
+				}else if(button.getText() == "Créditos"){
+					setState(new CreditosState(game));
+				}
+				
+			}
+		});
+		
+		mFrame.setContentPane(menuPanel);
 	}
 
 	@Override
@@ -26,12 +57,100 @@ public class MenuState extends State{
 
 	@Override
 	public void repaintComponents() {
-		// TODO Auto-generated method stub
-		
+		menuPanel.repaintComponents();
+		for(Component i: mFrame.getComponents()){
+			i.revalidate();
+			i.repaint();
+		}
+		if(!MusicPlayer.isAlive()){
+			new MusicPlayer().start(Importar.getSound(BackgroundSoundID.menu));;
+		}
 	}
 
 }
 
+@SuppressWarnings("serial")
+class MenuPanel extends JPanel{
+	public static final BufferedImage BACKGROUND = Importar.getBackground(BackgroundID.InicioBackground);
+	
+	private ButtonsListener buttonsListener;
+	private JButton jogar;
+	private JButton regras;
+	private JButton creditos;
+	
+	public MenuPanel(){
+		jogar    = new JButton("Jogar"); 
+		regras   = new JButton("Regras");  
+		creditos = new JButton("Créditos");
+		
+		ButtonCustomization.buttonCustomization(jogar);
+		ButtonCustomization.buttonCustomization(regras);
+		ButtonCustomization.buttonCustomization(creditos);	
+		
+		jogar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buttonsListener.pressed((JButton) e.getSource());
+				
+			}
+		});
+		regras.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buttonsListener.pressed((JButton) e.getSource());
+				
+			}
+		});
+		creditos.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buttonsListener.pressed((JButton) e.getSource());
+				
+			}
+		});
+		
+		this.setLayout(null);
+		jogar.setBounds(800,200,150,40);
+		regras.setBounds(800,280,150,40);
+		creditos.setBounds(800,360,150,40);// x800 y200
+		add(jogar);
+		add(regras);
+		add(creditos);		
+	}
+	
+		
+	public void repaintComponents() {
+		for(Component i: this.getComponents()){
+			i.revalidate();
+			i.repaint();
+		}		
+	}	
+	
+	@Override
+	public void paintComponent(final Graphics g){
+		super.paintComponent(g);
+		 Graphics gr = g.create();  
+		 
+		 gr.drawImage(MenuPanel.BACKGROUND,0,0,MainFrame.WIDTH*MainFrame.SCALE
+				 ,MainFrame.HEIGHT*MainFrame.SCALE,null);		 
+		
+		gr.dispose();
+	}
+
+
+	public ButtonsListener getButtonsListener() {
+		return buttonsListener;
+	}
+
+
+	public void setButtonsListener(ButtonsListener buttonsListener) {
+		this.buttonsListener = buttonsListener;
+	}
+	
+}
 
 
 

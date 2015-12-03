@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import Util.ButtonCustomization;
 import listeners.CommandListener;
 import tabuleiro.Jogador;
 import tabuleiro.LogPanel;
@@ -62,11 +63,11 @@ public class HandCommandPanel {
 		ativarCarta = new JButton("Ativar Carta ED/OO");
 		descartar = new JButton("Descartar");
 		
-		buttonCustomization(passarVez);
-		buttonCustomization(atacar);
-		buttonCustomization(usarCarta);
-		buttonCustomization(ativarCarta);
-		buttonCustomization(descartar);
+		ButtonCustomization.buttonCustomization(passarVez);
+		ButtonCustomization.buttonCustomization(atacar);
+		ButtonCustomization.buttonCustomization(usarCarta);
+		ButtonCustomization.buttonCustomization(ativarCarta);
+		ButtonCustomization.buttonCustomization(descartar);
 		
 		atacar.setEnabled(false);
 		passarVez.setEnabled(false);
@@ -149,6 +150,7 @@ public class HandCommandPanel {
 							//add no ED ou no OO
 							if(jogador.getCampo().addCarta(selected_hand)){
 								jogador.getHand().getMainPanel().getCardPanel().removeCard(selected_hand);
+								LogPanel.appendText(selected_hand.getNome()+" está em campo!");
 							}
 							
 						}
@@ -257,13 +259,7 @@ public class HandCommandPanel {
 	public void allowAtack(boolean letAtack) {
 		this.atacar.setEnabled(letAtack);
 	}
-		
-	public void buttonCustomization(JButton button){
-		button.setForeground(Color.white);
-		button.setBackground(new Color(62,28,100));
-		button.setFont(new Font("Tahoma", Font.BOLD, 12));
-		button.setFocusPainted(false);
-	}
+	
 
 	public void allowEndTurn(boolean letEndTurn) {
 		passarVez.setEnabled(letEndTurn);

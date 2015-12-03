@@ -1,20 +1,19 @@
 package Gráficos;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JRootPane;
 
 import Util.BackgroundID;
+import Util.BackgroundSoundID;
 import Util.Importar;
+import Util.MusicPlayer;
+import sun.audio.*;
 
 public class MainFrame {
 	///////////////////////////////////  DIMENSION  //////////////////////////////////////////
@@ -49,7 +48,7 @@ public class MainFrame {
 		BufferedImage icon = Importar.getBackground(BackgroundID.icone);
 		frame.setIconImage(icon);
 		
-		
+				
 		frame.setBackground(Color.black);
 		frame.pack();
 		frame.setVisible(true);
@@ -57,8 +56,9 @@ public class MainFrame {
 		BufferStrategy bs = frame.getBufferStrategy();
 		if(bs == null){
 			frame.createBufferStrategy(3);
-			return;
 		}
+		
+		
 		
 	}
 	

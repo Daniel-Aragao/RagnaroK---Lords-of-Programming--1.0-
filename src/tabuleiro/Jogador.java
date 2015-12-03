@@ -25,6 +25,7 @@ import Gráficos.SideFrames.handPanels.HandCommandPanel;
 import Gráficos.SideFrames.handPanels.HandPanel;
 import Gráficos.SideFrames.handPanels.ScrollingVCardPanel;
 import Util.BackgroundID;
+import Util.ButtonCustomization;
 import Util.Importar;
 import Util.Lista_de_Generics;
 import Util.Position;
@@ -148,7 +149,7 @@ public class Jogador extends Entity{
 		this.setSelectPanel(this.baralho.getSelectPanel());
 		
 		//////////////////////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////////////////////
+		////////////////////// test implementation ///////////////////////////
 		//////////////////////////////////////////////////////////////////////
 		
 //		CartaParameters cp = new CartaParameters(Tipo_Carta.CRIATURA);
@@ -193,10 +194,7 @@ public class Jogador extends Entity{
 	private void createButton() {
 		handButton = new JButton("Mão");
 		
-		handButton.setForeground(Color.white);
-		handButton.setBackground(new Color(62,28,100));
-		handButton.setFont(new Font("Tahoma", Font.BOLD, 12));
-		handButton.setFocusPainted(false);
+		ButtonCustomization.buttonCustomization(handButton);
 		
 		handButton.addActionListener(new ActionListener() {
 			

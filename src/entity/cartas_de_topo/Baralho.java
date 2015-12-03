@@ -46,7 +46,11 @@ public class Baralho extends Carta{
 			this.selectFrame.setVisible(true);
 			
 			if( Turno.isPullTime()){
-				selectPanel.getScrollPanel().addCard(lista.removerInicio());
+				try{
+					selectPanel.getScrollPanel().addCard(lista.removerInicio());
+				}catch(Exception e){
+					jogador.getCommandListener().endGame(jogador);
+				}
 			}
 			
 			Turno.setPullTime(false);

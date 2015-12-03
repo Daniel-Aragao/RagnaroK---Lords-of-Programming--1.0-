@@ -21,6 +21,7 @@ import tabuleiro.Jogador;
 import tabuleiro.Turno;
 import Gráficos.SideFrames.SelectFrame;
 import Util.BackgroundID;
+import Util.ButtonCustomization;
 import Util.Importar;
 import entity.Carta;
 import entity.Carta_Criatura;
@@ -58,10 +59,10 @@ public class SelectCommandPanel {
 		img = Importar.getBackground(BackgroundID.maoIco);
 		toMao.setIcon(new ImageIcon(img));
 		
-		buttonCustomization(ATQ);
-		buttonCustomization(DEF);
-		buttonCustomization(toMao);
-		buttonCustomization(toBaralho);
+		ButtonCustomization.buttonCustomization(ATQ);
+		ButtonCustomization.buttonCustomization(DEF);
+		ButtonCustomization.buttonCustomization(toMao);
+		ButtonCustomization.buttonCustomization(toBaralho);
 		
 		Border titled = BorderFactory.createTitledBorder("");
 		Border innerBorder = BorderFactory
@@ -181,13 +182,6 @@ public class SelectCommandPanel {
 		toBaralho.setEnabled(false);	
 	}
 	
-	public void buttonCustomization(JButton button){
-		button.setForeground(Color.white);
-		button.setBackground(new Color(62,28,100));
-		button.setFont(new Font("Tahoma", Font.BOLD, 12));
-		button.setFocusPainted(false);
-	}
-
 	public JPanel getPanel() {
 		return panel;
 	}

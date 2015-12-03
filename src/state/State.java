@@ -3,6 +3,7 @@ package state;
 
 public abstract class State {
 	private static State currentState = null;
+	//public 
 	
 	public static void setState(State state){
 		currentState = state;

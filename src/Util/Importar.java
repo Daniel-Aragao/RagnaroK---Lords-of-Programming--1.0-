@@ -8,6 +8,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import entity.Carta;
 import entity.CartaParameters;
@@ -22,8 +25,10 @@ public class Importar {
 	//Files url's
 	public static final File FILE = new File("./Cartas/All Descriptions URL's.txt");
 	public static final File BACKGROUND_FILE = new File("./Background/All Background URL's1.txt");
+	public static final File SOUND_FILE = new File("./Bgm/BGM import files.txt");
 	
 	private static BufferedImage backgrounds[];
+	private static String sounds[];
 	private static Lista_de_Generics<Carta> cartas;
 
 	// IMAGENS URL EM CADA UM DOS TXT's,
@@ -307,6 +312,78 @@ public class Importar {
 		}
 
 		return backgrounds[bg.getindex()];
+	}
+	
+	public static void importarSounds(File f) {
+		FileReader arquivo = null;
+		BufferedReader leituraArquivo = null;
+
+		try {
+			arquivo = new FileReader(f);
+			leituraArquivo = new BufferedReader(arquivo);
+
+		} catch (FileNotFoundException e) {
+			System.err.println("Arquivos não encontrados");
+			e.printStackTrace();
+		}
+		
+
+		String soundsUrl = null;
+
+		try {
+
+			soundsUrl = leituraArquivo.readLine();
+			if (soundsUrl.equalsIgnoreCase("BGM")) {
+				
+				int n = Integer.parseInt(leituraArquivo.readLine());
+				sounds = new String[n];
+				
+				for (int i = 0; i < sounds.length; i++) {
+					soundsUrl = leituraArquivo.readLine();
+					System.out.println(soundsUrl);
+					sounds[i] = soundsUrl;
+				}
+
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+
+			try {
+				leituraArquivo.close();
+				arquivo.close();
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
+
+		}
+
+		try {
+			leituraArquivo.close();
+			arquivo.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static AudioInputStream getSound(BackgroundSoundID bg) {
+		if(sounds == null){
+			Importar.importarSounds(Importar.SOUND_FILE);
+		}
+		
+		try {
+			
+			return AudioSystem.getAudioInputStream(new File(sounds[bg.getindex()]));
+			
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

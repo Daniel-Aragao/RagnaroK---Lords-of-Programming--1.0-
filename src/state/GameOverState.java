@@ -2,7 +2,6 @@ package state;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,20 +16,39 @@ import tabuleiro.Jogador;
 import Game.Game;
 import Gráficos.MainFrame;
 import Util.BackgroundID;
+import Util.BackgroundSoundID;
+import Util.ButtonCustomization;
 import Util.Importar;
+import Util.MusicPlayer;
 
 public class GameOverState extends State{
 
 	JFrame mFrame;
 	static Game game;
 	GameOverPanel gameOverPanel;
+	ButtonsListener buttonsListener;
 
 	public GameOverState(Game game, Jogador winner, Jogador loser){
 		
 		GameOverState.game = game;
 		mFrame = game.getFrame().getFrame();
 		
+		new MusicPlayer().start(Importar.getSound(BackgroundSoundID.menu));
+				
 		gameOverPanel = new GameOverPanel(winner,loser);
+		gameOverPanel.setButtonsListener(new ButtonsListener(){
+
+			@Override
+			public void pressed(JButton button) {
+				if(button.getText() == "Menu"){
+					setState(new MenuState(game));
+				}else if(button.getText()=="Créditos"){
+					setState(new CreditosState(game));
+				}
+				
+			}
+			
+		});
 		mFrame.setContentPane(gameOverPanel);		
 		
 	}	
@@ -47,7 +65,6 @@ public class GameOverState extends State{
 		for(Component i: mFrame.getComponents()){
 			i.revalidate();
 			i.repaint();
-			
 		}
 		
 	}
@@ -60,26 +77,27 @@ class GameOverPanel extends JPanel{
 	private JButton menu;
 	private JLabel win;
 	private JLabel los;
-	private Jogador winner;
-	private Jogador loser;
 	
+	private ButtonsListener buttonsListener;
 	
 	public GameOverPanel(Jogador winner, Jogador loser){
-		this.winner = winner;
-		this.loser  = loser ;
 		
 		creditos = new JButton("Créditos");
 		menu = new JButton("Menu");
-		win = new JLabel(winner.getNome()+" Venceu com "+winner.getEnergia()+" de energia sobrando");
-		los = new JLabel(loser.getNome()+" Perdeu com "+(loser.getEnergia()*-1)+" de energia faltando");
-		
+		if(loser.getEnergia() < 0){
+			win = new JLabel(winner.getNome()+" Venceu com "+winner.getEnergia()+" de energia sobrando");
+			los = new JLabel(loser.getNome()+" Perdeu com "+(loser.getEnergia()*-1)+" de energia faltando");
+		}else{
+			win = new JLabel(winner.getNome()+" Venceu!");
+			los = new JLabel(loser.getNome()+" Perdeu pois estava sem cartas");
+		}
 		this.setLayout(null);
 		
 		creditos.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				buttonsListener.pressed((JButton) e.getSource());
 				
 			}
 		});
@@ -87,7 +105,7 @@ class GameOverPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				buttonsListener.pressed((JButton) e.getSource());
 				
 			}
 		});
@@ -99,8 +117,8 @@ class GameOverPanel extends JPanel{
 		creditos.setBounds(700, 200, 100, 50);
 		menu.setBounds(750, 280, 100, 50);
 		
-		buttonCustomization(creditos);
-		buttonCustomization(menu);
+		ButtonCustomization.buttonCustomization(creditos);
+		ButtonCustomization.buttonCustomization(menu);
 		
 		this.add(creditos);
 		this.add(menu);
@@ -109,18 +127,14 @@ class GameOverPanel extends JPanel{
 		
 	}	
 	
-	public void buttonCustomization(JButton button){
-		button.setForeground(Color.white);
-		button.setBackground(new Color(62,28,100));
-		button.setFont(new Font("Tahoma", Font.BOLD, 12));
-		button.setFocusPainted(false);
-	}
-	
 
 	public void repaintComponents() {
 		for(Component i: getComponents()){
 			i.revalidate();
 			i.repaint();			
+		}
+		if(!MusicPlayer.isAlive()){
+			new MusicPlayer().start(Importar.getSound(BackgroundSoundID.menu));;
 		}
 		
 	}
@@ -131,10 +145,17 @@ class GameOverPanel extends JPanel{
 		 Graphics gr = g.create();  
 		 
 		 gr.drawImage(GameOverPanel.BACKGROUND,0,0,MainFrame.WIDTH*MainFrame.SCALE
-				 ,MainFrame.HEIGHT*MainFrame.SCALE,null);
-		 
+				 ,MainFrame.HEIGHT*MainFrame.SCALE,null);		 
 		
 		gr.dispose();
+	}
+
+	public ButtonsListener getButtonsListener() {
+		return buttonsListener;
+	}
+
+	public void setButtonsListener(ButtonsListener buttonsListener) {
+		this.buttonsListener = buttonsListener;
 	}
 	
 	

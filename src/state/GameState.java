@@ -5,6 +5,9 @@ import java.awt.Graphics;
 
 import javax.swing.JFrame;
 
+import Util.BackgroundSoundID;
+import Util.Importar;
+import Util.MusicPlayer;
 import tabuleiro.Jogador;
 import tabuleiro.Tabuleiro;
 import Game.Game;
@@ -18,6 +21,8 @@ public class GameState extends State{
 	public GameState(Game game) {
 		GameState.game = game;
 		mFrame = game.getFrame().getFrame();
+		
+		new MusicPlayer().start(Importar.getSound(BackgroundSoundID.game));
 		
 		tabuleiro = new Tabuleiro();
 		mFrame.setContentPane(tabuleiro);
@@ -37,11 +42,13 @@ public class GameState extends State{
 			i.repaint();
 			
 		}
+		if(!MusicPlayer.isAlive()){
+			new MusicPlayer().start(Importar.getSound(BackgroundSoundID.game));
+		}
 	}
 
 	public static void endGame(Jogador winner, Jogador loser) {
-		setState(new GameOverState(game, winner, loser));
-		
+		setState(new GameOverState(game, winner, loser));		
 	}
 
 

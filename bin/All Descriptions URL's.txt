@@ -12,7 +12,7 @@
 ./Cartas/Magias/IfDescricao.txt
 ./Cartas/Magias/SwitchDescricao.txt
 ./Cartas/Magias/WhileDescricao.txt
-./Cartas/OO/AssossiaçãoDescricao.txt
+./Cartas/OO/AssociaçãoDescricao.txt
 ./Cartas/OO/EncapsulamentoDescricao.txt
 ./Cartas/OO/HerançaDescricao.txt
 ./Cartas/OO/PolimorfismoDescricao.txt
